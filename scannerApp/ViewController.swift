@@ -17,15 +17,50 @@ extension UIScreen{
 
 class ViewController: UIViewController {
     
+    
+    var imageView: UIImageView?
+    var textView: UITextView?
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        self.openCamera()
+        
+        let button = UIButton()
+        button.backgroundColor = .blue
+        button.setTitle("Open Camera", for: .normal)
+        button.addTarget(self, action: #selector(openCamera), for: .touchUpInside)
+        self.view.addSubview(button)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
+            
+        
+        let textView = UITextView(frame: CGRect(x: 20.0, y: 30.0, width: 300.0, height: 30.0))
+        textView.textAlignment = NSTextAlignment.center
+        textView.isUserInteractionEnabled = false
+        
+        
+        self.view.addSubview(textView)
+        
+        
+        textView.translatesAutoresizingMaskIntoConstraints = false
+
+        textView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        textView.widthAnchor.constraint(equalToConstant: UIScreen.screenWidth-60).isActive = true
+        textView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        textView.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -20).isActive = true
+        self.textView = textView
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+ 
+        
         
         
         // Do any additional setup after loading the view.
@@ -46,13 +81,12 @@ class ViewController: UIViewController {
 
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func openCamera() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+    @objc func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = .camera
+            imagePicker.sourceType = .photoLibrary
             imagePicker.allowsEditing = true
-            imagePicker.videoQuality = .typeLow
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
@@ -61,10 +95,27 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         if let pickedImage = info[.originalImage] as? UIImage {
             let processor = ScaledElementProcessor()
             
-            processor.process(in: UIImageView(image: pickedImage.jpeg(.medium)), callback: { text in
-                print(text)
+            if self.imageView != nil {
+                self.imageView?.image = nil 
+            }
+            
+            let image = UIImageView(image: pickedImage.jpeg(.low))
+            self.imageView = image
+            self.imageView!.frame = CGRect(x: 0, y: 0, width: UIScreen.screenWidth, height: 300)
+            self.imageView?.contentMode = .scaleAspectFit
+            self.imageView?.center = CGPoint(x: view.center.x, y: view.center.y - 100)
+            view.addSubview(imageView!)
+            
+            
+            
+
+            self.view.addSubview(image)
+            self.textView!.text = ""
+            processor.process(in: image, callback: { text in
+                self.textView!.text += " \(text)"
             })
         }
+        self.dismiss(animated: true)
     }
 }
 
