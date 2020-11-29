@@ -15,6 +15,8 @@
 		81FF82F42573122A00C953F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81FF82F32573122A00C953F5 /* Assets.xcassets */; };
 		81FF82F72573122A00C953F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81FF82F52573122A00C953F5 /* LaunchScreen.storyboard */; };
 		81FF8300257312F700C953F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81FF82FF257312F700C953F5 /* GoogleService-Info.plist */; };
+		81FF833C25731B0400C953F5 /* ScaledElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF833B25731B0400C953F5 /* ScaledElementProcessor.swift */; };
+		81FF834125731DE800C953F5 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF834025731DE800C953F5 /* CameraView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		81FF82F62573122A00C953F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81FF82F82573122A00C953F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81FF82FF257312F700C953F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		81FF833B25731B0400C953F5 /* ScaledElementProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledElementProcessor.swift; sourceTree = "<group>"; };
+		81FF834025731DE800C953F5 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		8D117A243569D329EB92E031 /* Pods-scannerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scannerApp.debug.xcconfig"; path = "Target Support Files/Pods-scannerApp/Pods-scannerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		94AF272FF9EDDC44C757533E /* Pods-scannerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scannerApp.release.xcconfig"; path = "Target Support Files/Pods-scannerApp/Pods-scannerApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,6 +78,8 @@
 		81FF82E92573122800C953F5 /* scannerApp */ = {
 			isa = PBXGroup;
 			children = (
+				81FF833F25731DDF00C953F5 /* VIew */,
+				81FF833A25731AEF00C953F5 /* TextRecognition  */,
 				81FF831E2573147D00C953F5 /* Delegates */,
 				81FF82FF257312F700C953F5 /* GoogleService-Info.plist */,
 				81FF82F82573122A00C953F5 /* Info.plist */,
@@ -100,6 +106,22 @@
 				81FF82EC2573122800C953F5 /* SceneDelegate.swift */,
 			);
 			path = Delegates;
+			sourceTree = "<group>";
+		};
+		81FF833A25731AEF00C953F5 /* TextRecognition  */ = {
+			isa = PBXGroup;
+			children = (
+				81FF833B25731B0400C953F5 /* ScaledElementProcessor.swift */,
+			);
+			path = "TextRecognition ";
+			sourceTree = "<group>";
+		};
+		81FF833F25731DDF00C953F5 /* VIew */ = {
+			isa = PBXGroup;
+			children = (
+				81FF834025731DE800C953F5 /* CameraView.swift */,
+			);
+			path = VIew;
 			sourceTree = "<group>";
 		};
 		9740C7A1053D1D003445A7DA /* Frameworks */ = {
@@ -244,7 +266,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81FF82EF2573122800C953F5 /* ViewController.swift in Sources */,
+				81FF833C25731B0400C953F5 /* ScaledElementProcessor.swift in Sources */,
 				81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */,
+				81FF834125731DE800C953F5 /* CameraView.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
