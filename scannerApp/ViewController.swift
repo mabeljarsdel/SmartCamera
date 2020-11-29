@@ -17,30 +17,15 @@ extension UIScreen{
 
 class ViewController: UIViewController {
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.openCamera()
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let cameraView = CameraView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.screenWidth, height: UIScreen.screenHeight))
-        cameraView.center = self.view.center
-
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-            case .authorized: // The user has previously granted access to the camera.
-                
-                self.view.addSubview(cameraView)
-
-            case .notDetermined: // The user has not yet been asked for camera access.
-                AVCaptureDevice.requestAccess(for: .video) { granted in
-                    if granted {
-                        self.view.addSubview(cameraView)
-                    }
-                }
-            
-            case .denied: // The user has previously denied access.
-                return
-
-            case .restricted: // The user can't grant access due to restrictions.
-                return
-        }
         
         
         // Do any additional setup after loading the view.
@@ -55,5 +40,47 @@ class ViewController: UIViewController {
 //        })
 //
     }
+    
+
 }
 
+
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = true
+            imagePicker.videoQuality = .typeLow
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[.originalImage] as? UIImage {
+            let processor = ScaledElementProcessor()
+            
+            processor.process(in: UIImageView(image: pickedImage.jpeg(.medium)), callback: { text in
+                print(text)
+            })
+        }
+    }
+}
+
+extension UIImage {
+    enum JPEGQuality: CGFloat {
+        case lowest  = 0
+        case low     = 0.25
+        case medium  = 0.5
+        case high    = 0.75
+        case highest = 1
+    }
+
+    /// Returns the data for the specified image in JPEG format.
+    /// If the image object’s underlying image data has been purged, calling this function forces that data to be reloaded into memory.
+    /// - returns: A data object containing the JPEG data, or nil if there was a problem generating the data. This function may return nil if the image has no data or if the underlying CGImageRef contains data in an unsupported bitmap format.
+    func jpeg(_ jpegQuality: JPEGQuality) -> UIImage? {
+        return  UIImage(data: jpegData(compressionQuality: jpegQuality.rawValue)!)
+    }
+}
