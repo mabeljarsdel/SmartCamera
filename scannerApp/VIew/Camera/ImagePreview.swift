@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 
 
@@ -29,7 +30,7 @@ class ImagePreview: UIViewController {
         }
         
         self.textView = UITextView()
-        self.textView.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        self.textView.text = "Waitng.."
         
         self.textView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textView)
@@ -54,13 +55,49 @@ class ImagePreview: UIViewController {
         if self.imageView != nil {
             processor.process(in: self.imageView, callback: { text in
                 guard let textResult = text else { return }
-                self.textView!.text += textResult.text
                 for block in textResult.blocks {
-                    print(block.frame)
+                    for line in block.lines {
+                        self.textView!.text += "\(line.text)\n"
+                        print(block.frame)
+                        let transformedRect = line.frame.applying(self.transformMatrix())
+                        self.addRectangle(transformedRect, to: self.imageView, color: .blue)
+                        
+                    }
                 }
             })
         }
-        
-        
+    }
+    
+    public func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor) {
+        let rectangleView = UIView(frame: rectangle)
+        rectangleView.layer.cornerRadius = 0
+        rectangleView.alpha = 0.3
+        rectangleView.backgroundColor = color
+        view.addSubview(rectangleView)
+    }
+    
+    private func transformMatrix() -> CGAffineTransform {
+      guard let image = imageView.image else { return CGAffineTransform() }
+      let imageViewWidth = imageView.frame.size.width
+      let imageViewHeight = imageView.frame.size.height
+      let imageWidth = image.size.width
+      let imageHeight = image.size.height
+
+      let imageViewAspectRatio = imageViewWidth / imageViewHeight
+      let imageAspectRatio = imageWidth / imageHeight
+      let scale =
+        (imageViewAspectRatio > imageAspectRatio)
+        ? imageViewHeight / imageHeight : imageViewWidth / imageWidth
+
+      // Image view's `contentMode` is `scaleAspectFit`, which scales the image to fit the size of the
+      // image view by maintaining the aspect ratio. Multiple by `scale` to get image's original size.
+      let scaledImageWidth = imageWidth * scale
+      let scaledImageHeight = imageHeight * scale
+      let xValue = (imageViewWidth - scaledImageWidth) / CGFloat(2.0)
+      let yValue = (imageViewHeight - scaledImageHeight) / CGFloat(2.0)
+
+      var transform = CGAffineTransform.identity.translatedBy(x: xValue, y: yValue)
+      transform = transform.scaledBy(x: scale, y: scale)
+      return transform
     }
 }
