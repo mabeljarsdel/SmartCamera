@@ -6,37 +6,41 @@
 //
 
 import Foundation
-import Firebase
+import MLKitTextRecognition
+import MLKitVision
+import UIKit
+
 
 
 class ScaledElementProcessor {
-    
-    
-    let vision = Vision.vision()
-    var textRecognizer: VisionTextRecognizer!
-    
+
+    var textRecognizer: TextRecognizer
+
+
     init() {
-        self.textRecognizer = vision.onDeviceTextRecognizer()
+        self.textRecognizer = TextRecognizer.textRecognizer()
 
     }
-    
+
     func process(in imageView: UIImageView,
-                 callback: @escaping (_ text: String) -> Void) {
+                 callback: @escaping (_ text: Text?) -> Void) {
 
         guard let image = imageView.image else { return }
         
-        
+
         let visionImage = VisionImage(image: image)
+        
+        visionImage.orientation = image.imageOrientation
         
         textRecognizer.process(visionImage) { result, error in
             guard error == nil,
                 let result = result,
                 !result.text.isEmpty
             else {
-                callback("")
+//                callback("")
                 return
             }
-            callback(result.text)
+            callback(result)
         }
     }
 }

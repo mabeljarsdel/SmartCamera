@@ -7,7 +7,6 @@
 
 import UIKit
 import AVFoundation
-import Firebase
 
 extension UIScreen{
    static let screenWidth = UIScreen.main.bounds.size.width
@@ -60,20 +59,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
  
-        
-        
-        
-        // Do any additional setup after loading the view.
-        
-//        let processor = ScaledElementProcessor()
-//        processor.process(in: UIImageView(image: UIImage(named: "test_image_1")), callback: { text in
-//            print(text)
-//        })
-//
-//        processor.process(in: UIImageView(image: UIImage(named: "test_image_2")), callback: { text in
-//            print(text)
-//        })
-//
+
     }
     
 
@@ -112,7 +98,9 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             self.view.addSubview(image)
             self.textView!.text = ""
             processor.process(in: image, callback: { text in
-                self.textView!.text += " \(text)"
+                guard let textResult = text else { return }
+                self.textView!.text += " \(textResult.text)"
+                
             })
         }
         self.dismiss(animated: true)
