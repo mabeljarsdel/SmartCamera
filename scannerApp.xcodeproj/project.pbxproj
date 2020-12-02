@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0F3C6D82FC4DD58DB9E042E7 /* Pods_scannerApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF46AB12234B0F5BD3E65FE /* Pods_scannerApp.framework */; };
-		81B5FE132577DF3A00458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraView.swift */; };
-		81B5FE18257800F800458926 /* CapturedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE17257800F800458926 /* CapturedImageView.swift */; };
+		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
+		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
 		81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EA2573122800C953F5 /* AppDelegate.swift */; };
 		81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EC2573122800C953F5 /* SceneDelegate.swift */; };
 		81FF82EF2573122800C953F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EE2573122800C953F5 /* ViewController.swift */; };
@@ -24,8 +24,8 @@
 		166A42F089B1557C74C2D1E3 /* Pods-scannerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scannerApp.release.xcconfig"; path = "Target Support Files/Pods-scannerApp/Pods-scannerApp.release.xcconfig"; sourceTree = "<group>"; };
 		26E79F1F96CC34EFF97DEE9D /* Pods-scannerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scannerApp.debug.xcconfig"; path = "Target Support Files/Pods-scannerApp/Pods-scannerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5BF46AB12234B0F5BD3E65FE /* Pods_scannerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scannerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		81B5FE122577DF3A00458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		81B5FE17257800F800458926 /* CapturedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedImageView.swift; sourceTree = "<group>"; };
+		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		81FF82E72573122800C953F5 /* scannerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scannerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FF82EA2573122800C953F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81FF82EC2573122800C953F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,8 +70,8 @@
 		81B5FE15257800DB00458926 /* CameraView */ = {
 			isa = PBXGroup;
 			children = (
-				81B5FE122577DF3A00458926 /* CameraView.swift */,
-				81B5FE17257800F800458926 /* CapturedImageView.swift */,
+				81B5FE122577DF3A00458926 /* CameraViewController.swift */,
+				81B5FE1B25781AC000458926 /* CameraView.swift */,
 			);
 			path = CameraView;
 			sourceTree = "<group>";
@@ -276,11 +276,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81B5FE18257800F800458926 /* CapturedImageView.swift in Sources */,
+				81B5FE1C25781AC000458926 /* CameraView.swift in Sources */,
 				81FF82EF2573122800C953F5 /* ViewController.swift in Sources */,
 				81FF833C25731B0400C953F5 /* ScaledElementProcessor.swift in Sources */,
 				81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */,
-				81B5FE132577DF3A00458926 /* CameraView.swift in Sources */,
+				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
