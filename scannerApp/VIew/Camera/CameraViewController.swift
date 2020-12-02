@@ -23,14 +23,23 @@ class CameraViewController: UIViewController {
         
         return button
     }()
+    
+    let openGalleryButton : UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "photo")
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     let cameraView: CameraView = {
         let cameraView = CameraView()
         cameraView.translatesAutoresizingMaskIntoConstraints = false
         cameraView.setupAndStartCaptureSession()
-
         
         return cameraView
-     }()
+    }()
     
     var takePicture: Bool = false
     
@@ -42,15 +51,15 @@ class CameraViewController: UIViewController {
         self.configCameraViewConstraints()
         self.setupView()
         
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkPermissions()
         self.setupOutput()
-
-
+        
+        
     }
     
     //MARK:- Actions
@@ -58,8 +67,14 @@ class CameraViewController: UIViewController {
         self.takePicture = true
     }
     
-    @objc func switchCamera(_ sender: UIButton?){
-            
+    @objc func openGallery(_ sender: UIButton?){
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     func setupOutput() {
@@ -84,17 +99,27 @@ class CameraViewController: UIViewController {
 extension CameraViewController {
     //MARK:- View Setup
     func setupView(){
-       view.backgroundColor = .black
-       view.addSubview(captureImageButton)
-
+        view.backgroundColor = .black
+        view.addSubview(captureImageButton)
+        view.addSubview(openGalleryButton)
+        
+        
         captureImageButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(80)
-            make.bottom.equalTo(view.snp.bottom)
             make.bottom.equalTo(view.snp.bottom).offset(-40)
             make.centerX.equalTo(view.snp.centerX)
         }
-       
-     captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
+        
+        openGalleryButton.snp.makeConstraints { (make) -> Void in
+            make.width.height.equalTo(50)
+            make.bottom.equalTo(view.snp.bottom).offset(-55)
+            make.left.equalTo(view.snp.left).offset(25)
+        }
+        
+        
+        
+        captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
+        openGalleryButton.addTarget(self, action: #selector(openGallery(_:)), for: .touchUpInside)
         
     }
     func configCameraViewConstraints() {
@@ -110,21 +135,36 @@ extension CameraViewController {
     func checkPermissions() {
         let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch cameraAuthStatus {
-          case .authorized:
+        case .authorized:
             return
-          case .denied:
+        case .denied:
             abort()
-          case .notDetermined:
+        case .notDetermined:
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:
-            { (authorized) in
-              if(!authorized){
-                abort()
-              }
-            })
-          case .restricted:
+                                            { (authorized) in
+                                                if(!authorized){
+                                                    abort()
+                                                }
+                                            })
+        case .restricted:
             abort()
-          @unknown default:
+        @unknown default:
             fatalError()
+        }
+    }
+}
+
+extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        self.dismiss(animated: true)
+
+        if let pickedImage = info[.originalImage] as? UIImage {
+            let imagePreview = ImagePreview()
+            imagePreview.imageView = UIImageView(image: pickedImage)
+            
+            imagePreview.modalPresentationStyle = .formSheet
+            self.present(imagePreview, animated: true)
         }
     }
 }
