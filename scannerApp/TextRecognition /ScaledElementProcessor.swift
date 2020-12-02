@@ -37,7 +37,6 @@ class ScaledElementProcessor {
                 let result = result,
                 !result.text.isEmpty
             else {
-//                callback("")
                 return
             }
             callback(result)

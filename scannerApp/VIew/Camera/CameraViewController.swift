@@ -132,6 +132,15 @@ extension CameraViewController {
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
+        func convertCIImageToCGImage(inputImage: CIImage) -> CGImage! {
+            let context = CIContext(options: nil)
+            if context != nil {
+                return context.createCGImage(inputImage, from: inputImage.extent)
+            }
+            return nil
+        }
+        
         if !takePicture {
             return //we have nothing to do with the image buffer
         }
@@ -142,9 +151,10 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         let ciImage = CIImage(cvImageBuffer: cvBuffer)
+        let cgImage = convertCIImageToCGImage(inputImage: ciImage)
+        let uiImage = UIImage(cgImage: cgImage!)
         
-        let uiImage = UIImage(ciImage: ciImage)
-        print(uiImage.imageOrientation)
+        print(uiImage.imageOrientation.rawValue)
         
         self.takePicture = false
         DispatchQueue.main.sync {
@@ -154,6 +164,9 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             imagePreview.modalPresentationStyle = .formSheet
             self.present(imagePreview, animated: true)
         }
+        
+        
     }
-       
 }
+
+
