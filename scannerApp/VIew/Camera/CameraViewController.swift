@@ -32,8 +32,7 @@ class CameraViewController: UIViewController {
         return cameraView
      }()
     
-
-    
+    var takePicture: Bool = false
     
     //MARK:- Lifecycle
     override func viewDidLoad() {
@@ -55,8 +54,8 @@ class CameraViewController: UIViewController {
     }
     
     //MARK:- Actions
-    @objc func captureImage(_ sender: UIButton?){
-        
+    @objc func captureImage(_ sender: UIButton?) {
+        self.takePicture = true
     }
     
     @objc func switchCamera(_ sender: UIButton?){
@@ -133,7 +132,28 @@ extension CameraViewController {
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        print("cahnge")
+        if !takePicture {
+            return //we have nothing to do with the image buffer
+        }
+        
+        //try and get a CVImageBuffer out of the sample buffer
+        guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return
+        }
+        
+        let ciImage = CIImage(cvImageBuffer: cvBuffer)
+        
+        let uiImage = UIImage(ciImage: ciImage)
+        print(uiImage.imageOrientation)
+        
+        self.takePicture = false
+        DispatchQueue.main.sync {
+            let imagePreview = ImagePreview()
+            imagePreview.imageView = UIImageView(image: uiImage)
+            
+            imagePreview.modalPresentationStyle = .formSheet
+            self.present(imagePreview, animated: true)
+        }
     }
        
 }
