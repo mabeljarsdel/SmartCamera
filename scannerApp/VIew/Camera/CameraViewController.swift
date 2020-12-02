@@ -76,23 +76,6 @@ class CameraViewController: UIViewController {
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
-    
-    func setupOutput() {
-        cameraView.output = AVCaptureVideoDataOutput()
-        
-        let videoQueue = DispatchQueue(label: self.cameraView.videoQueueLabel, qos: .userInteractive)
-        cameraView.output.setSampleBufferDelegate(self, queue: videoQueue)
-        
-        if cameraView.session.canAddOutput(cameraView.output) {
-            cameraView.session.addOutput(cameraView.output)
-        } else {
-            fatalError("could not add video output")
-        }
-        
-        
-        cameraView.output.connections.first?.videoOrientation = .portrait
-        
-    }
 }
 
 
@@ -122,6 +105,23 @@ extension CameraViewController {
         openGalleryButton.addTarget(self, action: #selector(openGallery(_:)), for: .touchUpInside)
         
     }
+    
+    func setupOutput() {
+        cameraView.output = AVCaptureVideoDataOutput()
+        
+        let videoQueue = DispatchQueue(label: self.cameraView.videoQueueLabel, qos: .userInteractive)
+        cameraView.output.setSampleBufferDelegate(self, queue: videoQueue)
+        
+        if cameraView.session.canAddOutput(cameraView.output) {
+            cameraView.session.addOutput(cameraView.output)
+        } else {
+            fatalError("could not add video output")
+        }
+        
+        
+        cameraView.output.connections.first?.videoOrientation = .portrait
+    }
+    
     func configCameraViewConstraints() {
         self.cameraView.snp.makeConstraints { make in
             make.width.equalTo(UIScreen.main.bounds.width)
@@ -154,33 +154,11 @@ extension CameraViewController {
     }
 }
 
-extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        self.dismiss(animated: true)
-
-        if let pickedImage = info[.originalImage] as? UIImage {
-            let imagePreview = ImagePreview()
-            imagePreview.imageView = UIImageView(image: pickedImage)
-            
-            imagePreview.modalPresentationStyle = .formSheet
-            self.present(imagePreview, animated: true)
-        }
-    }
-}
 
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        func convertCIImageToCGImage(inputImage: CIImage) -> CGImage! {
-            let context = CIContext(options: nil)
-            if context != nil {
-                return context.createCGImage(inputImage, from: inputImage.extent)
-            }
-            return nil
-        }
-        
+                
         if !takePicture {
             return //we have nothing to do with the image buffer
         }
@@ -190,9 +168,12 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
+        
+        
         let ciImage = CIImage(cvImageBuffer: cvBuffer)
-        let cgImage = convertCIImageToCGImage(inputImage: ciImage)
-        let uiImage = UIImage(cgImage: cgImage!)
+        guard let cgImage = ciImage.convertToCGImage() else { return }
+        
+        let uiImage = UIImage(cgImage: cgImage)
         
         print(uiImage.imageOrientation.rawValue)
         
@@ -203,10 +184,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             
             imagePreview.modalPresentationStyle = .formSheet
             self.present(imagePreview, animated: true)
+            
         }
-        
-        
     }
 }
-
 

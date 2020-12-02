@@ -45,7 +45,6 @@ class CameraView: UIView {
             self.session.commitConfiguration()
             self.session.startRunning()
         }
-        
     }
     
     

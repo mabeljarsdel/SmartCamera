@@ -55,6 +55,9 @@ class ImagePreview: UIViewController {
             processor.process(in: self.imageView, callback: { text in
                 guard let textResult = text else { return }
                 self.textView!.text += textResult.text
+                for block in textResult.blocks {
+                    print(block.frame)
+                }
             })
         }
         
