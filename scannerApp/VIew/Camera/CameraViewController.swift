@@ -51,6 +51,17 @@ class CameraViewController: UIViewController {
         self.configCameraViewConstraints()
         self.setupView()
         
+        let chooseLanguageView = ChooseLanguageSegmentView()
+        chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(chooseLanguageView)
+        
+        chooseLanguageView.snp.makeConstraints { make in
+            make.height.equalTo(40)
+            make.width.equalTo(UIScreen.screenWidth - 60)
+            make.centerX.equalTo(view.center.x)
+            make.top.equalTo(view.snp.top).offset(60)
+        }
+        
         
     }
     
