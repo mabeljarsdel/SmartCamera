@@ -10,8 +10,6 @@ import AVFoundation
 import SnapKit
 
 
-
-
 class CameraViewController: UIViewController {
     //MARK:- View Components
     let captureImageButton : UIButton = {
@@ -41,8 +39,10 @@ class CameraViewController: UIViewController {
         return cameraView
     }()
     
+    var chooseLanguageView: ChooseLanguageSegmentView!
+
+    
     var takePicture: Bool = false
-    var chooseLangViewController: ChooseLanguageSegmentViewController!
     //MARK:- Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,17 +51,29 @@ class CameraViewController: UIViewController {
         self.configCameraViewConstraints()
         self.setupView()
         
-        let chooseLanguageView = ChooseLanguageSegmentViewController()
-        view.addSubview(chooseLanguageView.view)
+        let chooseLanguageView = ChooseLanguageSegmentView()
+        chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addChild(chooseLanguageView)
-        chooseLanguageView.didMove(toParent: self)
-        
-        chooseLanguageView.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.isUserInteractionEnabled = true
-        self.chooseLangViewController = chooseLanguageView
+        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(self.openDetailView(_:)), for: .touchDown)
         
         
+        self.chooseLanguageView = chooseLanguageView
+        view.addSubview(self.chooseLanguageView)
+        self.chooseLanguageView.snp.makeConstraints { make in
+            make.height.equalTo(40)
+            make.width.equalTo(UIScreen.screenWidth - 60)
+            make.centerX.equalTo(view.center.x)
+            make.top.equalTo(view.snp.top).offset(60)
+        }
+        
+
+        
+        
+    }
+    @objc func openDetailView(_ sender: UIButton?) {
+        let detailView = DetailChooseLanguageViewController()
+        detailView.modalPresentationStyle = .formSheet
+        self.present(detailView, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {

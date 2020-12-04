@@ -29,9 +29,6 @@ class ImagePreview: UIViewController {
         return tv
     }()
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

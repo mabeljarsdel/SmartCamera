@@ -8,36 +8,6 @@
 import Foundation
 import UIKit
 
-class ChooseLanguageSegmentViewController: UIViewController {
-    
-    var chooseLanguageView: ChooseLanguageSegmentView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let chooseLanguageView = ChooseLanguageSegmentView()
-        chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(self.openDetailView(_:)), for: .touchDown)
-        
-        print(self.parent)
-
-        self.chooseLanguageView = chooseLanguageView
-        view.addSubview(self.chooseLanguageView)
-        self.chooseLanguageView.snp.makeConstraints { make in
-            make.height.equalTo(40)
-            make.width.equalTo(UIScreen.screenWidth - 60)
-            make.centerX.equalTo(view.center.x)
-            make.top.equalTo(view.snp.top).offset(60)
-        }
-        
-    }
-    
-    @objc func openDetailView(_ sender: UIButton?) {
-        let detailView = DetailChooseLanguageViewController()
-        detailView.modalPresentationStyle = .formSheet
-        self.present(detailView, animated: true)
-    }
-}
 
 class ChooseLanguageSegmentView: UIView {
     
