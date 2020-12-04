@@ -32,7 +32,6 @@ class DetailChooseLanguageViewController: UIViewController {
         return translatorController.locale.localizedString(forLanguageCode: $0.rawValue)!
             < translatorController.locale.localizedString(forLanguageCode: $1.rawValue)!
     }
-    
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,11 +41,10 @@ class DetailChooseLanguageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
-
+        self.setupContstraint()
         
     }
     

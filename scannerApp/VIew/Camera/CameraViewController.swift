@@ -39,7 +39,15 @@ class CameraViewController: UIViewController {
         return cameraView
     }()
     
-    var chooseLanguageView: ChooseLanguageSegmentView!
+    let chooseLanguageView: ChooseLanguageSegmentView = {
+        let chooseLanguageView = ChooseLanguageSegmentView()
+        chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(openDetailView(_ :)), for: .touchUpInside)
+        chooseLanguageView.buttonOfTranslateIntoLanguage.addTarget(self, action: #selector(openDetailView(_:)), for: .touchUpInside)
+        chooseLanguageView.swapButton.addTarget(self, action: #selector(swapLanguageButton(_:)), for: .touchUpInside)
+        return chooseLanguageView
+    }()
     
     
     var takePicture: Bool = false
@@ -52,15 +60,7 @@ class CameraViewController: UIViewController {
         self.setupView()
         
         
-        let chooseLanguageView = ChooseLanguageSegmentView()
-        chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        
-        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(self.openDetailView(_ :)), for: .touchUpInside)
-        chooseLanguageView.buttonOfTranslateIntoLanguage.addTarget(self, action: #selector(self.openDetailView(_:)), for: .touchUpInside)
-        
-        self.chooseLanguageView = chooseLanguageView
+
         
         view.addSubview(self.chooseLanguageView)
         
@@ -88,6 +88,10 @@ class CameraViewController: UIViewController {
         
     }
     
+    
+    
+    //MARK:- Actions
+    
     @objc func openDetailView(_ sender: UIButton) {
         let detailView = DetailChooseLanguageViewController()
         if sender.tag == 0 {
@@ -99,13 +103,21 @@ class CameraViewController: UIViewController {
         self.present(detailView, animated: true)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    @objc func swapLanguageButton(_ sender: UIButton?) {
+        let translatorController = TranslatorController.translatorInstance
+        let tempOutputLanguage = translatorController.getLanguage(languageType: .output)
         
+        
+        translatorController.setLanguage(languageType: .output, newValue: translatorController.getLanguage(languageType: .input))
+        translatorController.setLanguage(languageType: .input, newValue: tempOutputLanguage)
+        
+        chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(
+                translatorController.locale.localizedString(forLanguageCode: translatorController.getLanguage(languageType: .input).rawValue), for: .normal)
+        chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(
+            translatorController.locale.localizedString(forLanguageCode: translatorController.getLanguage(languageType: .output).rawValue), for: .normal)
         
     }
     
-    //MARK:- Actions
     @objc func captureImage(_ sender: UIButton?) {
         self.takePicture = true
     }
