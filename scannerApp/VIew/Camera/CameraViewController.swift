@@ -42,7 +42,7 @@ class CameraViewController: UIViewController {
     }()
     
     var takePicture: Bool = false
-    
+    var chooseLangViewController: ChooseLanguageSegmentViewController!
     //MARK:- Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,16 +51,15 @@ class CameraViewController: UIViewController {
         self.configCameraViewConstraints()
         self.setupView()
         
-        let chooseLanguageView = ChooseLanguageSegmentView()
-        chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(chooseLanguageView)
+        let chooseLanguageView = ChooseLanguageSegmentViewController()
+        view.addSubview(chooseLanguageView.view)
         
-        chooseLanguageView.snp.makeConstraints { make in
-            make.height.equalTo(40)
-            make.width.equalTo(UIScreen.screenWidth - 60)
-            make.centerX.equalTo(view.center.x)
-            make.top.equalTo(view.snp.top).offset(60)
-        }
+        self.addChild(chooseLanguageView)
+        chooseLanguageView.didMove(toParent: self)
+        
+        chooseLanguageView.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.isUserInteractionEnabled = true
+        self.chooseLangViewController = chooseLanguageView
         
         
     }
@@ -92,7 +91,7 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController {
     //MARK:- View Setup
-    func setupView(){
+    func setupView() {
         view.backgroundColor = .black
         view.addSubview(captureImageButton)
         view.addSubview(openGalleryButton)

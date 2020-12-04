@@ -14,7 +14,8 @@
 		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
 		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
 		81B5FE20257821D600458926 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1F257821D600458926 /* ImagePreview.swift */; };
-		81C74D0C2579A81F00287A2C /* ChooseLanguageSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C74D0B2579A81F00287A2C /* ChooseLanguageSegmentView.swift */; };
+		81C74D0C2579A81F00287A2C /* SegmentChooseLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */; };
+		81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */; };
 		81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EA2573122800C953F5 /* AppDelegate.swift */; };
 		81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EC2573122800C953F5 /* SceneDelegate.swift */; };
 		81FF82EF2573122800C953F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EE2573122800C953F5 /* ViewController.swift */; };
@@ -35,7 +36,8 @@
 		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		81B5FE1F257821D600458926 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
-		81C74D0B2579A81F00287A2C /* ChooseLanguageSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageSegmentView.swift; sourceTree = "<group>"; };
+		81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentChooseLanguageView.swift; sourceTree = "<group>"; };
+		81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailChooseLanguageView.swift; sourceTree = "<group>"; };
 		81FF82E72573122800C953F5 /* scannerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scannerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FF82EA2573122800C953F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81FF82EC2573122800C953F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +114,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		81C74D242579AF9600287A2C /* ChooseLanguage */ = {
+			isa = PBXGroup;
+			children = (
+				81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */,
+				81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */,
+			);
+			path = ChooseLanguage;
+			sourceTree = "<group>";
+		};
 		81FF82DE2573122800C953F5 = {
 			isa = PBXGroup;
 			children = (
@@ -175,7 +186,7 @@
 		81FF833F25731DDF00C953F5 /* VIew */ = {
 			isa = PBXGroup;
 			children = (
-				81C74D0B2579A81F00287A2C /* ChooseLanguageSegmentView.swift */,
+				81C74D242579AF9600287A2C /* ChooseLanguage */,
 				81C74D092579A7DE00287A2C /* Image Preview */,
 				81B5FE15257800DB00458926 /* Camera */,
 			);
@@ -315,7 +326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81C74D0C2579A81F00287A2C /* ChooseLanguageSegmentView.swift in Sources */,
+				81C74D0C2579A81F00287A2C /* SegmentChooseLanguageView.swift in Sources */,
 				8149FAD425783461004945A2 /* ImagePickerDelegate.swift in Sources */,
 				81B5FE1C25781AC000458926 /* CameraView.swift in Sources */,
 				8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */,
@@ -323,6 +334,7 @@
 				8149FAD825783658004945A2 /* CGImage.swift in Sources */,
 				81FF833C25731B0400C953F5 /* ScaledElementProcessor.swift in Sources */,
 				81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */,
+				81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */,
 				81B5FE20257821D600458926 /* ImagePreview.swift in Sources */,
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
