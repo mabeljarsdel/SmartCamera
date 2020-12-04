@@ -64,8 +64,7 @@ class CameraViewController: UIViewController {
             make.width.equalTo(UIScreen.screenWidth - 60)
             make.centerX.equalTo(view.center.x)
             make.top.equalTo(view.snp.top).offset(60)
-        }
-        
+        } 
 
         
         

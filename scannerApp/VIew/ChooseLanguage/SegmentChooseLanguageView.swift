@@ -40,7 +40,7 @@ class ChooseLanguageSegmentView: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         backgroundColor = .white
-//        alpha = 0.7
+        alpha = 0.7
         layer.cornerRadius = 20
         
         self.setConstraint()
