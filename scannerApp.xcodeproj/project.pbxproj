@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F3C6D82FC4DD58DB9E042E7 /* Pods_scannerApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF46AB12234B0F5BD3E65FE /* Pods_scannerApp.framework */; };
+		488E5F4C89E64F170C17B6F3 /* Pods_Translate_Camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC31C961001D54CD146CB06 /* Pods_Translate_Camera.framework */; };
 		8149FAD425783461004945A2 /* ImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD325783461004945A2 /* ImagePickerDelegate.swift */; };
 		8149FAD825783658004945A2 /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD725783658004945A2 /* CGImage.swift */; };
 		8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FADA257865B0004945A2 /* CaptureExt.swift */; };
+		8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157E406257AD927002F44D5 /* TranslatorController.swift */; };
 		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
 		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
 		81B5FE20257821D600458926 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1F257821D600458926 /* ImagePreview.swift */; };
@@ -29,16 +30,17 @@
 /* Begin PBXFileReference section */
 		166A42F089B1557C74C2D1E3 /* Pods-scannerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scannerApp.release.xcconfig"; path = "Target Support Files/Pods-scannerApp/Pods-scannerApp.release.xcconfig"; sourceTree = "<group>"; };
 		26E79F1F96CC34EFF97DEE9D /* Pods-scannerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scannerApp.debug.xcconfig"; path = "Target Support Files/Pods-scannerApp/Pods-scannerApp.debug.xcconfig"; sourceTree = "<group>"; };
-		5BF46AB12234B0F5BD3E65FE /* Pods_scannerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scannerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73BF4D79622E4ECA754D8992 /* Pods-Translate Camera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate Camera.debug.xcconfig"; path = "Target Support Files/Pods-Translate Camera/Pods-Translate Camera.debug.xcconfig"; sourceTree = "<group>"; };
 		8149FAD325783461004945A2 /* ImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerDelegate.swift; sourceTree = "<group>"; };
 		8149FAD725783658004945A2 /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
 		8149FADA257865B0004945A2 /* CaptureExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExt.swift; sourceTree = "<group>"; };
+		8157E406257AD927002F44D5 /* TranslatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorController.swift; sourceTree = "<group>"; };
 		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		81B5FE1F257821D600458926 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
 		81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentChooseLanguageView.swift; sourceTree = "<group>"; };
 		81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailChooseLanguageView.swift; sourceTree = "<group>"; };
-		81FF82E72573122800C953F5 /* scannerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scannerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81FF82E72573122800C953F5 /* Translate Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Translate Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FF82EA2573122800C953F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81FF82EC2573122800C953F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		81FF82EE2573122800C953F5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +50,8 @@
 		81FF82F82573122A00C953F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81FF82FF257312F700C953F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81FF833B25731B0400C953F5 /* ScaledElementProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledElementProcessor.swift; sourceTree = "<group>"; };
+		8FC31C961001D54CD146CB06 /* Pods_Translate_Camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Translate_Camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A92AC18972FEC9310C2C87F6 /* Pods-Translate Camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate Camera.release.xcconfig"; path = "Target Support Files/Pods-Translate Camera/Pods-Translate Camera.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F3C6D82FC4DD58DB9E042E7 /* Pods_scannerApp.framework in Frameworks */,
+				488E5F4C89E64F170C17B6F3 /* Pods_Translate_Camera.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +69,7 @@
 		3D0462D5C1A982B5D8B987F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5BF46AB12234B0F5BD3E65FE /* Pods_scannerApp.framework */,
+				8FC31C961001D54CD146CB06 /* Pods_Translate_Camera.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -75,6 +79,8 @@
 			children = (
 				26E79F1F96CC34EFF97DEE9D /* Pods-scannerApp.debug.xcconfig */,
 				166A42F089B1557C74C2D1E3 /* Pods-scannerApp.release.xcconfig */,
+				73BF4D79622E4ECA754D8992 /* Pods-Translate Camera.debug.xcconfig */,
+				A92AC18972FEC9310C2C87F6 /* Pods-Translate Camera.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -85,6 +91,22 @@
 				8149FAD725783658004945A2 /* CGImage.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		8157E404257AD90A002F44D5 /* TextRecognition */ = {
+			isa = PBXGroup;
+			children = (
+				81FF833B25731B0400C953F5 /* ScaledElementProcessor.swift */,
+			);
+			path = TextRecognition;
+			sourceTree = "<group>";
+		};
+		8157E405257AD914002F44D5 /* Translate */ = {
+			isa = PBXGroup;
+			children = (
+				8157E406257AD927002F44D5 /* TranslatorController.swift */,
+			);
+			path = Translate;
 			sourceTree = "<group>";
 		};
 		81B5FE15257800DB00458926 /* Camera */ = {
@@ -136,7 +158,7 @@
 		81FF82E82573122800C953F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				81FF82E72573122800C953F5 /* scannerApp.app */,
+				81FF82E72573122800C953F5 /* Translate Camera.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -146,7 +168,7 @@
 			children = (
 				8149FAD62578364F004945A2 /* Extension */,
 				81FF833F25731DDF00C953F5 /* VIew */,
-				81FF833A25731AEF00C953F5 /* TextRecognition  */,
+				81FF833A25731AEF00C953F5 /* MLKit  */,
 				81FF831E2573147D00C953F5 /* Delegates */,
 				81FF82FF257312F700C953F5 /* GoogleService-Info.plist */,
 				81FF82F82573122A00C953F5 /* Info.plist */,
@@ -175,12 +197,13 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
-		81FF833A25731AEF00C953F5 /* TextRecognition  */ = {
+		81FF833A25731AEF00C953F5 /* MLKit  */ = {
 			isa = PBXGroup;
 			children = (
-				81FF833B25731B0400C953F5 /* ScaledElementProcessor.swift */,
+				8157E405257AD914002F44D5 /* Translate */,
+				8157E404257AD90A002F44D5 /* TextRecognition */,
 			);
-			path = "TextRecognition ";
+			path = "MLKit ";
 			sourceTree = "<group>";
 		};
 		81FF833F25731DDF00C953F5 /* VIew */ = {
@@ -196,9 +219,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		81FF82E62573122800C953F5 /* scannerApp */ = {
+		81FF82E62573122800C953F5 /* Translate Camera */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 81FF82FB2573122A00C953F5 /* Build configuration list for PBXNativeTarget "scannerApp" */;
+			buildConfigurationList = 81FF82FB2573122A00C953F5 /* Build configuration list for PBXNativeTarget "Translate Camera" */;
 			buildPhases = (
 				4600BDCEF1C156D1BE54D53E /* [CP] Check Pods Manifest.lock */,
 				81FF82E32573122800C953F5 /* Sources */,
@@ -211,9 +234,9 @@
 			);
 			dependencies = (
 			);
-			name = scannerApp;
+			name = "Translate Camera";
 			productName = scannerApp;
-			productReference = 81FF82E72573122800C953F5 /* scannerApp.app */;
+			productReference = 81FF82E72573122800C953F5 /* Translate Camera.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -243,7 +266,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				81FF82E62573122800C953F5 /* scannerApp */,
+				81FF82E62573122800C953F5 /* Translate Camera */,
 			);
 		};
 /* End PBXProject section */
@@ -269,15 +292,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-scannerApp/Pods-scannerApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Translate Camera/Pods-Translate Camera-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-scannerApp/Pods-scannerApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Translate Camera/Pods-Translate Camera-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-scannerApp/Pods-scannerApp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Translate Camera/Pods-Translate Camera-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4600BDCEF1C156D1BE54D53E /* [CP] Check Pods Manifest.lock */ = {
@@ -295,7 +318,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-scannerApp-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Translate Camera-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -308,15 +331,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-scannerApp/Pods-scannerApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Translate Camera/Pods-Translate Camera-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-scannerApp/Pods-scannerApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Translate Camera/Pods-Translate Camera-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-scannerApp/Pods-scannerApp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Translate Camera/Pods-Translate Camera-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -336,6 +359,7 @@
 				81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */,
 				81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */,
 				81B5FE20257821D600458926 /* ImagePreview.swift in Sources */,
+				8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */,
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
 			);
@@ -481,7 +505,7 @@
 		};
 		81FF82FC2573122A00C953F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26E79F1F96CC34EFF97DEE9D /* Pods-scannerApp.debug.xcconfig */;
+			baseConfigurationReference = 73BF4D79622E4ECA754D8992 /* Pods-Translate Camera.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -493,7 +517,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = btoj.scannerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = btoj.translateCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -502,7 +526,7 @@
 		};
 		81FF82FD2573122A00C953F5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 166A42F089B1557C74C2D1E3 /* Pods-scannerApp.release.xcconfig */;
+			baseConfigurationReference = A92AC18972FEC9310C2C87F6 /* Pods-Translate Camera.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -514,7 +538,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = btoj.scannerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = btoj.translateCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -533,7 +557,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		81FF82FB2573122A00C953F5 /* Build configuration list for PBXNativeTarget "scannerApp" */ = {
+		81FF82FB2573122A00C953F5 /* Build configuration list for PBXNativeTarget "Translate Camera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				81FF82FC2573122A00C953F5 /* Debug */,

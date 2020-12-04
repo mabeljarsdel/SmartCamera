@@ -51,11 +51,11 @@ class CameraViewController: UIViewController {
         self.configCameraViewConstraints()
         self.setupView()
         
+        
         let chooseLanguageView = ChooseLanguageSegmentView()
         chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
         
-        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(self.openDetailView(_:)), for: .touchDown)
-        
+        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(self.openDetailView), for: .touchUpInside)
         
         self.chooseLanguageView = chooseLanguageView
         view.addSubview(self.chooseLanguageView)
@@ -65,11 +65,11 @@ class CameraViewController: UIViewController {
             make.centerX.equalTo(view.center.x)
             make.top.equalTo(view.snp.top).offset(60)
         } 
-
+        
         
         
     }
-    @objc func openDetailView(_ sender: UIButton?) {
+    @objc func openDetailView() {
         let detailView = DetailChooseLanguageViewController()
         detailView.modalPresentationStyle = .formSheet
         self.present(detailView, animated: true)
