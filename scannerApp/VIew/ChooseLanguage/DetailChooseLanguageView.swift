@@ -21,13 +21,18 @@ class DetailChooseLanguageView: UIView {
 
 class DetailChooseLanguageViewController: UIViewController {
     
-    let locale = Locale.current
+    var menuType: LanguageType!
     
+    //MARK: Instances
+    let translatorController = TranslatorController.translatorInstance
+    
+
     
     lazy var allLanguages = TranslateLanguage.allLanguages().sorted {
-        return locale.localizedString(forLanguageCode: $0.rawValue)!
-          < locale.localizedString(forLanguageCode: $1.rawValue)!
+        return translatorController.locale.localizedString(forLanguageCode: $0.rawValue)!
+            < translatorController.locale.localizedString(forLanguageCode: $1.rawValue)!
     }
+    
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,9 +42,15 @@ class DetailChooseLanguageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
+
+        
+    }
+    
+    func setupContstraint() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.left.equalTo(view.snp.left)
@@ -50,10 +61,6 @@ class DetailChooseLanguageViewController: UIViewController {
         }
     }
     
-    
-    func getLanguages() {
-//        let languageId = LanguageIdentification.languageIdentification()
-    }
 }
 
 
@@ -65,17 +72,24 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = locale.localizedString(forLanguageCode: allLanguages[indexPath.row].rawValue)
+        cell.textLabel?.text = translatorController.locale.localizedString(forLanguageCode: allLanguages[indexPath.row].rawValue)
+        
+        if self.translatorController.getLanguage(languageType: self.menuType) == allLanguages[indexPath.row] {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(locale.localizedString(forLanguageCode: allLanguages[indexPath.row].rawValue))
-//        tableView.deselectRow(at: indexPath, animated: false)
+
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
         }
+        
+        self.translatorController.setLanguage(languageType: self.menuType, newValue: allLanguages[indexPath.row])
         
         self.dismiss(animated: true)
     }

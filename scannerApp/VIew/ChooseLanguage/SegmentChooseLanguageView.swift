@@ -13,18 +13,18 @@ class ChooseLanguageSegmentView: UIView {
     
     var buttonOfLanguageFromTranslate: UIButton = {
         let button = UIButton()
-        button.setTitle("English", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.setTitleColor(.green, for: .selected)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.tag = 0
         return button
     }()
     
     var buttonOfTranslateIntoLanguage: UIButton = {
         let button = UIButton()
-        button.setTitle("Spanish", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.tag = 1
         return button
     }()
     

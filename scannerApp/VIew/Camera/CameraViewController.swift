@@ -40,7 +40,7 @@ class CameraViewController: UIViewController {
     }()
     
     var chooseLanguageView: ChooseLanguageSegmentView!
-
+    
     
     var takePicture: Bool = false
     //MARK:- Lifecycle
@@ -55,30 +55,52 @@ class CameraViewController: UIViewController {
         let chooseLanguageView = ChooseLanguageSegmentView()
         chooseLanguageView.translatesAutoresizingMaskIntoConstraints = false
         
-        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(self.openDetailView), for: .touchUpInside)
+        
+        
+        chooseLanguageView.buttonOfLanguageFromTranslate.addTarget(self, action: #selector(self.openDetailView(_ :)), for: .touchUpInside)
+        chooseLanguageView.buttonOfTranslateIntoLanguage.addTarget(self, action: #selector(self.openDetailView(_:)), for: .touchUpInside)
         
         self.chooseLanguageView = chooseLanguageView
+        
         view.addSubview(self.chooseLanguageView)
+        
         self.chooseLanguageView.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.width.equalTo(UIScreen.screenWidth - 60)
             make.centerX.equalTo(view.center.x)
             make.top.equalTo(view.snp.top).offset(60)
-        } 
+        }
         
+        checkPermissions()
+        self.setupOutput()
+
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        let translatorController = TranslatorController.translatorInstance
+        chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(
+            translatorController.locale.localizedString(forLanguageCode: translatorController.getLanguage(languageType: .input).rawValue), for: .normal)
+        chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(
+            translatorController.locale.localizedString(forLanguageCode: translatorController.getLanguage(languageType: .output).rawValue), for: .normal)
         
     }
-    @objc func openDetailView() {
+    
+    @objc func openDetailView(_ sender: UIButton) {
         let detailView = DetailChooseLanguageViewController()
-        detailView.modalPresentationStyle = .formSheet
+        if sender.tag == 0 {
+            detailView.menuType = .input
+        } else {
+            detailView.menuType = .output
+        }
+        detailView.modalPresentationStyle = .fullScreen
         self.present(detailView, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkPermissions()
-        self.setupOutput()
         
         
     }
