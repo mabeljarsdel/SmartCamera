@@ -29,7 +29,6 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let uiImage = UIImage(cgImage: cgImage)
         
-        print(uiImage.imageOrientation.rawValue)
         
         self.takePicture = false
         DispatchQueue.main.sync {

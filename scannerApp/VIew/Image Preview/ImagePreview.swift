@@ -43,6 +43,7 @@ class ImagePreview: UIViewController {
     
     private func recogniseTextFromImage() {
         let processor = ScaledElementProcessor()
+        let translateController = TranslatorController.translatorInstance
         self.textView.text = ""
         processor.process(in: self.imageView, callback: { text in
             
@@ -52,7 +53,12 @@ class ImagePreview: UIViewController {
                 
                 for line in block.lines {
                     
-                    self.textView.text += "\(line.text)\n"
+//                    self.textView.text += "\(line.text)\n"
+                    
+                    translateController.translate(in: line.text, callback: { translatedText in
+                        self.textView.text += translatedText ?? ""
+                    })
+                    
                     
                     let transformedRect = line.frame.applying(self.transformMatrix())
                     self.addRectangle(transformedRect, to: self.imageView, color: .blue)
@@ -128,7 +134,7 @@ extension ImagePreview {
     }
     
     func resizeRectangleForImage() -> CGSize {
-        let defaultSize = CGSize(width: UIScreen.screenSize.width-30, height: UIScreen.screenSize.height*0.7)
+        let defaultSize = CGSize(width: UIScreen.screenSize.width-30, height: UIScreen.screenSize.height*0.9)
         
         
         let ratio = self.imageView.image!.size.width/self.imageView.image!.size.height
@@ -148,4 +154,5 @@ extension ImagePreview {
             }
         }
     }
+    
 }

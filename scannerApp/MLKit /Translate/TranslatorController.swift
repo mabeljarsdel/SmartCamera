@@ -20,6 +20,8 @@ class TranslatorController {
     
     
     let locale = Locale.current
+    var translator: Translator?
+    
     private var inputLanguage: TranslateLanguage!
     private var outputLanguage: TranslateLanguage!
     
@@ -50,6 +52,33 @@ class TranslatorController {
             return inputLanguage
         case .output:
             return outputLanguage
+        }
+    }
+    
+    func translate(in text: String, callback: @escaping (_ text: String?) -> Void) {
+        let options = TranslatorOptions(sourceLanguage: inputLanguage, targetLanguage: outputLanguage)
+        translator = Translator.translator(options: options)
+        
+        //MARK: Implement packet manager
+        
+        let translatorForDownloading = self.translator!
+
+        translatorForDownloading.downloadModelIfNeeded { error in
+            guard error == nil else {
+                print(error?.localizedDescription as Any)
+                return
+            }
+            if translatorForDownloading == self.translator {
+                translatorForDownloading.translate(text) { result, error in
+                    guard error == nil else {
+                        print(error?.localizedDescription as Any)
+                        return
+                    }
+                    if translatorForDownloading == self.translator {
+                        callback(result)
+                    }
+                }
+            }
         }
     }
 }

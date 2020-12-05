@@ -175,6 +175,7 @@ extension CameraViewController {
         
         
         cameraView.output.connections.first?.videoOrientation = .portrait
+        
     }
     
     func configCameraViewConstraints() {
