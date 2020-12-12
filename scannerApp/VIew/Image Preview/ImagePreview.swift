@@ -26,7 +26,17 @@ class ImagePreview: UIViewController {
         let tv = UITextView()
         tv.isScrollEnabled = true
         tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.isScrollEnabled = false
+        tv.isUserInteractionEnabled = false
+        
         return tv
+    }()
+    
+    let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+
+        return sv
     }()
     
     override func viewDidLoad() {
@@ -66,15 +76,27 @@ class ImagePreview: UIViewController {
                 }
             }
         })
+
     }
 }
 
 
 extension ImagePreview {
     func setUpConstaint() {
+        self.view.addSubview(scrollView)
         
-        self.view.addSubview(imageView)
-        self.view.addSubview(textView)
+        scrollView.snp.makeConstraints { make in
+            make.left.equalTo(view.snp.left)
+            make.right.equalTo(view.snp.right)
+            make.top.equalTo(view.snp.top)
+            make.bottom.equalTo(view.snp.bottom)
+            make.center.equalTo(view.snp.center)
+        }
+        
+        self.scrollView.addSubview(imageView)
+        self.scrollView.addSubview(textView)
+//        self.scrollView.contentSize.height = self.imageView.frame.height + self.textView.frame.height + 50
+//        self.scrollView.contentSize.width = self.view.frame.width
         
         
         imageView.snp.makeConstraints { make in
@@ -84,16 +106,16 @@ extension ImagePreview {
             make.width.equalTo(size.width)
             make.height.equalTo(size.height)
             
-            make.top.equalTo(view.snp.top).offset(20)
-            make.centerX.equalTo(view.center.x)
+            make.top.equalTo(scrollView.snp.top).offset(20)
+            make.centerX.equalTo(scrollView.snp.centerX)
         }
         
         
-        
         textView.snp.makeConstraints { make in
-            make.width.height.equalTo(UIScreen.main.bounds.width-20)
-            make.topMargin.equalTo(imageView.snp.bottomMargin)
-            make.centerX.equalTo(view.center.x)
+            make.width.equalTo(view.snp.width).offset(-30)
+            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(20)
+            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
+            make.centerX.equalTo(scrollView.snp.centerX)
         }
         
         self.view.backgroundColor = .white
