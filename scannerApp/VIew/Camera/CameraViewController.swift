@@ -140,7 +140,16 @@ class CameraViewController: UIViewController {
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
+    
+    @objc func openScanDocuments(_ sender: UIButton?) {
+        guard VNDocumentCameraViewController.isSupported else { return }
 
+        let controller = VNDocumentCameraViewController()
+        
+        controller.delegate = self
+
+        present(controller, animated: true)
+    }
 }
 
 
@@ -164,10 +173,17 @@ extension CameraViewController {
             make.left.equalTo(view.snp.left).offset(25)
         }
         
-
+        openScanDocumentsButton.snp.makeConstraints { (make) -> Void in
+            make.width.height.equalTo(50)
+            make.bottom.equalTo(view.snp.bottom).offset(-55)
+            make.right.equalTo(view.snp.right).offset(-25)
+        }
+        
         
         captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         openGalleryButton.addTarget(self, action: #selector(openGallery(_:)), for: .touchUpInside)
+        openScanDocumentsButton.addTarget(self, action: #selector(openScanDocuments(_:)), for: .touchUpInside)
+
     }
     
     func setupOutput() {
