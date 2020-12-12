@@ -30,6 +30,10 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let uiImage = UIImage(cgImage: cgImage).rotate(radians: .pi/2)
         
+        
+        
+        
+        
         self.takePicture = false
         
         DispatchQueue.main.sync {

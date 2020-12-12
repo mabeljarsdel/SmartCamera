@@ -11,6 +11,7 @@
 		8149FAD425783461004945A2 /* ImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD325783461004945A2 /* ImagePickerDelegate.swift */; };
 		8149FAD825783658004945A2 /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD725783658004945A2 /* CGImage.swift */; };
 		8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FADA257865B0004945A2 /* CaptureExt.swift */; };
+		814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */; };
 		8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157E406257AD927002F44D5 /* TranslatorController.swift */; };
 		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
 		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
@@ -34,6 +35,7 @@
 		8149FAD325783461004945A2 /* ImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerDelegate.swift; sourceTree = "<group>"; };
 		8149FAD725783658004945A2 /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
 		8149FADA257865B0004945A2 /* CaptureExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExt.swift; sourceTree = "<group>"; };
+		814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDocumentsExtension.swift; sourceTree = "<group>"; };
 		8157E406257AD927002F44D5 /* TranslatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorController.swift; sourceTree = "<group>"; };
 		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				81B5FE122577DF3A00458926 /* CameraViewController.swift */,
 				8149FAD325783461004945A2 /* ImagePickerDelegate.swift */,
 				8149FADA257865B0004945A2 /* CaptureExt.swift */,
+				814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */,
 				81B5FE20257821D600458926 /* ImagePreview.swift in Sources */,
 				8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */,
+				814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */,
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
 			);

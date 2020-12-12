@@ -8,11 +8,11 @@
 import UIKit
 import AVFoundation
 import SnapKit
-
+import VisionKit
 
 class CameraViewController: UIViewController {
     //MARK:- View Components
-    let captureImageButton : UIButton = {
+    let captureImageButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
         button.tintColor = .white
@@ -22,9 +22,18 @@ class CameraViewController: UIViewController {
         return button
     }()
     
-    let openGalleryButton : UIButton = {
+    let openGalleryButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "photo")
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let openScanDocumentsButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "doc.text.viewfinder")
         button.setImage(image, for: .normal)
         button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -122,7 +131,7 @@ class CameraViewController: UIViewController {
         self.takePicture = true
     }
     
-    @objc func openGallery(_ sender: UIButton?){
+    @objc func openGallery(_ sender: UIButton?) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
@@ -131,6 +140,7 @@ class CameraViewController: UIViewController {
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
+
 }
 
 
@@ -140,7 +150,7 @@ extension CameraViewController {
         view.backgroundColor = .black
         view.addSubview(captureImageButton)
         view.addSubview(openGalleryButton)
-        
+        view.addSubview(openScanDocumentsButton)
         
         captureImageButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(80)
@@ -154,11 +164,10 @@ extension CameraViewController {
             make.left.equalTo(view.snp.left).offset(25)
         }
         
-        
+
         
         captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         openGalleryButton.addTarget(self, action: #selector(openGallery(_:)), for: .touchUpInside)
-        
     }
     
     func setupOutput() {

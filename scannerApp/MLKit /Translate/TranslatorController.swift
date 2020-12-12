@@ -68,6 +68,7 @@ class TranslatorController {
                 print(error?.localizedDescription as Any)
                 return
             }
+            
             if translatorForDownloading == self.translator {
                 translatorForDownloading.translate(text) { result, error in
                     guard error == nil else {

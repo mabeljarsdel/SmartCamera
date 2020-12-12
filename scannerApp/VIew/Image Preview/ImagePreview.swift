@@ -56,7 +56,7 @@ class ImagePreview: UIViewController {
 //                    self.textView.text += "\(line.text)\n"
                     
                     translateController.translate(in: line.text, callback: { translatedText in
-                        self.textView.text += translatedText ?? ""
+                        self.textView.text += (translatedText ?? "") + "\n"
                     })
                     
                     
@@ -134,7 +134,7 @@ extension ImagePreview {
     }
     
     func resizeRectangleForImage() -> CGSize {
-        let defaultSize = CGSize(width: UIScreen.screenSize.width-30, height: UIScreen.screenSize.height*0.9)
+        let defaultSize = CGSize(width: UIScreen.screenSize.width-30, height: UIScreen.screenSize.height*0.6)
         
         
         let ratio = self.imageView.image!.size.width/self.imageView.image!.size.height
