@@ -20,7 +20,6 @@
 		81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */; };
 		81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EA2573122800C953F5 /* AppDelegate.swift */; };
 		81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EC2573122800C953F5 /* SceneDelegate.swift */; };
-		81FF82EF2573122800C953F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EE2573122800C953F5 /* ViewController.swift */; };
 		81FF82F22573122800C953F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81FF82F02573122800C953F5 /* Main.storyboard */; };
 		81FF82F42573122A00C953F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81FF82F32573122A00C953F5 /* Assets.xcassets */; };
 		81FF82F72573122A00C953F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81FF82F52573122A00C953F5 /* LaunchScreen.storyboard */; };
@@ -45,7 +44,6 @@
 		81FF82E72573122800C953F5 /* Translate Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Translate Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FF82EA2573122800C953F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81FF82EC2573122800C953F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		81FF82EE2573122800C953F5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		81FF82F12573122800C953F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		81FF82F32573122A00C953F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81FF82F62573122A00C953F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -175,7 +173,6 @@
 				81FF831E2573147D00C953F5 /* Delegates */,
 				81FF82FF257312F700C953F5 /* GoogleService-Info.plist */,
 				81FF82F82573122A00C953F5 /* Info.plist */,
-				81FF82EE2573122800C953F5 /* ViewController.swift */,
 				81FF82F02573122800C953F5 /* Main.storyboard */,
 				81FF831C2573146200C953F5 /* asset */,
 			);
@@ -356,7 +353,6 @@
 				8149FAD425783461004945A2 /* ImagePickerDelegate.swift in Sources */,
 				81B5FE1C25781AC000458926 /* CameraView.swift in Sources */,
 				8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */,
-				81FF82EF2573122800C953F5 /* ViewController.swift in Sources */,
 				8149FAD825783658004945A2 /* CGImage.swift in Sources */,
 				81FF833C25731B0400C953F5 /* ScaledElementProcessor.swift in Sources */,
 				81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */,

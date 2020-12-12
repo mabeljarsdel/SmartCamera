@@ -63,11 +63,11 @@ class ImagePreview: UIViewController {
                 
                 for line in block.lines {
                     
-//                    self.textView.text += "\(line.text)\n"
-                    
-                    translateController.translate(in: line.text, callback: { translatedText in
-                        self.textView.text += (translatedText ?? "") + "\n"
-                    })
+                    self.textView.text += (line.text) + "\n"
+//MARK: Translation
+//                    translateController.translate(in: line.text, callback: { translatedText in
+//                        self.textView.text += (translatedText ?? "") + "\n"
+//                    })
                     
                     
                     let transformedRect = line.frame.applying(self.transformMatrix())
@@ -95,9 +95,7 @@ extension ImagePreview {
         
         self.scrollView.addSubview(imageView)
         self.scrollView.addSubview(textView)
-//        self.scrollView.contentSize.height = self.imageView.frame.height + self.textView.frame.height + 50
-//        self.scrollView.contentSize.width = self.view.frame.width
-        
+
         
         imageView.snp.makeConstraints { make in
             
@@ -156,7 +154,7 @@ extension ImagePreview {
     }
     
     func resizeRectangleForImage() -> CGSize {
-        let defaultSize = CGSize(width: UIScreen.screenSize.width-30, height: UIScreen.screenSize.height*0.6)
+        let defaultSize = CGSize(width: UIScreen.main.bounds.width-30, height: UIScreen.main.bounds.height*0.6)
         
         
         let ratio = self.imageView.image!.size.width/self.imageView.image!.size.height
