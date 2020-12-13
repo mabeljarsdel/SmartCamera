@@ -57,7 +57,9 @@ class ScaledElementProcessor {
                 let result = result,
                 !result.text.isEmpty
             else {
-                print(error?.localizedDescription)
+                if let error = error {
+                    print(error.localizedDescription)
+                }
                 return
             }
             callback(result)

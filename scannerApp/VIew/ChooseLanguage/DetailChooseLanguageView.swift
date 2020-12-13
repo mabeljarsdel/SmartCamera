@@ -32,6 +32,7 @@ class DetailChooseLanguageViewController: UIViewController {
     }
     
     var filteredLanguages = [TranslateLanguage]()
+    var languageModelManager = LanguageModelsManager()
 
     //MARK: View Elements
     var tableView: UITableView = {
@@ -48,7 +49,7 @@ class DetailChooseLanguageViewController: UIViewController {
         return search
     }()
     
-        
+    var downloadedLanguages = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +58,14 @@ class DetailChooseLanguageViewController: UIViewController {
         tableView.delegate = self
         self.setupContstraint()
         
+        
+        self.downloadedLanguages = languageModelManager.listDownloadedModels().components(separatedBy: ", ")
+        languageModelManager.downloadLanguage(language: TranslateLanguage(rawValue: "fr"))
+
         searchController.searchResultsUpdater = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(languageModelManager.remoteModelDownloadDidComplete(notificaiton:)), name: .mlkitModelDownloadDidSucceed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(languageModelManager.remoteModelDownloadDidComplete(notificaiton:)), name: .mlkitModelDownloadDidFail, object: nil)
         
     }
     
@@ -103,7 +111,6 @@ class DetailChooseLanguageViewController: UIViewController {
         print("Cancel clicked!")
         self.dismiss(animated: true, completion: nil)
     }
-    
 }
 
 extension DetailChooseLanguageViewController: UISearchResultsUpdating {
@@ -129,7 +136,18 @@ extension DetailChooseLanguageViewController: UINavigationBarDelegate {
 }
 
 extension DetailChooseLanguageViewController: UITableViewDataSource, UITableViewDelegate {
+    @objc func didTapDownloadDeleteLanguage(_ sender: UIButton?) {
+        guard let button = sender else { return }
+        print(button.tag)
+        let language = searchController.isActive ? filteredLanguages[button.tag] : allLanguages[button.tag]
+//        let countryName = translatorController.locale.localizedString(forLanguageCode: language.rawValue)
+//        print("tap didTapDownloadDeleteLanguage")
+        self.languageModelManager.handleDownloadDelete(language: language)
+    }
     
+
+    
+ 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive {
             return filteredLanguages.count
@@ -142,8 +160,31 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
         
         let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages[indexPath.row]
         
-        cell.textLabel?.text = translatorController.locale.localizedString(forLanguageCode: language.rawValue)
+        let countryName = translatorController.locale.localizedString(forLanguageCode: language.rawValue)
         
+        
+        cell.textLabel?.text = countryName
+        
+        if self.downloadedLanguages.contains(countryName!) {
+            let downloadLanguage = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            //MARK: ADD delete action
+            downloadLanguage.addTarget(self, action: #selector(didTapDownloadDeleteLanguage(_:)),
+                                  for: .touchUpInside)
+            downloadLanguage.tag = indexPath.row
+            downloadLanguage.setImage(UIImage(systemName: "x.circle"), for: .normal)
+            downloadLanguage.tintColor = .red
+            downloadLanguage.tag = indexPath.row
+            cell.accessoryView = downloadLanguage
+        } else {
+            let deleteLanguage = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            //MARK: ADD download action
+            deleteLanguage.tag = indexPath.row
+            deleteLanguage.addTarget(self, action: #selector(didTapDownloadDeleteLanguage(_:)), for: .touchUpInside)
+            deleteLanguage.setImage(UIImage(systemName: "arrow.down.circle"), for: .normal)
+            
+            deleteLanguage.tag = indexPath.row
+            cell.accessoryView = deleteLanguage
+        }
         
         
         if self.translatorController.getLanguage(languageType: self.menuType) == language {
@@ -172,5 +213,3 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
         self.dismiss(animated: true)
     }
 }
-
-

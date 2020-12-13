@@ -84,7 +84,6 @@ class CameraViewController: UIViewController {
         self.setupView()
         
         
-
         
         view.addSubview(self.chooseLanguageView)
         
@@ -94,6 +93,7 @@ class CameraViewController: UIViewController {
             make.centerX.equalTo(view.center.x)
             make.top.equalTo(view.snp.top).offset(60)
         }
+        
         
         checkPermissions()
         self.setupOutput()
