@@ -28,46 +28,25 @@ class LanguageModelsManager {
             }.joined(separator: ", ")
     }
     
-    func deleteLanguage(language: TranslateLanguage) {
+
+    func handleDownloadDelete(language: TranslateLanguage) {
         let model = self.model(forLanguage: language)
-        if modelManager.isModelDownloaded(model) {
+        if self.isLanguageDownloaded(language) {
             modelManager.deleteDownloadedModel(model) { error in
                 if let error = error {
-                    print(error.localizedDescription)
+                    print(error)
+                } else {
+                    
+                    NotificationCenter.default.post(name: Notification.Name("ModelDeleted"), object: language)
                 }
+                
             }
+        } else {
+            let conditions = ModelDownloadConditions(
+              allowsCellularAccess: true,
+              allowsBackgroundDownloading: true
+            )
+            modelManager.download(model, conditions: conditions)
         }
-    }
-
-    func downloadLanguage(language: TranslateLanguage) {
-        let languageTranslateModel = TranslateRemoteModel.translateRemoteModel(language: language)
-        let progress = modelManager.download(languageTranslateModel, conditions: ModelDownloadConditions(
-                allowsCellularAccess: false,
-                allowsBackgroundDownloading: true
-        ))
-        progress.resume()
-    }
-    
-    @objc func remoteModelDownloadDidComplete(notificaiton: NSNotification) {
-        let userInfo = notificaiton.userInfo!
-        guard let remoteModel = userInfo[ModelDownloadUserInfoKey.remoteModel.rawValue] as? TranslateRemoteModel
-        else {
-            return
-        }
-        let languageName = Locale.current.localizedString(
-            forLanguageCode: remoteModel.language.rawValue)!
-        DispatchQueue.main.async {
-            print(languageName)
-            if notificaiton.name == .mlkitModelDownloadDidSucceed {
-                print("Success")
-            } else {
-                print("Download failed")
-            }
-        }
-    }
-    
-    
-    func handleDownloadDelete(language: TranslateLanguage) {
-        
     }
 }

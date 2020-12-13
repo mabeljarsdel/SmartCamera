@@ -61,12 +61,12 @@ class DetailChooseLanguageViewController: UIViewController {
         
         
         self.downloadedLanguages = languageModelManager.listDownloadedModels().components(separatedBy: ", ")
-        languageModelManager.downloadLanguage(language: TranslateLanguage(rawValue: "fr"))
 
         searchController.searchResultsUpdater = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(languageModelManager.remoteModelDownloadDidComplete(notificaiton:)), name: .mlkitModelDownloadDidSucceed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(languageModelManager.remoteModelDownloadDidComplete(notificaiton:)), name: .mlkitModelDownloadDidFail, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: .mlkitModelDownloadDidSucceed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: .mlkitModelDownloadDidFail, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: Notification.Name("ModelDeleted"), object: nil)
         
     }
     
@@ -124,21 +124,32 @@ class DetailChooseLanguageViewController: UIViewController {
     }
     
     //MARK: Notification Center -
-    @objc func remoteModelDownloadDidComplete(notificaiton: NSNotification) {
-        let userInfo = notificaiton.userInfo!
+    @objc func remoteModelDownloadDeleteDidComplete(notificaiton: NSNotification) {
+        guard let userInfo = notificaiton.userInfo else {
+            guard let language = notificaiton.object as? TranslateLanguage else { return }
+            print(language.rawValue)
+            let languageName = self.translatorController.locale.localizedString(forLanguageCode: language.rawValue)
+            self.downloadedLanguages = self.downloadedLanguages.filter { $0 != languageName }
+            self.tableView.reloadData()
+            print("Delete successful")
+            return
+        }
         guard let remoteModel = userInfo[ModelDownloadUserInfoKey.remoteModel.rawValue] as? TranslateRemoteModel
         else {
+
             return
         }
         let languageName = Locale.current.localizedString(
             forLanguageCode: remoteModel.language.rawValue)!
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             print(languageName)
             if notificaiton.name == .mlkitModelDownloadDidSucceed {
                 print("Success")
+                self.downloadedLanguages.append(languageName)
             } else {
                 print("Download failed")
             }
+            tableView.reloadData()
         }
     }
 }
