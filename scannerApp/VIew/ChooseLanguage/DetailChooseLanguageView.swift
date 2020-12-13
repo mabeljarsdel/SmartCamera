@@ -87,12 +87,8 @@ class DetailChooseLanguageViewController: UIViewController {
         view.addSubview(navigationBar)
         navigationBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         navigationBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-
-        if #available(iOS 11, *) {
-          navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        } else {
-          navigationBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        }
+        navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+ 
         
         view.addSubview(tableView)
 
@@ -134,13 +130,11 @@ class DetailChooseLanguageViewController: UIViewController {
             print("Delete successful")
             return
         }
-        guard let remoteModel = userInfo[ModelDownloadUserInfoKey.remoteModel.rawValue] as? TranslateRemoteModel
-        else {
-
-            return
-        }
+        guard let remoteModel = userInfo[ModelDownloadUserInfoKey.remoteModel.rawValue] as? TranslateRemoteModel else { return }
+        
         let languageName = Locale.current.localizedString(
             forLanguageCode: remoteModel.language.rawValue)!
+        
         DispatchQueue.main.async { [self] in
             print(languageName)
             if notificaiton.name == .mlkitModelDownloadDidSucceed {

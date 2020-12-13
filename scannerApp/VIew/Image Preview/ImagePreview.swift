@@ -53,7 +53,7 @@ class ImagePreview: UIViewController {
     
     private func recogniseTextFromImage() {
         let processor = ScaledElementProcessor()
-//        let translateController = TranslatorController.translatorInstance
+        let translateController = TranslatorController.translatorInstance
         self.textView.text = ""
         processor.process(in: self.imageView, callback: { text in
             

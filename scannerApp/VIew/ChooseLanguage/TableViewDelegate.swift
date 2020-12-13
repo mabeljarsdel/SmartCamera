@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension DetailChooseLanguageViewController: UITableViewDataSource, UITableViewDelegate {
+    //MARK: Delegate function-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive {
             return filteredLanguages.count
@@ -20,40 +21,15 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages[indexPath.row]
-        
         let countryName = translatorController.locale.localizedString(forLanguageCode: language.rawValue)
-        
-        
         cell.textLabel?.text = countryName
         
-        if self.downloadedLanguages.contains(countryName!) {
-            let downloadLanguage = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-            //MARK: ADD delete action
-            downloadLanguage.addTarget(self, action: #selector(didTapDownloadDeleteLanguage(_:)),
-                                  for: .touchUpInside)
-            downloadLanguage.tag = indexPath.row
-            downloadLanguage.setImage(UIImage(systemName: "x.circle"), for: .normal)
-            downloadLanguage.tintColor = .red
-            downloadLanguage.tag = indexPath.row
-            cell.accessoryView = downloadLanguage
-        } else {
-            let deleteLanguage = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-            //MARK: ADD download action
-            deleteLanguage.tag = indexPath.row
-            deleteLanguage.addTarget(self, action: #selector(didTapDownloadDeleteLanguage(_:)), for: .touchUpInside)
-            deleteLanguage.setImage(UIImage(systemName: "arrow.down.circle"), for: .normal)
-            
-            deleteLanguage.tag = indexPath.row
-            cell.accessoryView = deleteLanguage
-        }
-        
-        
+        let isLanguageDownloaded = downloadedLanguages.contains(countryName!)
+        cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: isLanguageDownloaded, indexPath: indexPath)
+
         if self.translatorController.getLanguage(languageType: self.menuType) == language {
             cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
         }
-        
         
         return cell
     }
@@ -72,5 +48,23 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
             self.dismiss(animated: true)
         }
         self.dismiss(animated: true)
+    }
+    
+    //MARK: View-
+    func buildAccessoryView(isDownloadedLanguage: Bool, indexPath: IndexPath) -> UIButton {
+        let downloadDeleteLanguageButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        downloadDeleteLanguageButton.addTarget(self, action: #selector(didTapDownloadDeleteLanguage(_:)),
+                              for: .touchUpInside)
+        downloadDeleteLanguageButton.tag = indexPath.row
+        
+        if isDownloadedLanguage {
+            downloadDeleteLanguageButton.setImage(UIImage(systemName: "x.circle"), for: .normal)
+            downloadDeleteLanguageButton.tintColor = .red
+        } else {
+            downloadDeleteLanguageButton.setImage(UIImage(systemName: "arrow.down.circle"), for: .normal)
+
+        }
+        
+        return downloadDeleteLanguageButton
     }
 }
