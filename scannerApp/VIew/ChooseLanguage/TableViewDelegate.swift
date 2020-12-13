@@ -31,6 +31,14 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
             cell.accessoryType = .checkmark
         }
         
+        if let downloadingLanguage = self.languageModelManager.downloading {
+            if language.rawValue == downloadingLanguage.rawValue {
+                let spinner = UIActivityIndicatorView(style: .medium)
+                spinner.startAnimating()
+                cell.accessoryView = spinner
+            }
+        }
+        
         return cell
     }
     

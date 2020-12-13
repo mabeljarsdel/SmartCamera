@@ -10,6 +10,7 @@ import MLKit
 
 class LanguageModelsManager {
     let modelManager = ModelManager.modelManager()
+    var downloading: TranslateLanguage?
     
     func isLanguageDownloaded(_ language: TranslateLanguage) -> Bool {
         let model = self.model(forLanguage: language)
@@ -29,7 +30,7 @@ class LanguageModelsManager {
     }
     
 
-    func handleDownloadDelete(language: TranslateLanguage) {
+    func handleDownloadDelete(language: TranslateLanguage, tag: Int) {
         let model = self.model(forLanguage: language)
         if self.isLanguageDownloaded(language) {
             modelManager.deleteDownloadedModel(model) { error in
@@ -42,11 +43,15 @@ class LanguageModelsManager {
                 
             }
         } else {
+            
             let conditions = ModelDownloadConditions(
-              allowsCellularAccess: true,
-              allowsBackgroundDownloading: true
+                allowsCellularAccess: true,
+                allowsBackgroundDownloading: true
             )
             modelManager.download(model, conditions: conditions)
+            self.downloading = language
+            NotificationCenter.default.post(name: Notification.Name("StartDownload"), object: language)
+            
         }
     }
 }

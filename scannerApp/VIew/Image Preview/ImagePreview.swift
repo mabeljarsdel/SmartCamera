@@ -64,10 +64,10 @@ class ImagePreview: UIViewController {
                 for line in block.lines {
                     
                     self.textView.text += (line.text) + "\n"
-//MARK: Translation
-//                    translateController.translate(in: line.text, callback: { translatedText in
-//                        self.textView.text += (translatedText ?? "") + "\n"
-//                    })
+                    //MARK: Translation
+                    //                    translateController.translate(in: line.text, callback: { translatedText in
+                    //                        self.textView.text += (translatedText ?? "") + "\n"
+                    //                    })
                     
                     
                     let transformedRect = line.frame.applying(self.transformMatrix())

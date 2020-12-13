@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import MLKit
 
+//MARK: TODO: reload only row, not table
 
 class DetailChooseLanguageView: UIView {
     
@@ -33,7 +34,7 @@ class DetailChooseLanguageViewController: UIViewController {
     
     var filteredLanguages = [TranslateLanguage]()
     var languageModelManager = LanguageModelsManager()
-
+    
     //MARK: View Elements
     var tableView: UITableView = {
         let tableView = UITableView()
@@ -67,6 +68,8 @@ class DetailChooseLanguageViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: .mlkitModelDownloadDidSucceed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: .mlkitModelDownloadDidFail, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: Notification.Name("ModelDeleted"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didStartDownload(notificaiton:)), name: Notification.Name("StartDownload"), object: nil)
+
         
     }
     
@@ -110,7 +113,7 @@ class DetailChooseLanguageViewController: UIViewController {
         guard let button = sender else { return }
         print(button.tag)
         let language = searchController.isActive ? filteredLanguages[button.tag] : allLanguages[button.tag]
-        self.languageModelManager.handleDownloadDelete(language: language)
+        self.languageModelManager.handleDownloadDelete(language: language, tag: button.tag)
     }
     
     
@@ -139,6 +142,7 @@ class DetailChooseLanguageViewController: UIViewController {
             print(languageName)
             if notificaiton.name == .mlkitModelDownloadDidSucceed {
                 print("Success")
+                self.languageModelManager.downloading = nil
                 self.downloadedLanguages.append(languageName)
             } else {
                 print("Download failed")
@@ -146,6 +150,10 @@ class DetailChooseLanguageViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    @objc func didStartDownload(notificaiton: NSNotification) {
+        tableView.reloadData()
+    }
+
 }
 
 
