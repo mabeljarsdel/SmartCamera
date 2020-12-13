@@ -17,6 +17,7 @@
 		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
 		81B5FE20257821D600458926 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1F257821D600458926 /* ImagePreview.swift */; };
 		81B888132586627C00EA3EE3 /* LanguageModelsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B888122586627C00EA3EE3 /* LanguageModelsManager.swift */; };
+		81B888CF2586A05000EA3EE3 /* TableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B888CE2586A05000EA3EE3 /* TableViewDelegate.swift */; };
 		81C74D0C2579A81F00287A2C /* SegmentChooseLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */; };
 		81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */; };
 		81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF82EA2573122800C953F5 /* AppDelegate.swift */; };
@@ -39,6 +40,7 @@
 		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		81B5FE1F257821D600458926 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
 		81B888122586627C00EA3EE3 /* LanguageModelsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModelsManager.swift; sourceTree = "<group>"; };
+		81B888CE2586A05000EA3EE3 /* TableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDelegate.swift; sourceTree = "<group>"; };
 		81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentChooseLanguageView.swift; sourceTree = "<group>"; };
 		81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailChooseLanguageView.swift; sourceTree = "<group>"; };
 		81FF82E72573122800C953F5 /* Translate Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Translate Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +135,7 @@
 			children = (
 				81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */,
 				81C74D212579AF8F00287A2C /* DetailChooseLanguageView.swift */,
+				81B888CE2586A05000EA3EE3 /* TableViewDelegate.swift */,
 			);
 			path = ChooseLanguage;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */,
 				81B5FE20257821D600458926 /* ImagePreview.swift in Sources */,
 				8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */,
+				81B888CF2586A05000EA3EE3 /* TableViewDelegate.swift in Sources */,
 				81B888132586627C00EA3EE3 /* LanguageModelsManager.swift in Sources */,
 				814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */,
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
