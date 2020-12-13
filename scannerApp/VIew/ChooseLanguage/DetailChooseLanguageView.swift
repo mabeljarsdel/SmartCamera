@@ -166,6 +166,9 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
         
         self.translatorController.setLanguage(languageType: self.menuType, newValue: language)
         
+        if searchController.isActive {
+            self.dismiss(animated: true)
+        }
         self.dismiss(animated: true)
     }
 }

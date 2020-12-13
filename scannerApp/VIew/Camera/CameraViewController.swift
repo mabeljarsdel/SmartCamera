@@ -19,8 +19,23 @@ class CameraViewController: UIViewController {
         button.layer.cornerRadius = 40
         button.translatesAutoresizingMaskIntoConstraints = false
         
+      
+        
+        let borderPath = UIBezierPath(arcCenter: CGPoint(x: 40, y: 40), radius: CGFloat(30), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+            
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = borderPath.cgPath
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.strokeColor = UIColor.black.cgColor
+        borderLayer.lineWidth = 2
+        button.layer.addSublayer(borderLayer)
+        
+
         return button
+        
     }()
+    
+
     
     let openGalleryButton: UIButton = {
         let button = UIButton()
