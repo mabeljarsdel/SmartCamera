@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		23E75C2550E17079AC6F73FC /* Pods_Translate_Camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95292D774CAE44DE18E9DBF4 /* Pods_Translate_Camera.framework */; };
+		814788FD258FBF3D00383673 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814788FC258FBF3D00383673 /* LanguageModel.swift */; };
 		8149FAD425783461004945A2 /* ImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD325783461004945A2 /* ImagePickerDelegate.swift */; };
 		8149FAD825783658004945A2 /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD725783658004945A2 /* CGImage.swift */; };
 		8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FADA257865B0004945A2 /* CaptureExt.swift */; };
 		814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */; };
 		8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157E406257AD927002F44D5 /* TranslatorController.swift */; };
 		817DBA7C258EF2CE00529FE1 /* LanguageRecognitionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */; };
+		817DBA9D258EFDBB00529FE1 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */; };
 		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
 		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
 		81B5FE20257821D600458926 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1F257821D600458926 /* ImagePreview.swift */; };
@@ -32,12 +34,14 @@
 
 /* Begin PBXFileReference section */
 		045D7600AA9562133528F55E /* Pods-Translate Camera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate Camera.debug.xcconfig"; path = "Target Support Files/Pods-Translate Camera/Pods-Translate Camera.debug.xcconfig"; sourceTree = "<group>"; };
+		814788FC258FBF3D00383673 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
 		8149FAD325783461004945A2 /* ImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerDelegate.swift; sourceTree = "<group>"; };
 		8149FAD725783658004945A2 /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
 		8149FADA257865B0004945A2 /* CaptureExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExt.swift; sourceTree = "<group>"; };
 		814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDocumentsExtension.swift; sourceTree = "<group>"; };
 		8157E406257AD927002F44D5 /* TranslatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorController.swift; sourceTree = "<group>"; };
 		817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageRecognitionUtils.swift; sourceTree = "<group>"; };
+		817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		81B5FE1F257821D600458926 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
@@ -104,6 +108,15 @@
 			path = Translate;
 			sourceTree = "<group>";
 		};
+		817DBA9B258EFDAD00529FE1 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */,
+				814788FC258FBF3D00383673 /* LanguageModel.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		81B5FE15257800DB00458926 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +176,7 @@
 		81FF82E92573122800C953F5 /* scannerApp */ = {
 			isa = PBXGroup;
 			children = (
+				817DBA9B258EFDAD00529FE1 /* Database */,
 				8149FAD62578364F004945A2 /* Extension */,
 				81FF833F25731DDF00C953F5 /* VIew */,
 				81FF833A25731AEF00C953F5 /* MLKit  */,
@@ -355,8 +369,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				81C74D0C2579A81F00287A2C /* SegmentChooseLanguageView.swift in Sources */,
+				814788FD258FBF3D00383673 /* LanguageModel.swift in Sources */,
 				8149FAD425783461004945A2 /* ImagePickerDelegate.swift in Sources */,
 				81B5FE1C25781AC000458926 /* CameraView.swift in Sources */,
+				817DBA9D258EFDBB00529FE1 /* UserDefaultsController.swift in Sources */,
 				8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */,
 				8149FAD825783658004945A2 /* CGImage.swift in Sources */,
 				81FF833C25731B0400C953F5 /* ScaledElementProcessor.swift in Sources */,

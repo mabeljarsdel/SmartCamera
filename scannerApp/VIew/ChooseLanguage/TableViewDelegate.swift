@@ -18,21 +18,22 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages[indexPath.row]
-        let countryName = translatorController.locale.localizedString(forLanguageCode: language.rawValue)
-        cell.textLabel?.text = countryName
+        cell.textLabel?.text = language.displayName
         
-        let isLanguageDownloaded = downloadedLanguages.contains(countryName!)
-        cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: isLanguageDownloaded, indexPath: indexPath)
 
-        if self.translatorController.getLanguage(languageType: self.menuType) == language {
+        if self.translatorController.getLanguage(languageType: self.menuType).rawValue == language.languageCode {
             cell.accessoryType = .checkmark
+            cell.accessoryView = nil
+        } else {
+            cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: language.getModelStatus(), indexPath: indexPath)
         }
         
         if let downloadingLanguage = self.languageModelManager.downloading {
-            if language.rawValue == downloadingLanguage.rawValue {
+            if language.languageCode == downloadingLanguage.languageCode {
                 let spinner = UIActivityIndicatorView(style: .medium)
                 spinner.startAnimating()
                 cell.accessoryView = spinner

@@ -16,14 +16,15 @@ enum LanguageType {
 
 
 class TranslatorController {
+    
     static let translatorInstance = TranslatorController()
     
     
     let locale = Locale.current
     var translator: Translator?
     
-    private var inputLanguage: TranslateLanguage!
-    private var outputLanguage: TranslateLanguage!
+    private var inputLanguage: LanguageModel!
+    private var outputLanguage: LanguageModel!
     
     
     private init() {
@@ -33,7 +34,7 @@ class TranslatorController {
     }
     
     
-    func setLanguage(languageType: LanguageType, newValue: TranslateLanguage) {
+    func setLanguage(languageType: LanguageType, newValue: LanguageModel) {
         let userDefController = UserDefaultsController.userDefaultsInstance
         switch languageType {
         case .input:
@@ -85,33 +86,4 @@ class TranslatorController {
 }
 
 
-
-class UserDefaultsController {
-    static let userDefaultsInstance = UserDefaultsController()
-    private var inputLangKey = "inputLanguage"
-    private var outputLangKey = "outputLanguage"
-    private var userDefaultsInstance = UserDefaults.standard
-    
-    func getLanguage(languageType: LanguageType) -> TranslateLanguage {
-        var langCode: String
-        switch languageType {
-        case .input:
-            langCode = userDefaultsInstance.string(forKey: inputLangKey) ?? "en"
-            
-        case .output:
-            langCode = userDefaultsInstance.string(forKey: outputLangKey) ?? "es"
-        }
-        
-        return TranslateLanguage(rawValue: langCode)
-    }
-    
-    func setLanguage(languageType: LanguageType, countryCode: String) {
-        switch languageType {
-        case .input:
-            userDefaultsInstance.setValue(countryCode, forKey: inputLangKey)
-        case .output:
-            userDefaultsInstance.setValue(countryCode, forKey: outputLangKey)
-        }
-    }
-}
 

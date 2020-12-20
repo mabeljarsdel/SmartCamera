@@ -105,6 +105,7 @@ class CameraViewController: UIViewController {
         super.viewWillAppear(animated)
         
         let translatorController = TranslatorController.translatorInstance
+        
         chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(
             translatorController.locale.localizedString(forLanguageCode: translatorController.getLanguage(languageType: .input).rawValue), for: .normal)
         chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(

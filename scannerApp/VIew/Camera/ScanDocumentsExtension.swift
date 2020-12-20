@@ -10,7 +10,6 @@ import VisionKit
 
 extension CameraViewController: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        print("finish with")
         let image = scan.imageOfPage(at: 0)
         
         self.takePicture = false
@@ -26,7 +25,6 @@ extension CameraViewController: VNDocumentCameraViewControllerDelegate {
         
     }
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-        print("cancel")
         dismiss(animated: true, completion: nil)
     }
 }

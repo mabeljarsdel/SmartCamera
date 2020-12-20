@@ -9,8 +9,12 @@ import Foundation
 import MLKit
 
 class LanguageModelsManager {
+    static let instance = LanguageModelsManager()
+    
+    private init() {}
+    
     let modelManager = ModelManager.modelManager()
-    var downloading: TranslateLanguage?
+    var downloading: LanguageModel?
     
     func isLanguageDownloaded(_ language: TranslateLanguage) -> Bool {
         let model = self.model(forLanguage: language)
@@ -18,40 +22,30 @@ class LanguageModelsManager {
         return modelManager.isModelDownloaded(model)
     }
     
-    func model(forLanguage: TranslateLanguage) -> TranslateRemoteModel {
+    private func model(forLanguage: TranslateLanguage) -> TranslateRemoteModel {
       return TranslateRemoteModel.translateRemoteModel(language: forLanguage)
     }
     
-    func listDownloadedModels() -> String {
-        return self.modelManager
-            .downloadedTranslateModels.map { model in
-                Locale.current.localizedString(forLanguageCode: model.language.rawValue)!
-            }.joined(separator: ", ")
-    }
-    
-
-    func handleDownloadDelete(language: TranslateLanguage, tag: Int) {
-        let model = self.model(forLanguage: language)
-        if self.isLanguageDownloaded(language) {
+    func handleDownloadDelete(language: LanguageModel, tag: Int) {
+        let model = self.model(forLanguage: language.getTranslateLanguage())
+        
+        if language.getModelStatus() {
             modelManager.deleteDownloadedModel(model) { error in
                 if let error = error {
                     print(error)
                 } else {
-                    
                     NotificationCenter.default.post(name: Notification.Name("ModelDeleted"), object: language)
                 }
-                
             }
-        } else {
             
+        } else {
             let conditions = ModelDownloadConditions(
                 allowsCellularAccess: true,
                 allowsBackgroundDownloading: true
             )
-            let process = modelManager.download(model, conditions: conditions)
+            modelManager.download(model, conditions: conditions)
             self.downloading = language
             NotificationCenter.default.post(name: Notification.Name("StartDownload"), object: language)
-            
         }
     }
 }

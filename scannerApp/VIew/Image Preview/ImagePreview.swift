@@ -62,9 +62,7 @@ class ImagePreview: UIViewController {
             for block in textResult.blocks {
                 
                 for line in block.lines {
-                    
-//                    self.textView.text += (line.text) + "\n"
-                    //MARK: Translation
+
                     translateController.translate(in: line.text, callback: { translatedText in
                         self.textView.text += (translatedText ?? "") + "\n"
                     })

@@ -11,14 +11,6 @@ import MLKit
 
 //TODO:- reload only row, not table
 
-class DetailChooseLanguageView: UIView {
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        backgroundColor = .white
-        
-    }
-}
 
 class DetailChooseLanguageViewController: UIViewController {
     
@@ -27,13 +19,17 @@ class DetailChooseLanguageViewController: UIViewController {
     //MARK: Instances
     let translatorController = TranslatorController.translatorInstance
     
-    lazy var allLanguages = TranslateLanguage.allLanguages().sorted {
-        return translatorController.locale.localizedString(forLanguageCode: $0.rawValue)!
-            < translatorController.locale.localizedString(forLanguageCode: $1.rawValue)!
-    }
+    lazy var allLanguages: [LanguageModel] = {
+        return TranslateLanguage.allLanguages()
+            .map { lang in
+                return LanguageModel(translateLanguage: lang, isDownloaded: languageModelManager.isLanguageDownloaded(lang))
+            }.sorted {
+                return $0.displayName < $1.displayName
+            }
+    }()
     
-    var filteredLanguages = [TranslateLanguage]()
-    var languageModelManager = LanguageModelsManager()
+    var filteredLanguages = [LanguageModel]()
+    var languageModelManager = LanguageModelsManager.instance
     
     //MARK: View Elements
     var tableView: UITableView = {
@@ -50,7 +46,6 @@ class DetailChooseLanguageViewController: UIViewController {
         return search
     }()
     
-    var downloadedLanguages = [String]()
     
     //MARK: Lifecycle-
     override func viewDidLoad() {
@@ -59,18 +54,16 @@ class DetailChooseLanguageViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         self.setupContstraint()
-        
-        
-        self.downloadedLanguages = languageModelManager.listDownloadedModels().components(separatedBy: ", ")
-
         searchController.searchResultsUpdater = self
         
+        self.setUpNotification()
+    }
+    
+    func setUpNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: .mlkitModelDownloadDidSucceed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: .mlkitModelDownloadDidFail, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.remoteModelDownloadDeleteDidComplete(notificaiton:)), name: Notification.Name("ModelDeleted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didStartDownload(notificaiton:)), name: Notification.Name("StartDownload"), object: nil)
-
-        
     }
     
     //MARK: View-
@@ -124,27 +117,23 @@ class DetailChooseLanguageViewController: UIViewController {
     
     //MARK: Notification Center -
     @objc func remoteModelDownloadDeleteDidComplete(notificaiton: NSNotification) {
-
+        
+        
         guard let userInfo = notificaiton.userInfo else {
             guard let language = notificaiton.object as? TranslateLanguage else { return }
-            print(language.rawValue)
-            let languageName = self.translatorController.locale.localizedString(forLanguageCode: language.rawValue)
-            self.downloadedLanguages = self.downloadedLanguages.filter { $0 != languageName }
+            self.allLanguages.filter({$0.languageCode == language.rawValue}).first?.changeModelStatus(newStatus: false)
             self.tableView.reloadData()
             print("Delete successful")
             return
         }
+        
         guard let remoteModel = userInfo[ModelDownloadUserInfoKey.remoteModel.rawValue] as? TranslateRemoteModel else { return }
         
-        let languageName = Locale.current.localizedString(
-            forLanguageCode: remoteModel.language.rawValue)!
-        
         DispatchQueue.main.async { [self] in
-            print(languageName)
             if notificaiton.name == .mlkitModelDownloadDidSucceed {
                 print("Success")
                 self.languageModelManager.downloading = nil
-                self.downloadedLanguages.append(languageName)
+                self.allLanguages.filter({$0.languageCode == remoteModel.language.rawValue}).first?.changeModelStatus(newStatus: true)
             } else {
                 print("Download failed")
             }
@@ -154,7 +143,6 @@ class DetailChooseLanguageViewController: UIViewController {
     @objc func didStartDownload(notificaiton: NSNotification) {
         tableView.reloadData()
     }
-
 }
 
 
@@ -163,11 +151,8 @@ extension DetailChooseLanguageViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
             filteredLanguages = allLanguages.filter { language in
-                guard let languageName = translatorController.locale.localizedString(forLanguageCode: language.rawValue) else { return false }
-                
-                return languageName.lowercased().contains(searchText.lowercased())
+                return language.displayName.lowercased().contains(searchText.lowercased())
             }
-            
         } else {
             filteredLanguages = allLanguages
         }

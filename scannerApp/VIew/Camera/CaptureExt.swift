@@ -22,16 +22,9 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        
-        
         let ciImage = CIImage(cvImageBuffer: cvBuffer, options: [.applyOrientationProperty : true])
-        
         guard let cgImage = ciImage.convertToCGImage() else { return }
-        
         let uiImage = UIImage(cgImage: cgImage).rotate(radians: .pi/2)
-        
-        
-        
         
         
         self.takePicture = false
@@ -65,7 +58,6 @@ extension UIImage {
 
             return rotatedImage ?? self
         }
-
         return self
     }
 }
