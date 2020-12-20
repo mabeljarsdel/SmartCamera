@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import MLKit
 
-//MARK: TODO: reload only row, not table
+//TODO:- reload only row, not table
 
 class DetailChooseLanguageView: UIView {
     
@@ -124,6 +124,7 @@ class DetailChooseLanguageViewController: UIViewController {
     
     //MARK: Notification Center -
     @objc func remoteModelDownloadDeleteDidComplete(notificaiton: NSNotification) {
+
         guard let userInfo = notificaiton.userInfo else {
             guard let language = notificaiton.object as? TranslateLanguage else { return }
             print(language.rawValue)

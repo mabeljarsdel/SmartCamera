@@ -13,6 +13,8 @@ target 'Translate Camera' do
   	pod 'GoogleMLKit/Translate'
 	pod 'Firebase'
 	pod 'Firebase/MLVision'
+	pod 'GoogleMLKit/LanguageID'
+
 
   
 end

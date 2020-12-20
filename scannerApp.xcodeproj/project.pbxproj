@@ -13,6 +13,7 @@
 		8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FADA257865B0004945A2 /* CaptureExt.swift */; };
 		814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */; };
 		8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157E406257AD927002F44D5 /* TranslatorController.swift */; };
+		817DBA7C258EF2CE00529FE1 /* LanguageRecognitionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */; };
 		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
 		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
 		81B5FE20257821D600458926 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1F257821D600458926 /* ImagePreview.swift */; };
@@ -36,6 +37,7 @@
 		8149FADA257865B0004945A2 /* CaptureExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExt.swift; sourceTree = "<group>"; };
 		814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDocumentsExtension.swift; sourceTree = "<group>"; };
 		8157E406257AD927002F44D5 /* TranslatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorController.swift; sourceTree = "<group>"; };
+		817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageRecognitionUtils.swift; sourceTree = "<group>"; };
 		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		81B5FE1F257821D600458926 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				8157E405257AD914002F44D5 /* Translate */,
 				8157E404257AD90A002F44D5 /* TextRecognition */,
+				817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */,
 			);
 			path = "MLKit ";
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */,
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
+				817DBA7C258EF2CE00529FE1 /* LanguageRecognitionUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
