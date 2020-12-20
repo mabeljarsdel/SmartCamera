@@ -20,9 +20,7 @@ class TranslatorController {
     static let translatorInstance = TranslatorController()
     
     
-    let locale = Locale.current
-    var translator: Translator?
-    
+    private let locale = Locale.current
     private var inputLanguage: LanguageModel!
     private var outputLanguage: LanguageModel!
     
@@ -39,15 +37,15 @@ class TranslatorController {
         switch languageType {
         case .input:
             self.inputLanguage = newValue
-            userDefController.setLanguage(languageType: .input, countryCode: newValue.rawValue)
+            userDefController.setLanguage(languageType: .input, countryCode: newValue.languageCode!)
             
         case .output:
             self.outputLanguage = newValue
-            userDefController.setLanguage(languageType: .output, countryCode: newValue.rawValue)
+            userDefController.setLanguage(languageType: .output, countryCode: newValue.languageCode!)
         }
     }
     
-    func getLanguage(languageType: LanguageType) -> TranslateLanguage {
+    func getLanguage(languageType: LanguageType) -> LanguageModel {
         switch languageType {
         case .input:
             return inputLanguage
@@ -57,32 +55,83 @@ class TranslatorController {
     }
     
     func translate(in text: String, callback: @escaping (_ text: String?) -> Void) {
-        let options = TranslatorOptions(sourceLanguage: inputLanguage, targetLanguage: outputLanguage)
-        translator = Translator.translator(options: options)
+        //TODO: check is autodetection
+        //TODO: get new language
+        //TODO: set language in options
+//        if checkIsAutodetection() {
+//
+//        } else {
+//            let options = TranslatorOptions(sourceLanguage: self.inputLanguage.getTranslateLanguage(), targetLanguage: self.outputLanguage.getTranslateLanguage())
+//            translator = Translator.translator(options: options)
+//        }
+//
+//        //MARK: Implement packet manager
         
-        //MARK: Implement packet manager
-        
-        let translatorForDownloading = self.translator!
-
-        translatorForDownloading.downloadModelIfNeeded { error in
-            guard error == nil else {
-                print(error?.localizedDescription as Any)
-                return
-            }
+        self.createLanguageOption(text: text, callback: { translatorOptions in
             
-            if translatorForDownloading == self.translator {
-                translatorForDownloading.translate(text) { result, error in
-                    guard error == nil else {
-                        print(error?.localizedDescription as Any)
-                        return
-                    }
-                    if translatorForDownloading == self.translator {
-                        callback(result)
+            let translatorForDownloading = Translator.translator(options: translatorOptions)
+
+            translatorForDownloading.downloadModelIfNeeded { error in
+                guard error == nil else {
+                    print(error?.localizedDescription as Any)
+                    return
+                }
+                
+                if translatorForDownloading == translatorForDownloading {
+                    translatorForDownloading.translate(text) { result, error in
+                        guard error == nil else {
+                            print(error?.localizedDescription as Any)
+                            return
+                        }
+                        if translatorForDownloading == translatorForDownloading {
+                            callback(result)
+                        }
                     }
                 }
             }
-        }
+        })
+        
+
     }
+    
+    private func createLanguageOption(text: String, callback: @escaping (_ options: TranslatorOptions) -> Void) {
+        //TODO: check is autodetection
+        
+        if checkIsAutodetection() {
+            //TODO: get new language
+            
+            let languageRecogUtil = LanguageRecognitionUtil.instance
+            languageRecogUtil.identityLanguage(from: text, callback: { identLanguage in
+                guard let recognizedLanguageCode = identLanguage?.first?.languageTag else {
+                    print("error when recognise language")
+                    return
+                }
+                
+                let translatedLanguage = TranslateLanguage(rawValue: recognizedLanguageCode)
+                
+                callback(TranslatorOptions(sourceLanguage: translatedLanguage, targetLanguage: self.outputLanguage.getTranslateLanguage()))
+
+            })
+            
+        } else {
+            
+            callback(TranslatorOptions(sourceLanguage: self.inputLanguage.getTranslateLanguage(), targetLanguage: self.outputLanguage.getTranslateLanguage()))
+        }
+        
+        
+        
+    }
+    
+    private func checkIsAutodetection() -> Bool {
+        if self.inputLanguage.displayName == Constant.autodetectionIdentifier {
+            return true
+        }
+        return false
+    }
+    
+    
+    
+
 }
 
 

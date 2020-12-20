@@ -25,11 +25,13 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
         cell.textLabel?.text = language.displayName
         
 
-        if self.translatorController.getLanguage(languageType: self.menuType).rawValue == language.languageCode {
+        if self.translatorController.getLanguage(languageType: self.menuType).languageCode == language.languageCode {
             cell.accessoryType = .checkmark
             cell.accessoryView = nil
         } else {
-            cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: language.getModelStatus(), indexPath: indexPath)
+            if language.displayName != "Autodetection" {
+                cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: language.getModelStatus(), indexPath: indexPath)
+            }
         }
         
         if let downloadingLanguage = self.languageModelManager.downloading {

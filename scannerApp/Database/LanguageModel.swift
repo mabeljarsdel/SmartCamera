@@ -9,7 +9,7 @@ import Foundation
 import MLKit
 
 
-class LanguageModel {
+class LanguageModel: Equatable {
     private let translateLanguage: TranslateLanguage
     private var isDownloaded: Bool
     let languageCode: String?
@@ -18,7 +18,7 @@ class LanguageModel {
     init(translateLanguage: TranslateLanguage, isDownloaded: Bool) {
         self.translateLanguage = translateLanguage
         self.languageCode = translateLanguage.rawValue
-        self.displayName = Locale.current.localizedString(forLanguageCode: translateLanguage.rawValue) ?? "Autodetection"
+        self.displayName = Locale.current.localizedString(forLanguageCode: translateLanguage.rawValue) ?? Constant.autodetectionIdentifier
         self.isDownloaded = isDownloaded
     }
     
@@ -32,5 +32,9 @@ class LanguageModel {
     
     func changeModelStatus(newStatus: Bool) {
         self.isDownloaded = newStatus
+    }
+    
+    static func ==(lhs: LanguageModel, rhs: LanguageModel) -> Bool {
+        return lhs.languageCode == rhs.languageCode && lhs.displayName == rhs.displayName
     }
 }

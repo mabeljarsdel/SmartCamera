@@ -17,7 +17,7 @@ class UserDefaultsController {
     private var outputLangKey = "outputLanguage"
     private var userDefaultsInstance = UserDefaults.standard
     
-    func getLanguage(languageType: LanguageType) -> TranslateLanguage {
+    func getLanguage(languageType: LanguageType) -> LanguageModel {
         var langCode: String
         switch languageType {
         case .input:
@@ -26,8 +26,8 @@ class UserDefaultsController {
         case .output:
             langCode = userDefaultsInstance.string(forKey: outputLangKey) ?? "es"
         }
-        
-        return TranslateLanguage(rawValue: langCode)
+        let translateLanguage = TranslateLanguage(rawValue: langCode)
+        return LanguageModel(translateLanguage: translateLanguage, isDownloaded: LanguageModelsManager.instance.isLanguageDownloaded(translateLanguage))
     }
     
     func setLanguage(languageType: LanguageType, countryCode: String) {

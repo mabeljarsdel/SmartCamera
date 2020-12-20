@@ -50,6 +50,11 @@ class DetailChooseLanguageViewController: UIViewController {
     //MARK: Lifecycle-
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.menuType == .input {
+            self.allLanguages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false), at: 0)
+        }
+        
         self.view.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
@@ -120,8 +125,8 @@ class DetailChooseLanguageViewController: UIViewController {
         
         
         guard let userInfo = notificaiton.userInfo else {
-            guard let language = notificaiton.object as? TranslateLanguage else { return }
-            self.allLanguages.filter({$0.languageCode == language.rawValue}).first?.changeModelStatus(newStatus: false)
+            guard let language = notificaiton.object as? LanguageModel else { return }
+            self.allLanguages.filter({$0 == language}).first?.changeModelStatus(newStatus: false)
             self.tableView.reloadData()
             print("Delete successful")
             return
