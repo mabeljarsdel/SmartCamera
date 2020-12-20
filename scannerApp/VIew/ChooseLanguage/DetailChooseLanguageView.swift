@@ -81,16 +81,18 @@ class DetailChooseLanguageViewController: UIViewController {
         standaloneItem.searchController = searchController
         let navigationBar = UINavigationBar()
         navigationBar.delegate = self
-        navigationBar.backgroundColor = .white
         navigationBar.items = [standaloneItem]
 
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(navigationBar)
-        navigationBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        navigationBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
- 
         
+        navigationBar.snp.makeConstraints { make in
+            make.left.equalTo(view.snp.left)
+            make.right.equalTo(view.snp.right)
+            make.top.equalTo(view.snp.topMargin)
+        }
+        
+
         view.addSubview(tableView)
 
         tableView.snp.makeConstraints { make in
@@ -104,6 +106,9 @@ class DetailChooseLanguageViewController: UIViewController {
     
     //MARK: Action-
     @objc func dismissView() {
+        if self.searchController.isActive {
+            self.dismiss(animated: true)
+        }
         self.dismiss(animated: true)
     }
     
@@ -170,4 +175,3 @@ extension DetailChooseLanguageViewController: UINavigationBarDelegate {
         return UIBarPosition.topAttached
     }
 }
-

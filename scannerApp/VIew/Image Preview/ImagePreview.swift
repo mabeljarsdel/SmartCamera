@@ -61,12 +61,13 @@ class ImagePreview: UIViewController {
             
             for block in textResult.blocks {
                 
+                translateController.translate(in: block.text, callback: { translatedText in
+                    self.textView.text += (translatedText ?? "") + "\n"
+                })
+                
                 for line in block.lines {
 
-                    translateController.translate(in: line.text, callback: { translatedText in
-                        self.textView.text += (translatedText ?? "") + "\n"
-                    })
-                    
+ 
                     
                     let transformedRect = line.frame.applying(self.transformMatrix())
                     self.addRectangle(transformedRect, to: self.imageView, color: .blue)

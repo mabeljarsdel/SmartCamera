@@ -55,35 +55,24 @@ class TranslatorController {
     }
     
     func translate(in text: String, callback: @escaping (_ text: String?) -> Void) {
-        //TODO: check is autodetection
-        //TODO: get new language
-        //TODO: set language in options
-//        if checkIsAutodetection() {
-//
-//        } else {
-//            let options = TranslatorOptions(sourceLanguage: self.inputLanguage.getTranslateLanguage(), targetLanguage: self.outputLanguage.getTranslateLanguage())
-//            translator = Translator.translator(options: options)
-//        }
-//
-//        //MARK: Implement packet manager
         
         self.createLanguageOption(text: text, callback: { translatorOptions in
             
-            let translatorForDownloading = Translator.translator(options: translatorOptions)
+            let translator = Translator.translator(options: translatorOptions)
 
-            translatorForDownloading.downloadModelIfNeeded { error in
+            translator.downloadModelIfNeeded { error in
                 guard error == nil else {
                     print(error?.localizedDescription as Any)
                     return
                 }
                 
-                if translatorForDownloading == translatorForDownloading {
-                    translatorForDownloading.translate(text) { result, error in
+                if translator == translator {
+                    translator.translate(text) { result, error in
                         guard error == nil else {
                             print(error?.localizedDescription as Any)
                             return
                         }
-                        if translatorForDownloading == translatorForDownloading {
+                        if translator == translator {
                             callback(result)
                         }
                     }
@@ -96,7 +85,7 @@ class TranslatorController {
     
     private func createLanguageOption(text: String, callback: @escaping (_ options: TranslatorOptions) -> Void) {
         //TODO: check is autodetection
-        
+
         if checkIsAutodetection() {
             //TODO: get new language
             
@@ -106,20 +95,15 @@ class TranslatorController {
                     print("error when recognise language")
                     return
                 }
-                
                 let translatedLanguage = TranslateLanguage(rawValue: recognizedLanguageCode)
                 
+                print(translatedLanguage)
                 callback(TranslatorOptions(sourceLanguage: translatedLanguage, targetLanguage: self.outputLanguage.getTranslateLanguage()))
-
             })
-            
         } else {
             
             callback(TranslatorOptions(sourceLanguage: self.inputLanguage.getTranslateLanguage(), targetLanguage: self.outputLanguage.getTranslateLanguage()))
         }
-        
-        
-        
     }
     
     private func checkIsAutodetection() -> Bool {
@@ -128,10 +112,6 @@ class TranslatorController {
         }
         return false
     }
-    
-    
-    
-
 }
 
 
