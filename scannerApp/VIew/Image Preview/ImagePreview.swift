@@ -13,6 +13,7 @@ import AVFoundation
 
 class ImagePreview: UIViewController {
     
+    //MARK: View
     var imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -39,6 +40,7 @@ class ImagePreview: UIViewController {
         return sv
     }()
     
+    //MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,10 +53,12 @@ class ImagePreview: UIViewController {
         self.recogniseTextFromImage()
     }
     
+    
     private func recogniseTextFromImage() {
         let processor = ScaledElementProcessor()
         let translateController = TranslatorController.translatorInstance
         self.textView.text = ""
+        
         processor.process(in: self.imageView, callback: { text in
             
             guard let textResult = text else { return }
@@ -75,13 +79,14 @@ class ImagePreview: UIViewController {
                 }
             }
         })
-
     }
 }
 
 
 extension ImagePreview {
+    
     func setUpConstaint() {
+        
         self.view.addSubview(scrollView)
         
         scrollView.snp.makeConstraints { make in

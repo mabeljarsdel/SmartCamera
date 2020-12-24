@@ -18,18 +18,11 @@ class DetailChooseLanguageViewController: UIViewController {
     
     //MARK: Instances
     let translatorController = TranslatorController.translatorInstance
+    lazy var allLanguages = LanguageStore.instance
+    var languageModelManager = LanguageModelsManager.instance
     
-    lazy var allLanguages: [LanguageModel] = {
-        return TranslateLanguage.allLanguages()
-            .map { lang in
-                return LanguageModel(translateLanguage: lang, isDownloaded: languageModelManager.isLanguageDownloaded(lang))
-            }.sorted {
-                return $0.displayName < $1.displayName
-            }
-    }()
     
     var filteredLanguages = [LanguageModel]()
-    var languageModelManager = LanguageModelsManager.instance
     
     //MARK: View Elements
     var tableView: UITableView = {
@@ -51,16 +44,18 @@ class DetailChooseLanguageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if self.menuType == .input {
-            self.allLanguages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false), at: 0)
+        if self.menuType == .input && self.allLanguages.languages[0] != LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false) {
+            self.allLanguages.languages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false), at: 0)
         }
         
         self.view.backgroundColor = .white
+        
         tableView.dataSource = self
         tableView.delegate = self
-        self.setupContstraint()
         searchController.searchResultsUpdater = self
+
         
+        self.setupContstraint()
         self.setUpNotification()
     }
     
@@ -115,13 +110,12 @@ class DetailChooseLanguageViewController: UIViewController {
     @objc func didTapDownloadDeleteLanguage(_ sender: UIButton?) {
         guard let button = sender else { return }
         print(button.tag)
-        let language = searchController.isActive ? filteredLanguages[button.tag] : allLanguages[button.tag]
+        let language = searchController.isActive ? filteredLanguages[button.tag] : allLanguages.languages[button.tag]
         self.languageModelManager.handleDownloadDelete(language: language, tag: button.tag)
     }
     
     
     @objc func CancelClicked(sender: UIBarButtonItem) {
-        print("Cancel clicked!")
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -131,7 +125,7 @@ class DetailChooseLanguageViewController: UIViewController {
         
         guard let userInfo = notificaiton.userInfo else {
             guard let language = notificaiton.object as? LanguageModel else { return }
-            self.allLanguages.filter({$0 == language}).first?.changeModelStatus(newStatus: false)
+            self.allLanguages.languages.filter({$0 == language}).first?.changeModelStatus(newStatus: false)
             self.tableView.reloadData()
             print("Delete successful")
             return
@@ -141,9 +135,9 @@ class DetailChooseLanguageViewController: UIViewController {
         
         DispatchQueue.main.async { [self] in
             if notificaiton.name == .mlkitModelDownloadDidSucceed {
-                print("Success")
+                print("Download successful")
                 self.languageModelManager.downloading = nil
-                self.allLanguages.filter({$0.languageCode == remoteModel.language.rawValue}).first?.changeModelStatus(newStatus: true)
+                self.allLanguages.languages.filter({$0.languageCode == remoteModel.language.rawValue}).first?.changeModelStatus(newStatus: true)
             } else {
                 print("Download failed")
             }
@@ -160,11 +154,11 @@ class DetailChooseLanguageViewController: UIViewController {
 extension DetailChooseLanguageViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
-            filteredLanguages = allLanguages.filter { language in
+            filteredLanguages = allLanguages.languages.filter { language in
                 return language.displayName.lowercased().contains(searchText.lowercased())
             }
         } else {
-            filteredLanguages = allLanguages
+            filteredLanguages = allLanguages.languages
         }
         tableView.reloadData()
     }

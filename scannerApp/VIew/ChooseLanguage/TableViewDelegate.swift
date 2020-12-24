@@ -14,14 +14,14 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
         if searchController.isActive {
             return filteredLanguages.count
         }
-        return allLanguages.count
+        return allLanguages.languages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages[indexPath.row]
+        let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages.languages[indexPath.row]
         cell.textLabel?.text = language.displayName
         
 
@@ -47,7 +47,7 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages[indexPath.row]
+        let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages.languages[indexPath.row]
 
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark

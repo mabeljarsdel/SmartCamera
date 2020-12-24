@@ -12,7 +12,7 @@ import AVFoundation
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-                
+        
         if !takePicture {
             return //we have nothing to do with the image buffer
         }

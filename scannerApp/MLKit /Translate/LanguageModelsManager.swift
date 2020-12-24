@@ -16,6 +16,9 @@ class LanguageModelsManager {
     let modelManager = ModelManager.modelManager()
     var downloading: LanguageModel?
     
+
+    
+    
     func isLanguageDownloaded(_ language: TranslateLanguage) -> Bool {
         let model = self.model(forLanguage: language)
         let modelManager = ModelManager.modelManager()
@@ -43,9 +46,11 @@ class LanguageModelsManager {
                 allowsCellularAccess: true,
                 allowsBackgroundDownloading: true
             )
-            modelManager.download(model, conditions: conditions)
+            let progress = modelManager.download(model, conditions: conditions)
+
             self.downloading = language
             NotificationCenter.default.post(name: Notification.Name("StartDownload"), object: language)
         }
     }
+    
 }

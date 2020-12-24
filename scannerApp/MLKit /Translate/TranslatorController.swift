@@ -59,7 +59,7 @@ class TranslatorController {
         self.createLanguageOption(text: text, callback: { translatorOptions in
             
             let translator = Translator.translator(options: translatorOptions)
-
+            
             translator.downloadModelIfNeeded { error in
                 guard error == nil else {
                     print(error?.localizedDescription as Any)
@@ -79,16 +79,13 @@ class TranslatorController {
                 }
             }
         })
-        
-
     }
     
+    
+    
     private func createLanguageOption(text: String, callback: @escaping (_ options: TranslatorOptions) -> Void) {
-        //TODO: check is autodetection
 
         if checkIsAutodetection() {
-            //TODO: get new language
-            
             let languageRecogUtil = LanguageRecognitionUtil.instance
             languageRecogUtil.identityLanguage(from: text, callback: { identLanguage in
                 guard let recognizedLanguageCode = identLanguage?.first?.languageTag else {
@@ -97,11 +94,11 @@ class TranslatorController {
                 }
                 let translatedLanguage = TranslateLanguage(rawValue: recognizedLanguageCode)
                 
-                print(translatedLanguage)
+                print("recognised language \(self.locale.localizedString(forLanguageCode: translatedLanguage.rawValue) ?? "None"), translate to \(self.outputLanguage.displayName)")
                 callback(TranslatorOptions(sourceLanguage: translatedLanguage, targetLanguage: self.outputLanguage.getTranslateLanguage()))
             })
         } else {
-            
+            print("recognised language \(self.inputLanguage.getTranslateLanguage().rawValue), translate to \(self.outputLanguage.getTranslateLanguage().rawValue)")
             callback(TranslatorOptions(sourceLanguage: self.inputLanguage.getTranslateLanguage(), targetLanguage: self.outputLanguage.getTranslateLanguage()))
         }
     }

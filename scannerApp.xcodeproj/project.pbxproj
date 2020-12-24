@@ -10,6 +10,7 @@
 		23E75C2550E17079AC6F73FC /* Pods_Translate_Camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95292D774CAE44DE18E9DBF4 /* Pods_Translate_Camera.framework */; };
 		814788FD258FBF3D00383673 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814788FC258FBF3D00383673 /* LanguageModel.swift */; };
 		8147891C258FCFF100383673 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147891B258FCFF100383673 /* Constant.swift */; };
+		8147891F258FF1A200383673 /* LanguageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147891E258FF1A200383673 /* LanguageStore.swift */; };
 		8149FAD425783461004945A2 /* ImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD325783461004945A2 /* ImagePickerDelegate.swift */; };
 		8149FAD825783658004945A2 /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FAD725783658004945A2 /* CGImage.swift */; };
 		8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FADA257865B0004945A2 /* CaptureExt.swift */; };
@@ -37,6 +38,7 @@
 		045D7600AA9562133528F55E /* Pods-Translate Camera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate Camera.debug.xcconfig"; path = "Target Support Files/Pods-Translate Camera/Pods-Translate Camera.debug.xcconfig"; sourceTree = "<group>"; };
 		814788FC258FBF3D00383673 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
 		8147891B258FCFF100383673 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		8147891E258FF1A200383673 /* LanguageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageStore.swift; sourceTree = "<group>"; };
 		8149FAD325783461004945A2 /* ImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerDelegate.swift; sourceTree = "<group>"; };
 		8149FAD725783658004945A2 /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
 		8149FADA257865B0004945A2 /* CaptureExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExt.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */,
 				814788FC258FBF3D00383673 /* LanguageModel.swift */,
+				8147891E258FF1A200383673 /* LanguageStore.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				8147891C258FCFF100383673 /* Constant.swift in Sources */,
 				81FF82EB2573122800C953F5 /* AppDelegate.swift in Sources */,
 				81C74D222579AF8F00287A2C /* DetailChooseLanguageView.swift in Sources */,
+				8147891F258FF1A200383673 /* LanguageStore.swift in Sources */,
 				81B5FE20257821D600458926 /* ImagePreview.swift in Sources */,
 				8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */,
 				81B888CF2586A05000EA3EE3 /* TableViewDelegate.swift in Sources */,
