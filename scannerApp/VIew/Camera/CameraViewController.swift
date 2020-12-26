@@ -205,7 +205,16 @@ class CameraViewController: UIViewController {
     }
     
     @objc func openSettings(_ sender: UIButton?) {
+        let settingsView = SettingsView()
+        settingsView.modalPresentationStyle = .formSheet
+        self.present(settingsView, animated: true)
+    }
+    
+    @objc func openHistory(_ sender: UIButton?) {
+            let settingsView = HistoryView()
+            settingsView.modalPresentationStyle = .formSheet
         
+            self.present(UINavigationController(rootViewController: settingsView), animated: true)
     }
 }
 
@@ -258,6 +267,8 @@ extension CameraViewController {
         }
         
         flashButton.addTarget(self, action: #selector(turnOnFlash(_:)), for: .touchUpInside)
+        settingsButton.addTarget(self, action: #selector(openSettings(_:)), for: .touchUpInside)
+        historyButton.addTarget(self, action: #selector(openHistory(_:)), for: .touchUpInside)
         captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         openGalleryButton.addTarget(self, action: #selector(openGallery(_:)), for: .touchUpInside)
         openScanDocumentsButton.addTarget(self, action: #selector(openScanDocuments(_:)), for: .touchUpInside)

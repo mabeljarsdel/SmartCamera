@@ -144,6 +144,7 @@ class DetailChooseLanguageViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    
     @objc func didStartDownload(notificaiton: NSNotification) {
         tableView.reloadData()
     }
