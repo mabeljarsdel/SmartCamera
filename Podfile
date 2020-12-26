@@ -9,12 +9,12 @@ target 'Translate Camera' do
 	
 	pod 'GoogleMLKit/TextRecognition'
 	pod 'SnapKit', '~> 5.0.0'
-  	pod 'GoogleMLKit/LanguageID'
-  	pod 'GoogleMLKit/Translate'
+  pod 'GoogleMLKit/LanguageID'
+  pod 'GoogleMLKit/Translate'
 	pod 'Firebase'
 	pod 'GoogleMLKit/LanguageID'
 	pod 'Firebase/MLVision'
-  
+  pod 'Firebase/MLNLTranslate'  
 end
 
 post_install do |installer|

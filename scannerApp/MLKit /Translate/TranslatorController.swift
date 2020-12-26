@@ -83,6 +83,7 @@ class TranslatorController {
     
     
     
+    
     private func createLanguageOption(text: String, callback: @escaping (_ options: TranslatorOptions) -> Void) {
 
         if checkIsAutodetection() {

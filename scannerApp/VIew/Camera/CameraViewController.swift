@@ -111,8 +111,6 @@ class CameraViewController: UIViewController {
         
     }
     
-    
-    
     //MARK:- Actions
     
     @objc func openDetailView(_ sender: UIButton) {

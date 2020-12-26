@@ -46,7 +46,8 @@ class LanguageModelsManager {
                 allowsCellularAccess: true,
                 allowsBackgroundDownloading: true
             )
-            let progress = modelManager.download(model, conditions: conditions)
+            
+            modelManager.download(model, conditions: conditions)
 
             self.downloading = language
             NotificationCenter.default.post(name: Notification.Name("StartDownload"), object: language)

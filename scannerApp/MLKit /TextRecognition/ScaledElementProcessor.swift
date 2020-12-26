@@ -23,7 +23,9 @@ class ScaledElementProcessor {
 
     func process(in imageView: UIImageView,
                  callback: @escaping (_ text: Text?) -> Void) {
-
+        
+        print("Process in device text recognise")
+        
         guard let image = imageView.image else { return }
         
 
@@ -44,6 +46,9 @@ class ScaledElementProcessor {
     
     func processCloudRecognition(in imageView: UIImageView,
                  callback: @escaping (_ text: VisionText?) -> Void) {
+        
+        print("Process cloud text recognise")
+        
         let vision = Vision.vision()
         let textRecognizer = vision.cloudTextRecognizer()
 

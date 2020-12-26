@@ -16,6 +16,7 @@
 		8149FADB257865B0004945A2 /* CaptureExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149FADA257865B0004945A2 /* CaptureExt.swift */; };
 		814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */; };
 		8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157E406257AD927002F44D5 /* TranslatorController.swift */; };
+		8168C4B025965D2D008BCE6E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8168C4AF25965D2D008BCE6E /* Reachability.swift */; };
 		817DBA7C258EF2CE00529FE1 /* LanguageRecognitionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */; };
 		817DBA9D258EFDBB00529FE1 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */; };
 		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
@@ -44,6 +45,7 @@
 		8149FADA257865B0004945A2 /* CaptureExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExt.swift; sourceTree = "<group>"; };
 		814FBEB52583F4F000E2EDDD /* ScanDocumentsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDocumentsExtension.swift; sourceTree = "<group>"; };
 		8157E406257AD927002F44D5 /* TranslatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorController.swift; sourceTree = "<group>"; };
+		8168C4AF25965D2D008BCE6E /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageRecognitionUtils.swift; sourceTree = "<group>"; };
 		817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				81FF82F02573122800C953F5 /* Main.storyboard */,
 				81FF831C2573146200C953F5 /* asset */,
 				8147891B258FCFF100383673 /* Constant.swift */,
+				8168C4AF25965D2D008BCE6E /* Reachability.swift */,
 			);
 			path = scannerApp;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				8147891F258FF1A200383673 /* LanguageStore.swift in Sources */,
 				81B5FE20257821D600458926 /* ImagePreview.swift in Sources */,
 				8157E407257AD927002F44D5 /* TranslatorController.swift in Sources */,
+				8168C4B025965D2D008BCE6E /* Reachability.swift in Sources */,
 				81B888CF2586A05000EA3EE3 /* TableViewDelegate.swift in Sources */,
 				81B888132586627C00EA3EE3 /* LanguageModelsManager.swift in Sources */,
 				814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */,
