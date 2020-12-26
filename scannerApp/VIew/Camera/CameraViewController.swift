@@ -22,7 +22,7 @@ class CameraViewController: UIViewController {
       
         
         let borderPath = UIBezierPath(arcCenter: CGPoint(x: 40, y: 40), radius: CGFloat(30), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
-            
+        
         let borderLayer = CAShapeLayer()
         borderLayer.path = borderPath.cgPath
         borderLayer.fillColor = UIColor.clear.cgColor
@@ -30,7 +30,6 @@ class CameraViewController: UIViewController {
         borderLayer.lineWidth = 2
         button.layer.addSublayer(borderLayer)
         
-
         return button
         
     }()
@@ -55,6 +54,34 @@ class CameraViewController: UIViewController {
         return button
     }()
     
+    
+    let flashButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "bolt.circle.fill")
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let settingsButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "gear")
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let historyButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "clock.fill")
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     let cameraView: CameraView = {
         let cameraView = CameraView()
         cameraView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,6 +99,10 @@ class CameraViewController: UIViewController {
         chooseLanguageView.swapButton.addTarget(self, action: #selector(swapLanguageButton(_:)), for: .touchUpInside)
         return chooseLanguageView
     }()
+    
+    
+    
+    
     
     
     var takePicture: Bool = false
@@ -160,6 +191,22 @@ class CameraViewController: UIViewController {
 
         present(controller, animated: true)
     }
+    
+    @objc func turnOnFlash(_ sender: UIButton?) {
+        do {
+            try self.cameraView.device.lockForConfiguration()
+            self.cameraView.device.torchMode = self.cameraView.device.torchMode == .on ? .off : .on
+            if self.cameraView.device.torchMode == .on {
+                try self.cameraView.device.setTorchModeOn(level: 1)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    @objc func openSettings(_ sender: UIButton?) {
+        
+    }
 }
 
 
@@ -170,26 +217,47 @@ extension CameraViewController {
         view.addSubview(captureImageButton)
         view.addSubview(openGalleryButton)
         view.addSubview(openScanDocumentsButton)
+        view.addSubview(flashButton)
+        view.addSubview(settingsButton)
+        view.addSubview(historyButton)
         
         captureImageButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(80)
-            make.bottom.equalTo(view.snp.bottom).offset(-40)
+            make.bottom.equalTo(view.snp.bottom).offset(-30)
             make.centerX.equalTo(view.snp.centerX)
         }
         
         openGalleryButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(50)
-            make.bottom.equalTo(view.snp.bottom).offset(-55)
+            make.bottom.equalTo(view.snp.bottom).offset(-45)
             make.left.equalTo(view.snp.left).offset(25)
         }
         
         openScanDocumentsButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(50)
-            make.bottom.equalTo(view.snp.bottom).offset(-55)
+            make.bottom.equalTo(view.snp.bottom).offset(-45)
             make.right.equalTo(view.snp.right).offset(-25)
         }
         
+        flashButton.snp.makeConstraints { make in
+            make.width.height.equalTo(50)
+            make.bottom.equalTo(captureImageButton.snp.top)
+            make.left.equalTo(view.snp.left).offset(25)
+        }
         
+        settingsButton.snp.makeConstraints { make in
+            make.width.height.equalTo(50)
+            make.bottom.equalTo(captureImageButton.snp.top)
+            make.right.equalTo(view.snp.right).offset(-25)
+        }
+        
+        historyButton.snp.makeConstraints { make in
+            make.width.height.equalTo(50)
+            make.bottom.equalTo(captureImageButton.snp.top)
+            make.centerX.equalTo(view.snp.centerX)
+        }
+        
+        flashButton.addTarget(self, action: #selector(turnOnFlash(_:)), for: .touchUpInside)
         captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         openGalleryButton.addTarget(self, action: #selector(openGallery(_:)), for: .touchUpInside)
         openScanDocumentsButton.addTarget(self, action: #selector(openScanDocuments(_:)), for: .touchUpInside)

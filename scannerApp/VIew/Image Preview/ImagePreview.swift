@@ -22,7 +22,7 @@ class ImagePreview: UIViewController {
         
     }()
     
-    var textView: UITextView = {
+    let textView: UITextView = {
         
         let tv = UITextView()
         tv.isScrollEnabled = true
@@ -38,6 +38,15 @@ class ImagePreview: UIViewController {
         sv.translatesAutoresizingMaskIntoConstraints = false
 
         return sv
+    }()
+    
+    let activityIndicator: UIActivityIndicatorView = {
+        var ai = UIActivityIndicatorView(style: .large)
+        ai.isHidden = true
+        ai.startAnimating()
+        ai.translatesAutoresizingMaskIntoConstraints = false
+        
+        return ai
     }()
     
     //MARK: View life cycle
@@ -67,12 +76,11 @@ class ImagePreview: UIViewController {
                 
                 translateController.translate(in: block.text, callback: { translatedText in
                     self.textView.text += (translatedText ?? "") + "\n"
+                    self.activityIndicator.isHidden = true
                 })
                 
                 for line in block.lines {
-
- 
-                    
+   
                     let transformedRect = line.frame.applying(self.transformMatrix())
                     self.addRectangle(transformedRect, to: self.imageView, color: .blue)
                     
@@ -99,7 +107,6 @@ extension ImagePreview {
         
         self.scrollView.addSubview(imageView)
         self.scrollView.addSubview(textView)
-
         
         imageView.snp.makeConstraints { make in
             
@@ -116,6 +123,15 @@ extension ImagePreview {
         textView.snp.makeConstraints { make in
             make.width.equalTo(view.snp.width).offset(-30)
             make.topMargin.equalTo(imageView.snp.bottomMargin).offset(20)
+            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
+            make.centerX.equalTo(scrollView.snp.centerX)
+        }
+        
+        self.scrollView.addSubview(activityIndicator)
+
+        activityIndicator.snp.makeConstraints { make in
+            make.width.equalTo(view.snp.width).offset(-30)
+            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(50)
             make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
             make.centerX.equalTo(scrollView.snp.centerX)
         }

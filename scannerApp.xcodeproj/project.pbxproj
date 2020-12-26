@@ -114,6 +114,20 @@
 			path = Translate;
 			sourceTree = "<group>";
 		};
+		8168C4D8259725A0008BCE6E /* HistoryView  */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "HistoryView ";
+			sourceTree = "<group>";
+		};
+		8168C4D9259725A7008BCE6E /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
 		817DBA9B258EFDAD00529FE1 /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +243,8 @@
 		81FF833F25731DDF00C953F5 /* VIew */ = {
 			isa = PBXGroup;
 			children = (
+				8168C4D9259725A7008BCE6E /* SettingsView */,
+				8168C4D8259725A0008BCE6E /* HistoryView  */,
 				81C74D242579AF9600287A2C /* ChooseLanguage */,
 				81C74D092579A7DE00287A2C /* Image Preview */,
 				81B5FE15257800DB00458926 /* Camera */,

@@ -59,8 +59,10 @@ class TranslatorController {
         self.createLanguageOption(text: text, callback: { translatorOptions in
             
             let translator = Translator.translator(options: translatorOptions)
-            
-            translator.downloadModelIfNeeded { error in
+            let condition = ModelDownloadConditions(
+                allowsCellularAccess: true, allowsBackgroundDownloading: true
+            )
+            translator.downloadModelIfNeeded(with: condition) { error in
                 guard error == nil else {
                     print(error?.localizedDescription as Any)
                     return
@@ -80,8 +82,6 @@ class TranslatorController {
             }
         })
     }
-    
-    
     
     
     private func createLanguageOption(text: String, callback: @escaping (_ options: TranslatorOptions) -> Void) {
