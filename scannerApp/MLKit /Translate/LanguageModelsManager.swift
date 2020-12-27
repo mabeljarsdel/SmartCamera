@@ -8,13 +8,15 @@
 import Foundation
 import MLKit
 
+
+
 class LanguageModelsManager {
     static let instance = LanguageModelsManager()
     
     private init() {}
     
     let modelManager = ModelManager.modelManager()
-    var downloading: LanguageModel?
+    var downloading = [LanguageModel]()
     
 
     
@@ -29,7 +31,7 @@ class LanguageModelsManager {
       return TranslateRemoteModel.translateRemoteModel(language: forLanguage)
     }
     
-    func handleDownloadDelete(language: LanguageModel, tag: Int) {
+    func handleDownloadDelete(language: LanguageModel) {
         let model = self.model(forLanguage: language.getTranslateLanguage())
         
         if language.getModelStatus() {
@@ -46,12 +48,16 @@ class LanguageModelsManager {
                 allowsCellularAccess: true,
                 allowsBackgroundDownloading: true
             )
+            self.downloading.append(language)
             
-            modelManager.download(model, conditions: conditions)
-
-            self.downloading = language
+            if let downloading = self.downloading.first {
+                if downloading == language {
+                    modelManager.download(model, conditions: conditions)
+                }
+            }
+            
+            
             NotificationCenter.default.post(name: Notification.Name("StartDownload"), object: language)
         }
     }
-    
 }

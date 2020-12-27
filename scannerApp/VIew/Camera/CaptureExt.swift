@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import AVFoundation
 
-
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
@@ -24,6 +23,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
+        
         
         let ciImage = CIImage(cvImageBuffer: cvBuffer, options: [.applyOrientationProperty : true])
         guard let cgImage = ciImage.convertToCGImage() else { return }

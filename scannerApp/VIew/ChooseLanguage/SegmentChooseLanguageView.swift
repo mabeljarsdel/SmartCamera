@@ -73,4 +73,3 @@ class ChooseLanguageSegmentView: UIView {
     }
 }
 
-

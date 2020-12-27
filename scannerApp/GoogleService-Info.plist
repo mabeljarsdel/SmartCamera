@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>571136414110-0fnmnp2q324lu7geoorbkv7536b5frvq.apps.googleusercontent.com</string>
+	<string>571136414110-vu1a7438bcau71lodeu6f0vt2i8hlh5p.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.571136414110-0fnmnp2q324lu7geoorbkv7536b5frvq</string>
+	<string>com.googleusercontent.apps.571136414110-vu1a7438bcau71lodeu6f0vt2i8hlh5p</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCtv55fLvRGSGG1egVMdN8Ot9sFLF1Ybuk</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>btoj.scannerApp</string>
+	<string>btoj.translateCamera</string>
 	<key>PROJECT_ID</key>
 	<string>scanner-apps-f88b4</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:571136414110:ios:83f6a13cfedf7e6741468f</string>
+	<string>1:571136414110:ios:8dfdbf53a0e72b4e41468f</string>
 	<key>DATABASE_URL</key>
 	<string>https://scanner-apps-f88b4.firebaseio.com</string>
 </dict>

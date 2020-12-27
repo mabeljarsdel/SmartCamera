@@ -18,28 +18,31 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        //build cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let language = searchController.isActive ? filteredLanguages[indexPath.row] : allLanguages.languages[indexPath.row]
+        
         cell.textLabel?.text = language.displayName
         
-
+        
+        //build accessoryView
         if self.translatorController.getLanguage(languageType: self.menuType).languageCode == language.languageCode {
             cell.accessoryType = .checkmark
             cell.accessoryView = nil
+            
         } else {
-            if language.displayName != "Autodetection" {
+            if language.displayName != Constant.autodetectionIdentifier {
                 cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: language.getModelStatus(), indexPath: indexPath)
+            } else {
+                return cell
             }
         }
         
-        if let downloadingLanguage = self.languageModelManager.downloading {
-            if language.languageCode == downloadingLanguage.languageCode {
-                let spinner = UIActivityIndicatorView(style: .medium)
-                spinner.startAnimating()
-                cell.accessoryView = spinner
-            }
+        if self.languageModelManager.downloading.filter({ $0 == language }).first == language {
+            let spinner = UIActivityIndicatorView(style: .medium)
+            spinner.startAnimating()
+            cell.accessoryView = spinner
         }
         
         return cell
@@ -55,8 +58,10 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
         
         self.translatorController.setLanguage(languageType: self.menuType, newValue: language)
         
+        
+        NotificationCenter.default.post(name: Notification.Name("LanugageChanged"), object: self.menuType)
         if searchController.isActive {
-            self.dismiss(animated: true)
+            self.dismiss(animated: false)
         }
         self.dismiss(animated: true)
     }

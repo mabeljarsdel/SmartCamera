@@ -100,12 +100,8 @@ class CameraViewController: UIViewController {
         return chooseLanguageView
     }()
     
-    
-    
-    
-    
-    
     var takePicture: Bool = false
+    
     //MARK:- Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,7 +110,7 @@ class CameraViewController: UIViewController {
         self.configCameraViewConstraints()
         self.setupView()
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged(notification:)), name: Notification.Name("LanugageChanged"), object: nil)
         
         view.addSubview(self.chooseLanguageView)
         
@@ -131,6 +127,16 @@ class CameraViewController: UIViewController {
 
     }
     
+    @objc func languageChanged(notification: NSNotification) {
+        guard let languageType = notification.object as? LanguageType else { return }
+        let translatorController = TranslatorController.translatorInstance
+        if languageType == .input {
+            self.chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(translatorController.getLanguage(languageType: .input).displayName, for: .normal)
+        } else {
+            self.chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(translatorController.getLanguage(languageType: .output).displayName, for: .normal)
+            
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -151,14 +157,19 @@ class CameraViewController: UIViewController {
         } else {
             detailView.menuType = .output
         }
-        detailView.modalPresentationStyle = .fullScreen
-        self.present(detailView, animated: true)
+        detailView.modalPresentationStyle = .formSheet
+        self.present(UINavigationController(rootViewController: detailView), animated: true)
     }
     
     @objc func swapLanguageButton(_ sender: UIButton?) {
-        let translatorController = TranslatorController.translatorInstance
-        let tempOutputLanguage = translatorController.getLanguage(languageType: .output)
         
+        let translatorController = TranslatorController.translatorInstance
+        
+        if translatorController.getLanguage(languageType: .input).displayName == Constant.autodetectionIdentifier {
+            return
+        }
+        
+        let tempOutputLanguage = translatorController.getLanguage(languageType: .output)
         
         translatorController.setLanguage(languageType: .output, newValue: translatorController.getLanguage(languageType: .input))
         translatorController.setLanguage(languageType: .input, newValue: tempOutputLanguage)

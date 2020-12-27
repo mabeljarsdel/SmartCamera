@@ -25,25 +25,23 @@ class DetailChooseLanguageViewController: UIViewController {
     var filteredLanguages = [LanguageModel]()
     
     //MARK: View Elements
-    var tableView: UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()
 
-    var searchController: UISearchController = {
+    let searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
         search.obscuresBackgroundDuringPresentation = false
         search.searchBar.placeholder = "Search"
         return search
     }()
-    
-    
+
     //MARK: Lifecycle-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if self.menuType == .input && self.allLanguages.languages[0] != LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false) {
             self.allLanguages.languages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false), at: 0)
         }
@@ -54,7 +52,7 @@ class DetailChooseLanguageViewController: UIViewController {
         tableView.delegate = self
         searchController.searchResultsUpdater = self
 
-        
+        self.setupNavigationBar()
         self.setupContstraint()
         self.setUpNotification()
     }
@@ -68,55 +66,32 @@ class DetailChooseLanguageViewController: UIViewController {
     
     //MARK: View-
     func setupContstraint() {
-
-        let standaloneItem = UINavigationItem()
-        standaloneItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissView))
-
-        standaloneItem.titleView = UILabel()
-        standaloneItem.searchController = searchController
-        let navigationBar = UINavigationBar()
-        navigationBar.delegate = self
-        navigationBar.items = [standaloneItem]
-
-        navigationBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(navigationBar)
-        
-        navigationBar.snp.makeConstraints { make in
-            make.left.equalTo(view.snp.left)
-            make.right.equalTo(view.snp.right)
-            make.top.equalTo(view.snp.topMargin)
-        }
-        
-
         view.addSubview(tableView)
 
         tableView.snp.makeConstraints { make in
             make.left.equalTo(view.snp.left)
             make.right.equalTo(view.snp.right)
             make.bottom.equalTo(view.snp.bottom)
-            make.top.equalTo(navigationBar.snp.bottom)
+            make.top.equalTo(view.snp.top)
         }
+    }
+    
+    func setupNavigationBar() {
+        self.title = self.menuType == .input ? "Translate from" : "Translate to"
+
+        self.searchController.hidesNavigationBarDuringPresentation = true
+        self.searchController.searchResultsUpdater = self
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.searchController = self.searchController
     }
     
     
     //MARK: Action-
-    @objc func dismissView() {
-        if self.searchController.isActive {
-            self.dismiss(animated: true)
-        }
-        self.dismiss(animated: true)
-    }
     
     @objc func didTapDownloadDeleteLanguage(_ sender: UIButton?) {
         guard let button = sender else { return }
-        print(button.tag)
         let language = searchController.isActive ? filteredLanguages[button.tag] : allLanguages.languages[button.tag]
-        self.languageModelManager.handleDownloadDelete(language: language, tag: button.tag)
-    }
-    
-    
-    @objc func CancelClicked(sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
+        self.languageModelManager.handleDownloadDelete(language: language)
     }
     
     //MARK: Notification Center -
@@ -124,7 +99,9 @@ class DetailChooseLanguageViewController: UIViewController {
         
         
         guard let userInfo = notificaiton.userInfo else {
+            
             guard let language = notificaiton.object as? LanguageModel else { return }
+            
             self.allLanguages.languages.filter({$0 == language}).first?.changeModelStatus(newStatus: false)
             self.tableView.reloadData()
             print("Delete successful")
@@ -136,7 +113,11 @@ class DetailChooseLanguageViewController: UIViewController {
         DispatchQueue.main.async { [self] in
             if notificaiton.name == .mlkitModelDownloadDidSucceed {
                 print("Download successful")
-                self.languageModelManager.downloading = nil
+                self.languageModelManager.downloading = self.languageModelManager.downloading.filter({ $0.languageCode != remoteModel.language.rawValue })
+                if let firstInStack = self.languageModelManager.downloading.first {
+                    self.languageModelManager.handleDownloadDelete(language: firstInStack)
+                }
+                
                 self.allLanguages.languages.filter({$0.languageCode == remoteModel.language.rawValue}).first?.changeModelStatus(newStatus: true)
             } else {
                 print("Download failed")
@@ -146,11 +127,10 @@ class DetailChooseLanguageViewController: UIViewController {
     }
     
     @objc func didStartDownload(notificaiton: NSNotification) {
+        print("download started")
         tableView.reloadData()
     }
 }
-
-
 
 extension DetailChooseLanguageViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -162,11 +142,5 @@ extension DetailChooseLanguageViewController: UISearchResultsUpdating {
             filteredLanguages = allLanguages.languages
         }
         tableView.reloadData()
-    }
-}
-
-extension DetailChooseLanguageViewController: UINavigationBarDelegate {
-    func position(for bar: UIBarPositioning) -> UIBarPosition {
-        return UIBarPosition.topAttached
     }
 }
