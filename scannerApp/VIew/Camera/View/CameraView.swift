@@ -64,15 +64,18 @@ class CameraView: UIView {
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
             self.device = device
         } else {
-            fatalError("no back camera")
+            print("no back camera")
+            return
         }
         
         guard let backInput = try? AVCaptureDeviceInput(device: device) else {
-            fatalError("could not create input device from back camera")
+            print("could not create input device from back camera")
+            return
         }
         
         if !session.canAddInput(backInput) {
-            fatalError("couldnt add back camera input")
+            print("couldnt add back camera input")
+            return
         }
         self.input = backInput
         session.addInput(backInput)

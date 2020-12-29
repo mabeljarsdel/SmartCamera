@@ -34,8 +34,6 @@ class CameraViewController: UIViewController {
         
     }()
     
-
-    
     let openGalleryButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "photo")

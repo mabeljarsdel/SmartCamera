@@ -7,12 +7,15 @@
 
 import Foundation
 import MLKit
+import MLKitLanguageID
+
+
 
 
 class LanguageModel: Equatable {
     private let translateLanguage: TranslateLanguage
     private var isDownloaded: Bool
-    let languageCode: String?
+    let languageCode: String
     let displayName: String
     
     init(translateLanguage: TranslateLanguage, isDownloaded: Bool) {
@@ -38,3 +41,6 @@ class LanguageModel: Equatable {
         return lhs.languageCode == rhs.languageCode && lhs.displayName == rhs.displayName
     }
 }
+
+
+

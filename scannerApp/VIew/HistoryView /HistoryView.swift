@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import CoreData
 
 class HistoryView: UIViewController {
     //MARK: View Elements
@@ -25,19 +25,27 @@ class HistoryView: UIViewController {
         return tableView
     }()
     
+    var historyCell: [NSManagedObject] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupView()
+        let coreDataController = CoreDataController()
+        self.historyCell = coreDataController.fetchFromHistory()
+    }
+    
+    func setupView() {
         self.title = "History"
         self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.delegate = self
+        self.searchController.searchResultsUpdater = self
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = self.searchController
         self.navigationItem.largeTitleDisplayMode = .always
-        self.searchController.delegate = self
-        self.searchController.searchResultsUpdater = self
-        self.view.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
-        
+        self.view.backgroundColor = .white
+
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
@@ -57,17 +65,18 @@ extension HistoryView: UISearchControllerDelegate, UISearchResultsUpdating {
 
 extension HistoryView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return historyCell.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "History"
+        let historyCell = self.historyCell[indexPath.row]
+        cell.textLabel?.text = historyCell.value(forKeyPath: HistoryModelConstant.fromLanguage) as? String
         return cell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
-    }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationController?.pushViewController(HistoryDetailView(cell: self.historyCell[indexPath.row]), animated: true)
+    }
 }
 

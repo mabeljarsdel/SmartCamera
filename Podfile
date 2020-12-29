@@ -14,7 +14,7 @@ target 'Translate Camera' do
 	pod 'Firebase'
 	pod 'GoogleMLKit/LanguageID'
 	pod 'Firebase/MLVision'
-  pod 'Firebase/MLNLTranslate'  
+  pod 'Firebase/MLNLTranslate'
 end
 
 post_install do |installer|

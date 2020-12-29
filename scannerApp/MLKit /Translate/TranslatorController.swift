@@ -37,11 +37,11 @@ class TranslatorController {
         switch languageType {
         case .input:
             self.inputLanguage = newValue
-            userDefController.setLanguage(languageType: .input, countryCode: newValue.languageCode!)
+            userDefController.setLanguage(languageType: .input, countryCode: newValue.languageCode)
             
         case .output:
             self.outputLanguage = newValue
-            userDefController.setLanguage(languageType: .output, countryCode: newValue.languageCode!)
+            userDefController.setLanguage(languageType: .output, countryCode: newValue.languageCode)
         }
     }
     
@@ -93,6 +93,7 @@ class TranslatorController {
                     print("error when recognise language")
                     return
                 }
+                
                 let translatedLanguage = TranslateLanguage(rawValue: recognizedLanguageCode)
                 
                 print("recognised language \(self.locale.localizedString(forLanguageCode: translatedLanguage.rawValue) ?? "None"), translate to \(self.outputLanguage.displayName)")

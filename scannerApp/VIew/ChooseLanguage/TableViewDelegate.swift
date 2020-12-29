@@ -31,12 +31,11 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
             cell.accessoryType = .checkmark
             cell.accessoryView = nil
             
+        } else if language.displayName == Constant.autodetectionIdentifier {
+            cell.accessoryView = nil
+            return cell
         } else {
-            if language.displayName != Constant.autodetectionIdentifier {
-                cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: language.getModelStatus(), indexPath: indexPath)
-            } else {
-                return cell
-            }
+            cell.accessoryView = self.buildAccessoryView(isDownloadedLanguage: language.getModelStatus(), indexPath: indexPath)
         }
         
         if self.languageModelManager.downloading.filter({ $0 == language }).first == language {

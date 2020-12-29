@@ -10,7 +10,6 @@ import UIKit
 import AVFoundation
 
 
-
 class ImagePreview: UIViewController {
     
     //MARK: View
@@ -49,6 +48,9 @@ class ImagePreview: UIViewController {
         return ai
     }()
     
+    var historyModel = HistoryModelStruct()
+
+    
     //MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,8 +60,17 @@ class ImagePreview: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
         self.recogniseTextFromImage()
+        
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        let translateController = TranslatorController.translatorInstance
+        let coreDataController = CoreDataController()
+        historyModel.translatedText = self.textView.text
+        historyModel.toLanguage = translateController.getLanguage(languageType: .output).languageCode
+        historyModel.fromLanguage = translateController.getLanguage(languageType: .input).languageCode
+        coreDataController.saveToHistory(historyModelStruct: self.historyModel)
     }
     
     
@@ -67,6 +78,7 @@ class ImagePreview: UIViewController {
         let processor = ScaledElementProcessor()
         let translateController = TranslatorController.translatorInstance
         self.textView.text = ""
+        
         
         processor.process(in: self.imageView, callback: { text in
             
@@ -77,15 +89,15 @@ class ImagePreview: UIViewController {
                 translateController.translate(in: block.text, callback: { translatedText in
                     self.textView.text += (translatedText ?? "") + "\n"
                     self.activityIndicator.isHidden = true
+                    
                 })
                 
                 for line in block.lines {
-   
                     let transformedRect = line.frame.applying(self.transformMatrix())
                     self.addRectangle(transformedRect, to: self.imageView, color: .blue)
-                    
                 }
             }
+            self.historyModel.text = textResult.text
         })
     }
 }
@@ -136,8 +148,7 @@ extension ImagePreview {
             make.centerX.equalTo(scrollView.snp.centerX)
         }
         
-        self.view.backgroundColor = .white
-        
+        self.scrollView.backgroundColor = .systemBackground
     }
     
     public func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor) {
@@ -194,5 +205,4 @@ extension ImagePreview {
             }
         }
     }
-    
 }
