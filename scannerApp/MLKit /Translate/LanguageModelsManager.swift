@@ -12,14 +12,10 @@ import MLKit
 
 class LanguageModelsManager {
     static let instance = LanguageModelsManager()
-    
-    private init() {}
-    
     let modelManager = ModelManager.modelManager()
     var downloading = [LanguageModel]()
     
-
-    
+    private init() {}
     
     func isLanguageDownloaded(_ language: TranslateLanguage) -> Bool {
         let model = self.model(forLanguage: language)
@@ -28,7 +24,7 @@ class LanguageModelsManager {
     }
     
     private func model(forLanguage: TranslateLanguage) -> TranslateRemoteModel {
-      return TranslateRemoteModel.translateRemoteModel(language: forLanguage)
+        return TranslateRemoteModel.translateRemoteModel(language: forLanguage)
     }
     
     func handleDownloadDelete(language: LanguageModel) {

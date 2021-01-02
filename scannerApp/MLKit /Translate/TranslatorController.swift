@@ -16,42 +16,13 @@ enum LanguageType {
 
 
 class TranslatorController {
-    
     static let translatorInstance = TranslatorController()
-    
-    
     private let locale = Locale.current
-    private var inputLanguage: LanguageModel!
-    private var outputLanguage: LanguageModel!
+    private var inputLanguage: TranslateLanguage?
+    private var outputLanguage: TranslateLanguage?
     
-    
-    private init() {
-        let userDefController = UserDefaultsController.userDefaultsInstance
-        self.inputLanguage = userDefController.getLanguage(languageType: .input)
-        self.outputLanguage = userDefController.getLanguage(languageType: .output)
-    }
-    
-    
-    func setLanguage(languageType: LanguageType, newValue: LanguageModel) {
-        let userDefController = UserDefaultsController.userDefaultsInstance
-        switch languageType {
-        case .input:
-            self.inputLanguage = newValue
-            userDefController.setLanguage(languageType: .input, countryCode: newValue.languageCode)
-            
-        case .output:
-            self.outputLanguage = newValue
-            userDefController.setLanguage(languageType: .output, countryCode: newValue.languageCode)
-        }
-    }
-    
-    func getLanguage(languageType: LanguageType) -> LanguageModel {
-        switch languageType {
-        case .input:
-            return inputLanguage
-        case .output:
-            return outputLanguage
-        }
+    func getInputLanguage() -> TranslateLanguage {
+        return inputLanguage!
     }
     
     func translate(in text: String, callback: @escaping (_ text: String?) -> Void) {
@@ -85,6 +56,8 @@ class TranslatorController {
     
     
     private func createLanguageOption(text: String, callback: @escaping (_ options: TranslatorOptions) -> Void) {
+        let input = ChooseLanguageModel.instance.getLanguage(languageType: .input)
+        let output = ChooseLanguageModel.instance.getLanguage(languageType: .output)
 
         if checkIsAutodetection() {
             let languageRecogUtil = LanguageRecognitionUtil.instance
@@ -96,17 +69,22 @@ class TranslatorController {
                 
                 let translatedLanguage = TranslateLanguage(rawValue: recognizedLanguageCode)
                 
-                print("recognised language \(self.locale.localizedString(forLanguageCode: translatedLanguage.rawValue) ?? "None"), translate to \(self.outputLanguage.displayName)")
-                callback(TranslatorOptions(sourceLanguage: translatedLanguage, targetLanguage: self.outputLanguage.getTranslateLanguage()))
+                print("recognised language \(self.locale.localizedString(forLanguageCode: translatedLanguage.rawValue) ?? "None"), translate to \(output.displayName)")
+                self.inputLanguage = translatedLanguage
+                self.outputLanguage = output.getTranslateLanguage()
+                callback(TranslatorOptions(sourceLanguage: self.inputLanguage!, targetLanguage: self.outputLanguage!))
             })
         } else {
-            print("recognised language \(self.inputLanguage.getTranslateLanguage().rawValue), translate to \(self.outputLanguage.getTranslateLanguage().rawValue)")
-            callback(TranslatorOptions(sourceLanguage: self.inputLanguage.getTranslateLanguage(), targetLanguage: self.outputLanguage.getTranslateLanguage()))
+            print("recognised language \(input), translate to \(output)")
+            self.inputLanguage = input.getTranslateLanguage()
+            self.outputLanguage = output.getTranslateLanguage()
+            callback(TranslatorOptions(sourceLanguage: self.inputLanguage!, targetLanguage: self.outputLanguage!))
         }
     }
     
     private func checkIsAutodetection() -> Bool {
-        if self.inputLanguage.displayName == Constant.autodetectionIdentifier {
+        let chooseLanguageModel = ChooseLanguageModel.instance
+        if chooseLanguageModel.getLanguage(languageType: .input).displayName == Constant.autodetectionIdentifier {
             return true
         }
         return false

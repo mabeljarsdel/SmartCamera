@@ -14,7 +14,7 @@ class LanguageStore {
     var languages: [LanguageModel] = {
         return TranslateLanguage.allLanguages()
             .map { lang in
-                return LanguageModel(translateLanguage: lang, isDownloaded: LanguageModelsManager.instance.isLanguageDownloaded(lang))
+                return LanguageModel(translateLanguage: lang)
             }.sorted {
                 return $0.displayName < $1.displayName
             }

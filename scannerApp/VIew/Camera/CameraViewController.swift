@@ -127,11 +127,11 @@ class CameraViewController: UIViewController {
     
     @objc func languageChanged(notification: NSNotification) {
         guard let languageType = notification.object as? LanguageType else { return }
-        let translatorController = TranslatorController.translatorInstance
+        let chooseLanguageModel = ChooseLanguageModel.instance
         if languageType == .input {
-            self.chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(translatorController.getLanguage(languageType: .input).displayName, for: .normal)
+            self.chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(chooseLanguageModel.getLanguage(languageType: .input).displayName, for: .normal)
         } else {
-            self.chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(translatorController.getLanguage(languageType: .output).displayName, for: .normal)
+            self.chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(chooseLanguageModel.getLanguage(languageType: .output).displayName, for: .normal)
             
         }
     }
@@ -139,10 +139,10 @@ class CameraViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let translatorController = TranslatorController.translatorInstance
+        let chooseLanguageModel = ChooseLanguageModel.instance
         
-        chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(translatorController.getLanguage(languageType: .input).displayName, for: .normal)
-        chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(translatorController.getLanguage(languageType: .output).displayName, for: .normal)
+        chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(chooseLanguageModel.getLanguage(languageType: .input).displayName, for: .normal)
+        chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(chooseLanguageModel.getLanguage(languageType: .output).displayName, for: .normal)
         
     }
     
@@ -161,19 +161,19 @@ class CameraViewController: UIViewController {
     
     @objc func swapLanguageButton(_ sender: UIButton?) {
         
-        let translatorController = TranslatorController.translatorInstance
+        let chooseLanguageModel = ChooseLanguageModel.instance
         
-        if translatorController.getLanguage(languageType: .input).displayName == Constant.autodetectionIdentifier {
+        if chooseLanguageModel.getLanguage(languageType: .input).displayName == Constant.autodetectionIdentifier {
             return
         }
         
-        let tempOutputLanguage = translatorController.getLanguage(languageType: .output)
+        let tempOutputLanguage = chooseLanguageModel.getLanguage(languageType: .output)
         
-        translatorController.setLanguage(languageType: .output, newValue: translatorController.getLanguage(languageType: .input))
-        translatorController.setLanguage(languageType: .input, newValue: tempOutputLanguage)
+        chooseLanguageModel.setLanguage(languageType: .output, newValue: chooseLanguageModel.getLanguage(languageType: .input))
+        chooseLanguageModel.setLanguage(languageType: .input, newValue: tempOutputLanguage)
         
-        chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(translatorController.getLanguage(languageType: .input).displayName, for: .normal)
-        chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(translatorController.getLanguage(languageType: .output).displayName, for: .normal)
+        chooseLanguageView.buttonOfLanguageFromTranslate.setTitle(chooseLanguageModel.getLanguage(languageType: .input).displayName, for: .normal)
+        chooseLanguageView.buttonOfTranslateIntoLanguage.setTitle(chooseLanguageModel.getLanguage(languageType: .output).displayName, for: .normal)
         
     }
     

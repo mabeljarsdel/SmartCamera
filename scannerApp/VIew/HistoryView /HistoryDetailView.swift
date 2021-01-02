@@ -57,24 +57,32 @@ class HistoryDetailView: UIViewController {
 
     
     //Cell model
-    private var model: NSManagedObject
+    private var model: HistoryModel
     
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.sourceLanguageLabel.text = self.model.value(forKeyPath: HistoryModelConstant.fromLanguage) as? String
-        self.targetLanguageLabel.text = self.model.value(forKeyPath: HistoryModelConstant.toLanguage) as? String
-        self.textView.text = self.model.value(forKeyPath: HistoryModelConstant.text) as? String
-        self.translatedTextView.text = self.model.value(forKeyPath: HistoryModelConstant.translatedText) as? String
+        self.sourceLanguageLabel.text = Locale.current.localizedString(forLanguageCode: self.model.fromLanguage!)
+        self.targetLanguageLabel.text = Locale.current.localizedString(forLanguageCode: self.model.toLanguage!)
+        self.textView.text = self.model.text
+        self.translatedTextView.text = self.model.translatedText
         
         view.backgroundColor = .systemBackground
-//        self.scrollView.backgroundColor = .systemBackground
-        
         self.setupConstaint()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        let contentRect: CGRect = scrollView.subviews.reduce(into: .zero) { rect, view in
+            rect = rect.union(view.frame)
+        }
+        scrollView.contentSize = contentRect.size
+        print(scrollView.contentSize)
+    }
+    
     //MARK: Initializer
-    init(cell: NSManagedObject) {
+    init(cell: HistoryModel) {
         self.model = cell
         super.init(nibName: nil, bundle: nil)
     }
@@ -110,7 +118,7 @@ class HistoryDetailView: UIViewController {
         
         textView.snp.makeConstraints { make in
             make.top.equalTo(sourceLanguageLabel.snp.bottom)
-            make.width.equalTo(view.frame.width)
+            make.width.equalTo(view.frame.width-20)
         }
         
         targetLanguageLabel.snp.makeConstraints { make in
@@ -120,12 +128,10 @@ class HistoryDetailView: UIViewController {
         
         translatedTextView.snp.makeConstraints { make in
             make.top.equalTo(targetLanguageLabel.snp.bottom)
-            make.width.equalTo(view.frame.width)
+            make.width.equalTo(view.frame.width-20)
         }
         
-        scrollView.contentSize.height = sourceLanguageLabel.intrinsicContentSize.height + textView.intrinsicContentSize.height + targetLanguageLabel.intrinsicContentSize.height + translatedTextView.intrinsicContentSize.height + 20
-        
-        print(scrollView.contentSize.height)
+
     }
 }
 

@@ -25,13 +25,14 @@ class HistoryView: UIViewController {
         return tableView
     }()
     
-    var historyCell: [NSManagedObject] = []
+    var historyCell: [HistoryModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
         let coreDataController = CoreDataController()
         self.historyCell = coreDataController.fetchFromHistory()
+        self.historyCell = self.historyCell.sorted(by: { $0.time! > $1.time! })
     }
     
     func setupView() {
@@ -69,9 +70,24 @@ extension HistoryView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
         let historyCell = self.historyCell[indexPath.row]
-        cell.textLabel?.text = historyCell.value(forKeyPath: HistoryModelConstant.fromLanguage) as? String
+        let dateFormatter = DateFormatter()
+        let calendar = Calendar.current
+        // Set Date Format
+        
+        cell.accessoryType = .disclosureIndicator
+        
+        if calendar.isDateInToday(historyCell.time!) {
+            dateFormatter.dateFormat = "HH:mm"   // 20, Oct 29, 14:18:31
+        } else {
+            dateFormatter.dateFormat = "YY:MM:dd"
+        }
+        
+        
+        cell.textLabel?.text = historyCell.fromLanguage! + " -> " + historyCell.toLanguage!
+        cell.detailTextLabel?.text = dateFormatter.string(from: historyCell.time!)
+
         return cell
     }
     

@@ -18,11 +18,11 @@ class LanguageModel: Equatable {
     let languageCode: String
     let displayName: String
     
-    init(translateLanguage: TranslateLanguage, isDownloaded: Bool) {
+    init(translateLanguage: TranslateLanguage) {
         self.translateLanguage = translateLanguage
         self.languageCode = translateLanguage.rawValue
         self.displayName = Locale.current.localizedString(forLanguageCode: translateLanguage.rawValue) ?? Constant.autodetectionIdentifier
-        self.isDownloaded = isDownloaded
+        self.isDownloaded = LanguageModelsManager.instance.isLanguageDownloaded(translateLanguage)
     }
     
     func getTranslateLanguage() -> TranslateLanguage {

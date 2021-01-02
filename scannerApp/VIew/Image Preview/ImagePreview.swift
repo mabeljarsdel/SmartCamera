@@ -48,7 +48,17 @@ class ImagePreview: UIViewController {
         return ai
     }()
     
-    var historyModel = HistoryModelStruct()
+    var historyModel: HistoryModel = {
+        if let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate {
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            let hm = HistoryModel(context: managedContext)
+            return hm
+        } else {
+            return HistoryModel()
+        }
+    }()
 
     
     //MARK: View life cycle
@@ -65,11 +75,10 @@ class ImagePreview: UIViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        let translateController = TranslatorController.translatorInstance
         let coreDataController = CoreDataController()
         historyModel.translatedText = self.textView.text
-        historyModel.toLanguage = translateController.getLanguage(languageType: .output).languageCode
-        historyModel.fromLanguage = translateController.getLanguage(languageType: .input).languageCode
+        historyModel.toLanguage = ChooseLanguageModel.instance.getLanguage(languageType: .output).languageCode
+        historyModel.time = Date()
         coreDataController.saveToHistory(historyModelStruct: self.historyModel)
     }
     
@@ -89,7 +98,9 @@ class ImagePreview: UIViewController {
                 translateController.translate(in: block.text, callback: { translatedText in
                     self.textView.text += (translatedText ?? "") + "\n"
                     self.activityIndicator.isHidden = true
-                    
+
+                    self.historyModel.fromLanguage = translateController.getInputLanguage().rawValue
+
                 })
                 
                 for line in block.lines {

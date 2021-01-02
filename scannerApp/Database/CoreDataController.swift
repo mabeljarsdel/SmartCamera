@@ -11,22 +11,12 @@ import UIKit
 
 class CoreDataController {
     
-    func saveToHistory(historyModelStruct: HistoryModelStruct) {
+    func saveToHistory(historyModelStruct: HistoryModel) {
         guard let appDelegate =
                 UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let entity = NSEntityDescription.entity(forEntityName: "HistoryModel", in: managedContext)
-        
-        let history = NSManagedObject(entity: entity!, insertInto: managedContext)
-        
-        history.setValue(historyModelStruct.fromLanguage, forKey: HistoryModelConstant.fromLanguage)
-        history.setValue(historyModelStruct.toLanguage, forKey: HistoryModelConstant.toLanguage)
-        history.setValue(Date(), forKey: HistoryModelConstant.time)
-        history.setValue(historyModelStruct.text, forKey: HistoryModelConstant.text)
-        history.setValue(historyModelStruct.translatedText, forKey: HistoryModelConstant.translatedText)
         
         do {
             try managedContext.save()
@@ -35,19 +25,19 @@ class CoreDataController {
         }
     }
     
-    func fetchFromHistory() -> [NSManagedObject] {
+    func fetchFromHistory() -> [HistoryModel] {
         guard let appDelegate =
                 UIApplication.shared.delegate as? AppDelegate else {
-            return  [NSManagedObject]()
+            return  [HistoryModel]()
         }
         let managedContext = appDelegate.persistentContainer.viewContext
         
 
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HistoryModel")
         request.returnsObjectsAsFaults = false
-        var historyCell = [NSManagedObject]()
+        var historyCell = [HistoryModel]()
         do {
-            let result = try managedContext.fetch(request) as! [NSManagedObject]
+            let result = try managedContext.fetch(request) as! [HistoryModel]
             historyCell = result
         } catch {
             print("failed fatching of history")
@@ -56,12 +46,6 @@ class CoreDataController {
     }
 }
 
-struct HistoryModelStruct {
-    var fromLanguage: String = ""
-    var toLanguage: String = ""
-    var text: String = ""
-    var translatedText: String = ""
-}
 
 class HistoryModelConstant {
     static let fromLanguage = "fromLanguage"

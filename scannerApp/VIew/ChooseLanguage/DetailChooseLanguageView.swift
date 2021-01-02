@@ -17,8 +17,16 @@ class DetailChooseLanguageViewController: UIViewController {
     var menuType: LanguageType!
     
     //MARK: Instances
-    let translatorController = TranslatorController.translatorInstance
-    lazy var allLanguages = LanguageStore.instance
+    lazy var allLanguages: [LanguageModel] = {
+        return TranslateLanguage.allLanguages()
+            .map { lang in
+                return LanguageModel(translateLanguage: lang)
+            }.sorted {
+                return $0.displayName < $1.displayName
+            }
+    }()
+
+    let translatorController = ChooseLanguageModel.instance
     var languageModelManager = LanguageModelsManager.instance
     
     
@@ -42,8 +50,8 @@ class DetailChooseLanguageViewController: UIViewController {
     //MARK: Lifecycle-
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.menuType == .input && self.allLanguages.languages[0] != LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false) {
-            self.allLanguages.languages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: "auto"), isDownloaded: false), at: 0)
+        if self.menuType == .input && self.allLanguages[0] != LanguageModel(translateLanguage: TranslateLanguage(rawValue: Constant.autodetectionIdentifier)) {
+            self.allLanguages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: Constant.autodetectionIdentifier)), at: 0)
         }
         
         self.view.backgroundColor = .white
@@ -90,7 +98,7 @@ class DetailChooseLanguageViewController: UIViewController {
     
     @objc func didTapDownloadDeleteLanguage(_ sender: UIButton?) {
         guard let button = sender else { return }
-        let language = searchController.isActive ? filteredLanguages[button.tag] : allLanguages.languages[button.tag]
+        let language = searchController.isActive ? filteredLanguages[button.tag] : allLanguages[button.tag]
         self.languageModelManager.handleDownloadDelete(language: language)
     }
     
@@ -102,7 +110,7 @@ class DetailChooseLanguageViewController: UIViewController {
             
             guard let language = notificaiton.object as? LanguageModel else { return }
             
-            self.allLanguages.languages.filter({$0 == language}).first?.changeModelStatus(newStatus: false)
+            self.allLanguages.filter({$0 == language}).first?.changeModelStatus(newStatus: false)
             self.tableView.reloadData()
             print("Delete successful")
             return
@@ -118,7 +126,7 @@ class DetailChooseLanguageViewController: UIViewController {
                     self.languageModelManager.handleDownloadDelete(language: firstInStack)
                 }
                 
-                self.allLanguages.languages.filter({$0.languageCode == remoteModel.language.rawValue}).first?.changeModelStatus(newStatus: true)
+                self.allLanguages.filter({$0.languageCode == remoteModel.language.rawValue}).first?.changeModelStatus(newStatus: true)
             } else {
                 print("Download failed")
             }
@@ -135,11 +143,11 @@ class DetailChooseLanguageViewController: UIViewController {
 extension DetailChooseLanguageViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
-            filteredLanguages = allLanguages.languages.filter { language in
+            filteredLanguages = allLanguages.filter { language in
                 return language.displayName.lowercased().contains(searchText.lowercased())
             }
         } else {
-            filteredLanguages = allLanguages.languages
+            filteredLanguages = allLanguages
         }
         tableView.reloadData()
     }
