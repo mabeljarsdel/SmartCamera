@@ -18,7 +18,7 @@ extension CameraViewController: VNDocumentCameraViewControllerDelegate {
         dismiss(animated: true, completion: nil)
         
         let imagePreview = ImagePreview()
-        imagePreview.imageView = UIImageView(image: image)
+        imagePreview.imagePreviewView.imageView = UIImageView(image: image)
         
         imagePreview.modalPresentationStyle = .formSheet
         self.present(imagePreview, animated: true)

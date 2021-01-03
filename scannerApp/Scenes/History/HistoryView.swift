@@ -32,7 +32,7 @@ class HistoryView: UIViewController {
         self.setupView()
         let coreDataController = CoreDataController()
         self.historyCell = coreDataController.fetchFromHistory()
-        self.historyCell = self.historyCell.sorted(by: { $0.time! > $1.time! })
+        self.historyCell.sort(by: { $0.time! > $1.time! })
     }
     
     func setupView() {

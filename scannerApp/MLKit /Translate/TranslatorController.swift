@@ -24,6 +24,9 @@ class TranslatorController {
     func getInputLanguage() -> TranslateLanguage {
         return inputLanguage!
     }
+    func getOutputLanguage() -> TranslateLanguage {
+        return outputLanguage!
+    }
     
     func translate(in text: String, callback: @escaping (_ text: String?) -> Void) {
         
