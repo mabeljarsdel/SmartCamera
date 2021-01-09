@@ -25,7 +25,6 @@ class CameraView: UIView {
         preview?.frame = bounds
     }
     
-    
     func setupAndStartCaptureSession(){
         DispatchQueue.global(qos: .userInitiated).async{
             self.session = AVCaptureSession()

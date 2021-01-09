@@ -18,11 +18,15 @@ class HistoryView: UIView {
         return search
     }()
     
-    var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        return tableView
+    var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width-40, height: 140)
+        
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), collectionViewLayout: layout)
+        collectionView.register(HistoryViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.backgroundColor = .systemBackground
+        return collectionView
     }()
     
     override func layoutSubviews() {
@@ -31,17 +35,24 @@ class HistoryView: UIView {
     }
     
     func setupView() {
+        self.setupCollectionView()
         self.searchController.hidesNavigationBarDuringPresentation = false
-
-        self.backgroundColor = .white
-
-        self.addSubview(tableView)
         
-        tableView.snp.makeConstraints { make in
+
+        
+        self.addSubview(collectionView)
+
+        collectionView.snp.makeConstraints { make in
             make.left.equalTo(self.snp.left)
             make.right.equalTo(self.snp.right)
             make.bottom.equalTo(self.snp.bottom)
             make.top.equalTo(self.snp.top)
         }
+    }
+    
+    func setupCollectionView() {
+
+        addSubview(collectionView)
+        
     }
 }
