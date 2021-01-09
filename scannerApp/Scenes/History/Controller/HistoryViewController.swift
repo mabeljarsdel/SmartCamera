@@ -13,8 +13,8 @@ class HistoryViewController: UIViewController {
 
     var historyView: HistoryView!
     
-    var historyCell: [HistoryModel] = []
-    
+    var historyCells: [HistoryModel] = []
+    var filteredHistory: [HistoryModel] = []
     
     override func loadView() {
         super.loadView()
@@ -25,8 +25,9 @@ class HistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let coreDataController = CoreDataController()
-        self.historyCell = coreDataController.fetchFromHistory()
-        self.historyCell.sort(by: { $0.time! > $1.time! })
+        self.historyCells = coreDataController.fetchFromHistory()
+        self.historyCells.sort(by: { $0.time! > $1.time! })
+        self.filteredHistory = self.historyCells
         
         self.setupView()
 
@@ -50,18 +51,36 @@ class HistoryViewController: UIViewController {
 
 extension HistoryViewController: UISearchControllerDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        print("update search results ")
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            filteredHistory = historyCells.filter { historyCell in
+                return historyCell.toLanguage?.languageName.lowercased().contains(searchText.lowercased()) ?? false ||
+                    historyCell.fromLanguage?.languageName.lowercased().contains(searchText.lowercased()) ?? false ||
+                    historyCell.text?.lowercased().contains(searchText.lowercased()) ?? false ||
+                    historyCell.translatedText?.lowercased().contains(searchText.lowercased()) ?? false
+            }
+        } else {
+            filteredHistory = historyCells
+        }
+        self.historyView.collectionView.reloadData()
     }
 }
 
 extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return historyCell.count
+        if self.historyView.searchController.isActive {
+            return filteredHistory.count
+        }
+        return historyCells.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let myCell = self.historyView.collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! HistoryViewCell
-        let model = self.historyCell[indexPath.row]
+        let model: HistoryModel
+        if self.historyView.searchController.isActive {
+            model = self.filteredHistory[indexPath.row]
+        } else {
+            model = self.historyCells[indexPath.row]
+        }
         myCell.sourceLanguageLabel.text = model.fromLanguage?.languageName
         myCell.targetLanguageLabel.text = model.toLanguage?.languageName
         myCell.textLabel.text = model.text
@@ -72,17 +91,15 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(HistoryDetailViewController(cell: self.historyCell[indexPath.row]), animated: true)
+        self.navigationController?.pushViewController(HistoryDetailViewController(cell: self.historyCells[indexPath.row]), animated: true)
     }
     
     func transformDateToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         let calendar = Calendar.current
-        // Set Date Format
-        
         
         if calendar.isDateInToday(date) {
-            dateFormatter.dateFormat = "HH:mm"   // 20, Oct 29, 14:18:31
+            dateFormatter.dateFormat = "HH:mm"
         }
         else {
             dateFormatter.dateFormat = "dd/MM/YY"
@@ -92,37 +109,6 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-//extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return historyCell.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
-//        let historyCell = self.historyCell[indexPath.row]
-//        let dateFormatter = DateFormatter()
-//        let calendar = Calendar.current
-//        // Set Date Format
-//
-//        cell.accessoryType = .disclosureIndicator
-//
-//        if calendar.isDateInToday(historyCell.time!) {
-//            dateFormatter.dateFormat = "HH:mm"   // 20, Oct 29, 14:18:31
-//        } else {
-//            dateFormatter.dateFormat = "YY:MM:dd"
-//        }
-//
-//
-//        cell.textLabel?.text = historyCell.fromLanguage! + " -> " + historyCell.toLanguage!
-//        cell.detailTextLabel?.text = dateFormatter.string(from: historyCell.time!)
-//
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.navigationController?.pushViewController(HistoryDetailViewController(cell: self.historyCell[indexPath.row]), animated: true)
-//    }
-//}
 
 
 extension String {
