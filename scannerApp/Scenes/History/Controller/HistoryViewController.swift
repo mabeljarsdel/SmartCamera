@@ -9,62 +9,49 @@ import Foundation
 import UIKit
 import CoreData
 
-class HistoryView: UIViewController {
-    //MARK: View Elements
-    var searchController: UISearchController = {
-        let search = UISearchController(searchResultsController: nil)
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Search"
-        return search
-    }()
-    
-    var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        return tableView
-    }()
+class HistoryViewController: UIViewController {
+
+    var historyView: HistoryView!
     
     var historyCell: [HistoryModel] = []
     
+    
+    override func loadView() {
+        super.loadView()
+        self.historyView = HistoryView()
+        self.view = historyView
+        self.setupView()
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupView()
         let coreDataController = CoreDataController()
         self.historyCell = coreDataController.fetchFromHistory()
         self.historyCell.sort(by: { $0.time! > $1.time! })
     }
     
     func setupView() {
-        self.title = "History"
-        self.searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController.delegate = self
-        self.searchController.searchResultsUpdater = self
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.navigationItem.searchController = self.searchController
-        self.navigationItem.largeTitleDisplayMode = .always
-        tableView.dataSource = self
-        tableView.delegate = self
-        self.view.backgroundColor = .white
-
-        view.addSubview(tableView)
+        self.historyView.searchController.delegate = self
+        self.historyView.searchController.searchResultsUpdater = self
+        self.historyView.tableView.dataSource = self
+        self.historyView.tableView.delegate = self
         
-        tableView.snp.makeConstraints { make in
-            make.left.equalTo(view.snp.left)
-            make.right.equalTo(view.snp.right)
-            make.bottom.equalTo(view.snp.bottom)
-            make.top.equalTo(view.snp.top)
-        }
+        self.title = "History"
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.searchController = self.historyView.searchController
+        self.navigationItem.largeTitleDisplayMode = .always
+        
+        
     }
 }
 
-extension HistoryView: UISearchControllerDelegate, UISearchResultsUpdating {
+extension HistoryViewController: UISearchControllerDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         print("update search results ")
     }
 }
 
-extension HistoryView: UITableViewDelegate, UITableViewDataSource {
+extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return historyCell.count
     }
@@ -92,7 +79,7 @@ extension HistoryView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(HistoryDetailView(cell: self.historyCell[indexPath.row]), animated: true)
+        self.navigationController?.pushViewController(HistoryDetailViewController(cell: self.historyCell[indexPath.row]), animated: true)
     }
 }
 

@@ -128,7 +128,7 @@ class CameraViewController: UIViewController {
     }
     
     @objc func openHistory(_ sender: UIButton?) {
-        let settingsView = HistoryView()
+        let settingsView = HistoryViewController()
         settingsView.modalPresentationStyle = .formSheet
         
         self.present(UINavigationController(rootViewController: settingsView), animated: true)

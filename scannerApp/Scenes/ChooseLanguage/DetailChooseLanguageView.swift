@@ -105,7 +105,6 @@ class DetailChooseLanguageViewController: UIViewController {
     //MARK: Notification Center -
     @objc func remoteModelDownloadDeleteDidComplete(notificaiton: NSNotification) {
         
-        
         guard let userInfo = notificaiton.userInfo else {
             
             guard let language = notificaiton.object as? LanguageModel else { return }
