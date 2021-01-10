@@ -38,6 +38,7 @@ class ScaledElementProcessor {
                 let result = result,
                 !result.text.isEmpty
             else {
+                print("error in text recognitio")
                 return
             }
             callback(result)

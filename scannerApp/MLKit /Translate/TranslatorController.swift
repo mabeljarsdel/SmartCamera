@@ -17,7 +17,6 @@ enum LanguageType {
 
 class TranslatorController {
     static let translatorInstance = TranslatorController()
-    private let locale = Locale.current
     private var inputLanguage: TranslateLanguage?
     private var outputLanguage: TranslateLanguage?
     
@@ -64,7 +63,13 @@ class TranslatorController {
 
         if checkIsAutodetection() {
             let languageRecogUtil = LanguageRecognitionUtil.instance
-            languageRecogUtil.identityLanguage(from: text, callback: { identLanguage in
+            languageRecogUtil.identityLanguage(from: text, callback: { identLanguage, error in
+                
+                if let error = error {
+                    print(error)
+                    return
+                }
+                
                 guard let recognizedLanguageCode = identLanguage?.first?.languageTag else {
                     print("error when recognise language")
                     return
@@ -72,7 +77,7 @@ class TranslatorController {
                 
                 let translatedLanguage = TranslateLanguage(rawValue: recognizedLanguageCode)
                 
-                print("recognised language \(self.locale.localizedString(forLanguageCode: translatedLanguage.rawValue) ?? "None"), translate to \(output.displayName)")
+                print("recognised language \(translatedLanguage.rawValue.languageName), translate to \(output.displayName)")
                 self.inputLanguage = translatedLanguage
                 self.outputLanguage = output.getTranslateLanguage()
                 callback(TranslatorOptions(sourceLanguage: self.inputLanguage!, targetLanguage: self.outputLanguage!))

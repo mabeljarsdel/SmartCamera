@@ -15,13 +15,14 @@ class LanguageRecognitionUtil {
     
     private init() {}
     
-    func identityLanguage(from text: String, callback: @escaping (_ language: [IdentifiedLanguage]?) -> Void)  {
+    func identityLanguage(from text: String, callback: @escaping (_ language: ([IdentifiedLanguage]?, Error?)) -> Void)  {
         languageId.identifyPossibleLanguages(for: text) { (identifiedlanguages, error) in
             if let error = error {
                 print(error.localizedDescription)
+                callback((nil, error))
                 return
             }
-            callback(identifiedlanguages)
+            callback((identifiedlanguages, nil))
         }
     }
 }

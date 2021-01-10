@@ -36,8 +36,6 @@ class HistoryViewController: UIViewController {
     func setupView() {
         self.historyView.searchController.delegate = self
         self.historyView.searchController.searchResultsUpdater = self
-//        self.historyView.tableView.dataSource = self
-//        self.historyView.tableView.delegate = self
         self.historyView.collectionView.dataSource = self
         self.historyView.collectionView.delegate = self
         self.title = "History"
@@ -100,8 +98,7 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
         
         if calendar.isDateInToday(date) {
             dateFormatter.dateFormat = "HH:mm"
-        }
-        else {
+        } else {
             dateFormatter.dateFormat = "dd/MM/YY"
         }
         
@@ -110,9 +107,3 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
 }
 
 
-
-extension String {
-    var languageName: String {
-        Locale.current.localizedString(forLanguageCode: self) ?? "Wrong language code"
-    }
-}

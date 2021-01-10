@@ -35,6 +35,18 @@ class ImagePreview: UIViewController {
         super.viewDidDisappear(animated)
         self.imagePreviewModel?.saveToHistory()
     }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+            print("Ok tapped")
+            self.dismiss(animated: true)
+        })
+        
+        alert.addAction(ok)
+        self.present(alert, animated: true)
+    }
 }
 
 extension ImagePreview: TranslateProtocol {
@@ -46,13 +58,12 @@ extension ImagePreview: TranslateProtocol {
     
     func imagePreviewModelTranslateWithError(_ imagePreviewModel: ImagePreviewModel, error: Error) {
         self.imagePreviewView.activityIndicator.isHidden = true
-
+        self.showAlert(title: "Something goes wrong", message: error.localizedDescription)
         print("translate with error")
     }
     
     func addRectangle(block: TextBlock) {
         for line in block.lines {
-        
             let transformedRect = line.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.imagePreviewView.imageView))
             AddRectangleToImageHelper.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
         }

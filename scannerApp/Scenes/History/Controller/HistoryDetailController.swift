@@ -10,12 +10,11 @@ import CoreData
 
 
 class HistoryDetailViewController: UIViewController {
-    //Cell model
     private var model: HistoryModel
     var historyDetailView: HistoryDetailView!
+    
+
     //MARK: Lifecycle
-    
-    
     override func loadView() {
         super.loadView()
         self.historyDetailView = HistoryDetailView()
@@ -24,8 +23,8 @@ class HistoryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.historyDetailView.sourceLanguageLabel.text = Locale.current.localizedString(forLanguageCode: self.model.fromLanguage!)
-        self.historyDetailView.targetLanguageLabel.text = Locale.current.localizedString(forLanguageCode: self.model.toLanguage!)
+        self.historyDetailView.sourceLanguageLabel.text = self.model.fromLanguage!.languageName
+        self.historyDetailView.targetLanguageLabel.text = self.model.toLanguage!.languageName
         self.historyDetailView.textView.text = self.model.text
         self.historyDetailView.translatedTextView.text = self.model.translatedText
     }
