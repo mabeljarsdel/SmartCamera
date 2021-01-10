@@ -126,11 +126,10 @@
 		8149FAD62578364F004945A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				817DBA9B258EFDAD00529FE1 /* Database */,
+				8147891B258FCFF100383673 /* Constant.swift */,
 				8168C4AF25965D2D008BCE6E /* Reachability.swift */,
-				8149FAD725783658004945A2 /* CGImage.swift */,
-				81CC1BA725A1FDF6007421C4 /* UIImageRotate.swift */,
 				81CC1BB625A210A8007421C4 /* AddRectangleToImage.swift */,
-				81F5C32C25AA72390032278A /* LanguageNameFromStringExt.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -306,6 +305,16 @@
 			path = LanguageRecognition;
 			sourceTree = "<group>";
 		};
+		81F5C33525AB69B60032278A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				81F5C32C25AA72390032278A /* LanguageNameFromStringExt.swift */,
+				8149FAD725783658004945A2 /* CGImage.swift */,
+				81CC1BA725A1FDF6007421C4 /* UIImageRotate.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		81FF82DE2573122800C953F5 = {
 			isa = PBXGroup;
 			children = (
@@ -327,13 +336,12 @@
 		81FF82E92573122800C953F5 /* scannerApp */ = {
 			isa = PBXGroup;
 			children = (
-				817DBA9B258EFDAD00529FE1 /* Database */,
 				8149FAD62578364F004945A2 /* Utilities */,
+				81F5C33525AB69B60032278A /* Extension */,
 				81FF833F25731DDF00C953F5 /* Scenes */,
 				81FF833A25731AEF00C953F5 /* MLKit  */,
 				81FF831E2573147D00C953F5 /* Delegates */,
 				81FF831C2573146200C953F5 /* Asset */,
-				8147891B258FCFF100383673 /* Constant.swift */,
 				81FF82F02573122800C953F5 /* Main.storyboard */,
 				81FF82F82573122A00C953F5 /* Info.plist */,
 				8168C4E225977978008BCE6E /* GoogleService-Info.plist */,

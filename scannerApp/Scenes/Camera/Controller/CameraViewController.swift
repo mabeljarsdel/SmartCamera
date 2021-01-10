@@ -13,13 +13,15 @@ import VisionKit
 
 
 class CameraViewController: UIViewController {
-
+    
     var takePicture: Bool = false
     var cameraMainView = CameraMainView()
     //MARK:- Lifecycle
     override func loadView() {
         super.loadView()
         self.view = cameraMainView
+        cameraMainView.modePicker.dataSource = self
+        cameraMainView.modePicker.delegate = self
     }
     
     override func viewDidLoad() {
@@ -30,6 +32,8 @@ class CameraViewController: UIViewController {
         setupObservers()
         checkPermissions()
         setupOutput()
+        let reachability = Reachability.instance
+        print(reachability.connectionStatus)
     }
     
     func setupObservers() {
@@ -187,6 +191,38 @@ extension CameraViewController {
         @unknown default:
             fatalError()
         }
+    }
+}
+
+
+extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return cameraMainView.modes.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let modeView = UIView()
+        modeView.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+        let modeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        modeLabel.textColor = .yellow
+        modeLabel.text = self.cameraMainView.modes[row]
+        modeLabel.textAlignment = .center
+        modeView.addSubview(modeLabel)
+        // Here the view rotates 90 degree on right side hence we are using positive value.
+        modeView.transform = CGAffineTransform(rotationAngle: 90 * (.pi/180))
+        return modeView
+    }
+    public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 150
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(self.cameraMainView.modes[row])
     }
 }
 

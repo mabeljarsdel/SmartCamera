@@ -22,6 +22,7 @@ class LanguageRecognitionUtil {
                 callback((nil, TranslateError.languageRecognitionError))
                 return
             }
+            
             callback((identifiedlanguages, nil))
         }
     }

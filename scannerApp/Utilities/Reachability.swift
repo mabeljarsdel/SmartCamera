@@ -9,7 +9,7 @@ import Foundation
 import Network
 
 class Reachability: ObservableObject {
-    @Published var connectionStatus: Bool!
+    @Published var connectionStatus: Bool = false
     
     private let monitor = NWPathMonitor()
     static let instance = Reachability()
