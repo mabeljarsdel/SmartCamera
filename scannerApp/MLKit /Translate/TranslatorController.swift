@@ -27,7 +27,7 @@ class TranslatorController {
         return outputLanguage!
     }
     
-    func translate(in text: String, callback: @escaping (_ text: String?) -> Void) {
+    func translate(in text: String, callback: @escaping (_ text: String?, Error?) -> Void) {
         
         self.createLanguageOption(text: text, callback: { translatorOptions in
             
@@ -45,10 +45,11 @@ class TranslatorController {
                     translator.translate(text) { result, error in
                         guard error == nil else {
                             print(error?.localizedDescription as Any)
+                            callback(nil, TranslateError.translateError)
                             return
                         }
                         if translator == translator {
-                            callback(result)
+                            callback(result, nil)
                         }
                     }
                 }

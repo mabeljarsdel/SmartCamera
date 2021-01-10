@@ -22,7 +22,7 @@ class ScaledElementProcessor {
     }
 
     func process(in imageView: UIImageView,
-                 callback: @escaping (_ text: Text?) -> Void) {
+                 callback: @escaping (_ text: Text?, Error?) -> Void) {
         
         print("Process in device text recognise")
         
@@ -38,10 +38,10 @@ class ScaledElementProcessor {
                 let result = result,
                 !result.text.isEmpty
             else {
-                print("error in text recognitio")
+                callback(nil, TranslateError.textRecognitionError)
                 return
             }
-            callback(result)
+            callback(result, nil)
         }
     }
     
@@ -62,6 +62,7 @@ class ScaledElementProcessor {
                   let result = result,
                   !result.text.isEmpty
             else {
+//                cal
                 return
             }
             callback(result)

@@ -21,20 +21,13 @@ class ImagePreview: UIViewController {
         self.view = imagePreviewView
 
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imagePreviewModel = ImagePreviewModel(delegate: self, image: self.imagePreviewView.imageView)
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.imagePreviewModel?.saveToHistory()
-    }
     
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -53,6 +46,7 @@ extension ImagePreview: TranslateProtocol {
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel) {
         self.imagePreviewView.activityIndicator.isHidden = true
         self.imagePreviewView.textView.text = imagePreviewModel.translatedText
+        self.imagePreviewModel?.saveToHistory()
 
     }
     

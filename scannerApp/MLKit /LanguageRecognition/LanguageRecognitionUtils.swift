@@ -19,10 +19,11 @@ class LanguageRecognitionUtil {
         languageId.identifyPossibleLanguages(for: text) { (identifiedlanguages, error) in
             if let error = error {
                 print(error.localizedDescription)
-                callback((nil, error))
+                callback((nil, TranslateError.languageRecognitionError))
                 return
             }
             callback((identifiedlanguages, nil))
         }
     }
 }
+

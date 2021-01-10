@@ -45,7 +45,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         let processor = ScaledElementProcessor()
         let imView = UIImageView(image: image)
         self.cameraMainView.cameraView.subviews.forEach({ $0.removeFromSuperview() })
-        processor.process(in: imView, callback: { text in
+        processor.process(in: imView, callback: { text, error in
             guard let textResult = text else { return }
             
             for block in textResult.blocks {
