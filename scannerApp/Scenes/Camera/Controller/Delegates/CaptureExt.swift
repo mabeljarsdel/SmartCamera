@@ -13,7 +13,8 @@ import MLKit
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
+//        print(connection.videoOrientation.rawValue)
+        connection.videoOrientation = AVCaptureVideoOrientation(rawValue: 3)!
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             print("Failed to get image buffer from sample buffer.")
             return
