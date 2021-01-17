@@ -8,6 +8,27 @@
 import Foundation
 import UIKit
 
+enum CameraModes: CustomStringConvertible, CaseIterable {
+    case objectDetection
+    case landmarkDetection
+    case normal
+    case translation
+    case imageLabeling
+    
+    var description: String {
+        switch self {
+        case .objectDetection: return "Object detection"
+        case .landmarkDetection: return "Landmark detection"
+        case .normal: return "Normal"
+        case .translation: return "Translation"
+        case .imageLabeling: return "Image labeling"
+        }
+    }
+}
+
+//var modes = ["Object detection", "Landmark detection", "Normal", "Translation", "Image labeling"]
+
+
 class CameraMainView: UIView {
     //MARK:- View Components
     let captureImageButton: UIButton = {
@@ -104,13 +125,13 @@ class CameraMainView: UIView {
         return view
     }()
     
-    var modes = ["Object detection", "Landmark detection", "Normal", "Translation", "Image labeling"]
+    
+    var modes: [CameraModes] = CameraModes.allCases
 
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.setupView()
-        
     }
     
     func setupView() {
@@ -125,7 +146,6 @@ class CameraMainView: UIView {
         self.addSubview(chooseLanguageView)
         self.addSubview(modePicker)
         
-        modePicker.selectRow(2, inComponent: 0, animated: false)
         
         cameraView.snp.makeConstraints { make in
             make.width.equalTo(UIScreen.main.bounds.width)
@@ -142,7 +162,7 @@ class CameraMainView: UIView {
         
         flashButton.snp.makeConstraints { make in
             make.width.height.equalTo(60)
-            make.bottom.equalTo(captureImageButton.snp.top).offset(15)
+            make.bottom.equalTo(captureImageButton.snp.top).offset(10)
             make.left.equalTo(self.snp.left).offset(25)
         }
         
@@ -161,13 +181,13 @@ class CameraMainView: UIView {
         
         openGalleryButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(flashButton.snp.width)
-            make.bottom.equalTo(captureImageButton.snp.bottom).offset(-15)
+            make.centerY.equalTo(captureImageButton.snp.centerY)
             make.left.equalTo(self.snp.left).offset(25)
         }
         
         openScanDocumentsButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(flashButton.snp.width)
-            make.bottom.equalTo(captureImageButton.snp.bottom).offset(-15)
+            make.centerY.equalTo(captureImageButton.snp.centerY)
             make.right.equalTo(self.snp.right).offset(-25)
         }
         
@@ -184,7 +204,7 @@ class CameraMainView: UIView {
             make.centerX.equalTo(snp.centerX)
             make.centerY.equalTo(historyButton.snp.top).offset(-5)
             make.height.equalTo(frame.width+300)
-            make.width.equalTo(50)
+            make.width.equalTo(45)
         }
     }
 }

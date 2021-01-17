@@ -16,12 +16,37 @@ class CameraViewController: UIViewController {
     
     var takePicture: Bool = false
     var cameraMainView = CameraMainView()
+    var currentMode: CameraModes = .normal
+    
+    
+    var lastFrame: CMSampleBuffer?
+
+    
+    lazy var annotationOverlayView: UIView = {
+      precondition(isViewLoaded)
+        let annotationOverlayView = UIView(frame: .zero)
+      annotationOverlayView.translatesAutoresizingMaskIntoConstraints = false
+      return annotationOverlayView
+    }()
+    
+
+    lazy var previewOverlayView: UIImageView = {
+
+      precondition(isViewLoaded)
+      let previewOverlayView = UIImageView(frame: .zero)
+      previewOverlayView.contentMode = UIView.ContentMode.scaleAspectFill
+      previewOverlayView.translatesAutoresizingMaskIntoConstraints = false
+      return previewOverlayView
+    }()
+    
     //MARK:- Lifecycle
     override func loadView() {
         super.loadView()
         self.view = cameraMainView
         cameraMainView.modePicker.dataSource = self
         cameraMainView.modePicker.delegate = self
+        cameraMainView.modePicker.selectRow(2, inComponent: 0, animated: false)
+
     }
     
     override func viewDidLoad() {
@@ -35,6 +60,35 @@ class CameraViewController: UIViewController {
         let reachability = Reachability.instance
         print(reachability.connectionStatus)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        setUpPreviewOverlayView()
+        setUpAnnotationOverlayView()
+    }
+    
+    private func setUpPreviewOverlayView() {
+        cameraMainView.cameraView.addSubview(previewOverlayView)
+        previewOverlayView.snp.makeConstraints { make in
+            make.size.equalTo(cameraMainView.cameraView.snp.size)
+            make.center.equalTo(cameraMainView.cameraView.snp.center)
+        }
+
+    }
+
+    private func setUpAnnotationOverlayView() {
+        cameraMainView.cameraView.addSubview(annotationOverlayView)
+        annotationOverlayView.snp.makeConstraints { make in
+            make.size.equalTo(cameraMainView.cameraView.snp.size)
+            make.center.equalTo(cameraMainView.cameraView.snp.center)
+            make.top.equalTo(cameraMainView.cameraView.snp.top)
+            make.bottom.equalTo(cameraMainView.cameraView.snp.bottom)
+            make.left.equalTo(cameraMainView.cameraView.snp.left)
+            make.right.equalTo(cameraMainView.cameraView.snp.right)
+        }
+    }
+
     
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged(notification:)), name: Notification.Name("LanugageChanged"), object: nil)
@@ -197,7 +251,6 @@ extension CameraViewController {
 
 extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        
         return 1
     }
     
@@ -210,10 +263,9 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         modeView.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
         let modeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
         modeLabel.textColor = .yellow
-        modeLabel.text = self.cameraMainView.modes[row]
+        modeLabel.text = self.cameraMainView.modes[row].description
         modeLabel.textAlignment = .center
         modeView.addSubview(modeLabel)
-        // Here the view rotates 90 degree on right side hence we are using positive value.
         modeView.transform = CGAffineTransform(rotationAngle: 90 * (.pi/180))
         return modeView
     }
@@ -222,7 +274,9 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(self.cameraMainView.modes[row])
+//        self.cameraMainView.modePicker.selectRow(row, inComponent: 0, animated: true)
+        self.currentMode = self.cameraMainView.modes[row]
+
     }
 }
 

@@ -21,10 +21,9 @@ class ScaledElementProcessor {
 
     }
     
- 
-    func process(in imageView: UIImageView,
-                 callback: @escaping (_ text: Text?, Error?) -> Void) {
-        
+    func processOnDeviceTextRecognise(in imageView: UIImageView,
+                                      callback: @escaping (_ text: Text?, Error?) -> Void) {
+
         print("Process in device text recognise")
         
         guard let image = imageView.image else { return }
@@ -43,30 +42,6 @@ class ScaledElementProcessor {
                 return
             }
             callback(result, nil)
-        }
-    }
-    
-    func processOnDeviceTextRecognise(in imageView: UIImageView,
-                                      callback: @escaping (_ text: Text?) -> Void) {
-        
-        print("Process in device text recognise")
-        
-        guard let image = imageView.image else { return }
-        
-        
-        let visionImage = MLKitVision.VisionImage(image: image)
-        
-        visionImage.orientation = image.imageOrientation
-        
-        textRecognizer.process(visionImage) { result, error in
-            guard error == nil,
-                  let result = result,
-                  !result.text.isEmpty
-            else {
-//                cal
-                return
-            }
-            callback(result)
         }
     }
     

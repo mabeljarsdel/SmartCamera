@@ -17,8 +17,8 @@ class CameraView: UIView {
     var preview: AVCaptureVideoPreviewLayer!
     var output: AVCaptureVideoDataOutput!
     
-    
     let videoQueueLabel = "videoQueue"
+    
     
     public override func layoutSubviews() {
         super.layoutSubviews()
@@ -26,6 +26,7 @@ class CameraView: UIView {
     }
     
     func setupAndStartCaptureSession(){
+        
         DispatchQueue.global(qos: .userInitiated).async{
             self.session = AVCaptureSession()
             self.session.beginConfiguration()
@@ -41,7 +42,6 @@ class CameraView: UIView {
             DispatchQueue.main.sync {
                 self.createPreview()
             }
-            
             
             self.session.commitConfiguration()
             self.session.startRunning()

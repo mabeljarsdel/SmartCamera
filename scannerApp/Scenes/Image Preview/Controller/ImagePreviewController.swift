@@ -6,12 +6,12 @@
 //
 
 import Foundation
-import UIKit
-import AVFoundation
 import MLKitTextRecognition
+import MLKitVision
+import UIKit
+import Firebase
 
-
-class ImagePreview: UIViewController {
+class ImagePreviewController: UIViewController {
     let imagePreviewView = ImagePreviewView()
     var imagePreviewModel: ImagePreviewModel?
     
@@ -42,7 +42,9 @@ class ImagePreview: UIViewController {
     }
 }
 
-extension ImagePreview: TranslateProtocol {
+extension ImagePreviewController: TranslateProtocol {
+
+    
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel) {
         self.imagePreviewView.activityIndicator.isHidden = true
         self.imagePreviewView.textView.text = imagePreviewModel.translatedText
@@ -57,6 +59,13 @@ extension ImagePreview: TranslateProtocol {
     }
     
     func addRectangle(block: TextBlock) {
+        for line in block.lines {
+            let transformedRect = line.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.imagePreviewView.imageView))
+            AddRectangleToImageHelper.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
+        }
+    }
+    
+    func addRectangle(block: VisionTextBlock) {
         for line in block.lines {
             let transformedRect = line.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.imagePreviewView.imageView))
             AddRectangleToImageHelper.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
