@@ -14,7 +14,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 //        print(connection.videoOrientation.rawValue)
-        connection.videoOrientation = AVCaptureVideoOrientation(rawValue: 3)!
+        connection.videoOrientation = .portrait
+        
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             print("Failed to get image buffer from sample buffer.")
             return
@@ -27,8 +28,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         let uiImage = UIImage(cgImage: cgImage)
         
         let visionImage = VisionImage(image: uiImage)
-        visionImage.orientation = UIUtilities.imageOrientation(fromDevicePosition: .back)
-        print(visionImage.orientation.rawValue)
+        visionImage.orientation = uiImage.imageOrientation
 
 
         let imageWidth = CGFloat(uiImage.size.width)
@@ -51,7 +51,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             DispatchQueue.main.sync {
                 let imagePreview = ImagePreviewController()
                 
-                imagePreview.imagePreviewView.imageView = UIImageView(image: uiImage)
+                imagePreview.imagePreviewView.imageView.image = self.previewOverlayView.image
                 
                 imagePreview.modalPresentationStyle = .formSheet
                 self.present(imagePreview, animated: true)
@@ -98,13 +98,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // Blocks.
             for block in recognizedText.blocks {
                 
-                let points = strongSelf.convertedPoints(
-                    from: block.cornerPoints, width: width, height: height)
-                UIUtilities.addShape(
-                    withPoints: points,
-                    to: self.annotationOverlayView,
-                    color: UIColor.black
-                )
+//                let points = strongSelf.convertedPoints(
+//                    from: block.cornerPoints, width: width, height: height)
+//                UIUtilities.addShape(
+//                    withPoints: points,
+//                    to: self.annotationOverlayView,
+//                    color: UIColor.black
+//                )
                 
                 // Lines.
                 for line in block.lines {
@@ -118,22 +118,27 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                     
                     // Elements.
                     for element in line.elements {
-                        let normalizedRect = CGRect(
-                            x: element.frame.origin.x / width,
-                            y: element.frame.origin.y / height,
-                            width: element.frame.size.width / width,
-                            height: element.frame.size.height / height
-                        )
-                        let convertedRect = strongSelf.cameraMainView.cameraView.preview.layerRectConverted(
-                            fromMetadataOutputRect: normalizedRect
-                        )
+//                        let normalizedRect = CGRect(
+//                            x: element.frame.origin.x / width,
+//                            y: element.frame.origin.y / height,
+//                            width: element.frame.size.width / width,
+//                            height: element.frame.size.height / height
+//                        )
+//                        let convertedRect = strongSelf.cameraMainView.cameraView.preview.layerRectConverted(
+//                            fromMetadataOutputRect: normalizedRect
+//                        )
+                        
+                        let transformedRect = element.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.previewOverlayView))
+
                         
                         UIUtilities.addRectangle(
-                            convertedRect,
+                            transformedRect,
                             to: self.annotationOverlayView,
                             color: UIColor.white
                         )
-                        let label = UILabel(frame: convertedRect)
+                        
+                        let label = UILabel(frame: transformedRect)
+                        
                         label.text = element.text
                         label.adjustsFontSizeToFitWidth = true
                         strongSelf.annotationOverlayView.addSubview(label)
@@ -168,9 +173,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
             return
         }
-        let rotatedImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+        let rotatedImage = UIImage(cgImage: cgImage)
         previewOverlayView.image = rotatedImage
-        print(previewOverlayView.image?.imageOrientation.rawValue)
     }
     
     private func removeDetectionAnnotations() {

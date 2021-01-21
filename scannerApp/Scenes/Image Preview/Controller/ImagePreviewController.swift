@@ -61,14 +61,15 @@ extension ImagePreviewController: TranslateProtocol {
     func addRectangle(block: TextBlock) {
         for line in block.lines {
             let transformedRect = line.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.imagePreviewView.imageView))
-            AddRectangleToImageHelper.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
+            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
         }
     }
     
     func addRectangle(block: VisionTextBlock) {
         for line in block.lines {
             let transformedRect = line.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.imagePreviewView.imageView))
-            AddRectangleToImageHelper.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
+            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
+            
         }
     }
 }

@@ -46,6 +46,7 @@ class ImagePreviewView: UIView {
         return ai
     }()
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         self.setupConstaint()
