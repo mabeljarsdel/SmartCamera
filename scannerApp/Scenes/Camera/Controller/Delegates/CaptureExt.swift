@@ -13,7 +13,6 @@ import MLKit
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-//        print(connection.videoOrientation.rawValue)
         connection.videoOrientation = .portrait
         
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
@@ -37,13 +36,12 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         switch self.currentMode {
         case .normal:
-//            self.cameraMainView.cameraView.removeFromSuperview()
             if !takePicture {
                 DispatchQueue.main.sync {
                     updatePreviewOverlayView()
                     removeDetectionAnnotations()
                 }
-                return //we have nothing to do with the image buffer
+                return
             }
             
             self.takePicture = false
@@ -61,7 +59,6 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             print("object detection execute")
             let options = ObjectDetectorOptions()
             options.shouldEnableClassification = true
-            //            options.shouldEnableMultipleObjects = true
             options.detectorMode = .singleImage
             let objDetector = ObjectDetectionUtil()
             objDetector.detectObjectOnDevice(in: visionImage, width: imageWidth, height: imageHeight, options: options)
@@ -97,52 +94,51 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             
             // Blocks.
             for block in recognizedText.blocks {
-                
-//                let points = strongSelf.convertedPoints(
-//                    from: block.cornerPoints, width: width, height: height)
-//                UIUtilities.addShape(
-//                    withPoints: points,
-//                    to: self.annotationOverlayView,
-//                    color: UIColor.black
-//                )
-                
-                // Lines.
                 for line in block.lines {
-                    let points = strongSelf.convertedPoints(
-                        from: line.cornerPoints, width: width, height: height)
-                    //            UIUtilities.addShape(
-                    //              withPoints: points,
-                    //              to: self.annotationOverlayView,
-                    //              color: UIColor.white
-                    //            )
                     
-                    // Elements.
-                    for element in line.elements {
-//                        let normalizedRect = CGRect(
-//                            x: element.frame.origin.x / width,
-//                            y: element.frame.origin.y / height,
-//                            width: element.frame.size.width / width,
-//                            height: element.frame.size.height / height
-//                        )
-//                        let convertedRect = strongSelf.cameraMainView.cameraView.preview.layerRectConverted(
-//                            fromMetadataOutputRect: normalizedRect
-//                        )
+                    let transformedRect = line.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.previewOverlayView))
+                    
+                    
+                    UIUtilities.addRectangle(
+                        transformedRect,
+                        to: self.annotationOverlayView,
+                        color: UIColor.white
+                    )
+                    
+                    let translator = TranslatorController.translatorInstance
+                    
+                    translator.translate(in: line.text, callback: { translatedText, error in
+                        if error != nil {
+                            print(error)
+                        } else {
+                            let label = UILabel(frame: transformedRect)
+                            
+                            label.text = translatedText
+                            label.adjustsFontSizeToFitWidth = true
+                            strongSelf.annotationOverlayView.addSubview(label)
+                        }
                         
-                        let transformedRect = element.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.previewOverlayView))
+                    })
 
-                        
-                        UIUtilities.addRectangle(
-                            transformedRect,
-                            to: self.annotationOverlayView,
-                            color: UIColor.white
-                        )
-                        
-                        let label = UILabel(frame: transformedRect)
-                        
-                        label.text = element.text
-                        label.adjustsFontSizeToFitWidth = true
-                        strongSelf.annotationOverlayView.addSubview(label)
-                    }
+//                    for element in line.elements {
+//
+//                        let transformedRect = element.frame.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.previewOverlayView))
+//
+//
+//                        UIUtilities.addRectangle(
+//                            transformedRect,
+//                            to: self.annotationOverlayView,
+//                            color: UIColor.white
+//                        )
+//
+//                        let translator = TranslatorController.translatorInstance
+//
+//                        let label = UILabel(frame: transformedRect)
+//
+//                        label.text = element.text
+//                        label.adjustsFontSizeToFitWidth = true
+//                        strongSelf.annotationOverlayView.addSubview(label)
+//                    }
                 }
             }
         }
