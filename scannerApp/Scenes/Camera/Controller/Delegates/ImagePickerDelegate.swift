@@ -17,7 +17,7 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
         if let pickedImage = info[.originalImage] as? UIImage {
             let imagePreview = ImagePreviewController()
             imagePreview.imagePreviewView.imageView = UIImageView(image: pickedImage)
-            
+            imagePreview.currentMode = self.currentMode
             imagePreview.modalPresentationStyle = .formSheet
             self.present(imagePreview, animated: true)
         }

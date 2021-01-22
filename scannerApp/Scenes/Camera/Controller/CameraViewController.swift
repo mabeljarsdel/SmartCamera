@@ -21,24 +21,6 @@ class CameraViewController: UIViewController {
     
     var lastFrame: CMSampleBuffer?
 
-    
-    lazy var annotationOverlayView: UIView = {
-      precondition(isViewLoaded)
-        let annotationOverlayView = UIView(frame: .zero)
-      annotationOverlayView.translatesAutoresizingMaskIntoConstraints = false
-      return annotationOverlayView
-    }()
-    
-
-    lazy var previewOverlayView: UIImageView = {
-
-      precondition(isViewLoaded)
-      let previewOverlayView = UIImageView(frame: .zero)
-      previewOverlayView.contentMode = UIView.ContentMode.scaleAspectFill
-      previewOverlayView.translatesAutoresizingMaskIntoConstraints = false
-      return previewOverlayView
-    }()
-    
     //MARK:- Lifecycle
     override func loadView() {
         super.loadView()
@@ -60,34 +42,7 @@ class CameraViewController: UIViewController {
         let reachability = Reachability.instance
         print(reachability.connectionStatus)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-        setUpPreviewOverlayView()
-        setUpAnnotationOverlayView()
-    }
-    
-    private func setUpPreviewOverlayView() {
-        cameraMainView.cameraView.addSubview(previewOverlayView)
-        previewOverlayView.snp.makeConstraints { make in
-            make.size.equalTo(cameraMainView.cameraView.snp.size)
-            make.center.equalTo(cameraMainView.cameraView.snp.center)
-        }
 
-    }
-
-    private func setUpAnnotationOverlayView() {
-        cameraMainView.cameraView.addSubview(annotationOverlayView)
-        annotationOverlayView.snp.makeConstraints { make in
-            make.size.equalTo(cameraMainView.cameraView.snp.size)
-            make.center.equalTo(cameraMainView.cameraView.snp.center)
-            make.top.equalTo(cameraMainView.cameraView.snp.top)
-            make.bottom.equalTo(cameraMainView.cameraView.snp.bottom)
-            make.left.equalTo(cameraMainView.cameraView.snp.left)
-            make.right.equalTo(cameraMainView.cameraView.snp.right)
-        }
-    }
 
     
     func setupObservers() {

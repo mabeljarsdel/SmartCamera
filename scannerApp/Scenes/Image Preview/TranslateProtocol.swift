@@ -17,4 +17,5 @@ protocol TranslateProtocol: AnyObject {
     func imagePreviewModelTranslateWithError(_ imagePreviewModel: ImagePreviewModel, error: Error)
     func addRectangle(block: TextBlock)
     func addRectangle(block: VisionTextBlock)
+    func addRectangle(rectangle: CGRect)
 }

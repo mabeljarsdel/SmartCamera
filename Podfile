@@ -17,6 +17,9 @@ target 'Translate Camera' do
   pod 'Firebase/MLNLTranslate'
   pod 'GoogleMLKit/ObjectDetection'
   pod 'GoogleMLKit/LinkFirebase'
+  pod 'GoogleMLKit/ImageLabeling'
+  pod 'FittedSheets'
+
 end
 
 post_install do |installer|

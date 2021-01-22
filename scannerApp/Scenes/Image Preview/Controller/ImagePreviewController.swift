@@ -14,7 +14,7 @@ import Firebase
 class ImagePreviewController: UIViewController {
     let imagePreviewView = ImagePreviewView()
     var imagePreviewModel: ImagePreviewModel?
-    
+    var currentMode: CameraModes?
     //MARK: View life cycle
     override func loadView() {
         super.loadView()
@@ -24,10 +24,16 @@ class ImagePreviewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.imagePreviewModel = ImagePreviewModel(delegate: self, image: self.imagePreviewView.imageView)
+        self.imagePreviewModel = ImagePreviewModel(delegate: self, image: self.imagePreviewView.imageView, mode: self.currentMode!)
         
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if self.currentMode == .normal {
+            self.imagePreviewModel?.saveToHistory()
+        }
+    }
     
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -48,7 +54,6 @@ extension ImagePreviewController: TranslateProtocol {
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel) {
         self.imagePreviewView.activityIndicator.isHidden = true
         self.imagePreviewView.textView.text = imagePreviewModel.translatedText
-        self.imagePreviewModel?.saveToHistory()
 
     }
     
@@ -71,6 +76,11 @@ extension ImagePreviewController: TranslateProtocol {
             UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
             
         }
+    }
+    
+    func addRectangle(rectangle: CGRect) {
+        let transformedRect = rectangle.applying(AddRectangleToImageHelper.transformMatrix(imageView: self.imagePreviewView.imageView))
+        UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
     }
 }
 

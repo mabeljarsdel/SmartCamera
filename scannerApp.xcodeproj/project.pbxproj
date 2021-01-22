@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		812FE28325B39E5800EE8A87 /* ObjectDetectionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812FE28225B39E5800EE8A87 /* ObjectDetectionUtil.swift */; };
 		812FE33125B4AAB600EE8A87 /* UIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812FE33025B4AAB600EE8A87 /* UIUtilities.swift */; };
+		81408DB225BB4F4200CF57F7 /* LandmarkDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81408DB125BB4F4200CF57F7 /* LandmarkDetection.swift */; };
+		81408DB525BB5A9400CF57F7 /* Modes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81408DB425BB5A9400CF57F7 /* Modes.swift */; };
+		81408DB825BB6DFF00CF57F7 /* ImageLabeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81408DB725BB6DFF00CF57F7 /* ImageLabeling.swift */; };
 		814788FD258FBF3D00383673 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814788FC258FBF3D00383673 /* LanguageModel.swift */; };
 		8147891C258FCFF100383673 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147891B258FCFF100383673 /* Constant.swift */; };
 		8147891F258FF1A200383673 /* LanguageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147891E258FF1A200383673 /* LanguageStore.swift */; };
@@ -59,6 +62,9 @@
 		5B35037C7C0D0BC1AB5E3226 /* Pods_Translate_Camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Translate_Camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		812FE28225B39E5800EE8A87 /* ObjectDetectionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetectionUtil.swift; sourceTree = "<group>"; };
 		812FE33025B4AAB600EE8A87 /* UIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtilities.swift; sourceTree = "<group>"; };
+		81408DB125BB4F4200CF57F7 /* LandmarkDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkDetection.swift; sourceTree = "<group>"; };
+		81408DB425BB5A9400CF57F7 /* Modes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modes.swift; sourceTree = "<group>"; };
+		81408DB725BB6DFF00CF57F7 /* ImageLabeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabeling.swift; sourceTree = "<group>"; };
 		814788FC258FBF3D00383673 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
 		8147891B258FCFF100383673 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		8147891E258FF1A200383673 /* LanguageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageStore.swift; sourceTree = "<group>"; };
@@ -366,6 +372,7 @@
 				81FF82F02573122800C953F5 /* Main.storyboard */,
 				81FF82F82573122A00C953F5 /* Info.plist */,
 				8168C4E225977978008BCE6E /* GoogleService-Info.plist */,
+				81408DB425BB5A9400CF57F7 /* Modes.swift */,
 			);
 			path = scannerApp;
 			sourceTree = "<group>";
@@ -397,6 +404,8 @@
 				8157E405257AD914002F44D5 /* Translate */,
 				8157E404257AD90A002F44D5 /* TextRecognition */,
 				81F5C33125AB24360032278A /* Error.swift */,
+				81408DB125BB4F4200CF57F7 /* LandmarkDetection.swift */,
+				81408DB725BB6DFF00CF57F7 /* ImageLabeling.swift */,
 			);
 			path = "MLKit ";
 			sourceTree = "<group>";
@@ -546,6 +555,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81408DB525BB5A9400CF57F7 /* Modes.swift in Sources */,
 				81C74D0C2579A81F00287A2C /* SegmentChooseLanguageView.swift in Sources */,
 				8168C4DF2597260D008BCE6E /* SettingsView.swift in Sources */,
 				814788FD258FBF3D00383673 /* LanguageModel.swift in Sources */,
@@ -578,6 +588,7 @@
 				8168C4F025981883008BCE6E /* CoreDataController.swift in Sources */,
 				81CC1BA525A1F5B1007421C4 /* CameraMainView.swift in Sources */,
 				81CC1BB725A210A8007421C4 /* AddRectangleToImage.swift in Sources */,
+				81408DB825BB6DFF00CF57F7 /* ImageLabeling.swift in Sources */,
 				8168C4B025965D2D008BCE6E /* Reachability.swift in Sources */,
 				81B888CF2586A05000EA3EE3 /* TableViewDelegate.swift in Sources */,
 				81B888132586627C00EA3EE3 /* LanguageModelsManager.swift in Sources */,
@@ -586,6 +597,7 @@
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
 				817DBA7C258EF2CE00529FE1 /* LanguageRecognitionUtils.swift in Sources */,
+				81408DB225BB4F4200CF57F7 /* LandmarkDetection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

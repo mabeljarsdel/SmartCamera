@@ -8,24 +8,6 @@
 import Foundation
 import UIKit
 
-enum CameraModes: CustomStringConvertible, CaseIterable {
-    case objectDetection
-    case landmarkDetection
-    case normal
-    case translation
-    case imageLabeling
-    
-    var description: String {
-        switch self {
-        case .objectDetection: return "Object detection"
-        case .landmarkDetection: return "Landmark detection"
-        case .normal: return "Normal"
-        case .translation: return "Translation"
-        case .imageLabeling: return "Image labeling"
-        }
-    }
-}
-
 //var modes = ["Object detection", "Landmark detection", "Normal", "Translation", "Image labeling"]
 
 
@@ -124,6 +106,7 @@ class CameraMainView: UIView {
 //        view.selection
         return view
     }()
+    
     
     
     var modes: [CameraModes] = CameraModes.allCases
