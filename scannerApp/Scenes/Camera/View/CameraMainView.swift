@@ -107,6 +107,13 @@ class CameraMainView: UIView {
         return view
     }()
     
+    let navigationBar: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .black
+        return view
+    }()
+    
     
     
     var modes: [CameraModes] = CameraModes.allCases
@@ -119,23 +126,35 @@ class CameraMainView: UIView {
     
     func setupView() {
         self.backgroundColor = .black
-        self.addSubview(captureImageButton)
-        self.addSubview(openGalleryButton)
-        self.addSubview(openScanDocumentsButton)
-        self.addSubview(flashButton)
-        self.addSubview(settingsButton)
-        self.addSubview(historyButton)
+        self.addSubview(navigationBar)
         self.addSubview(cameraView)
+        navigationBar.addSubview(captureImageButton)
+        navigationBar.addSubview(openGalleryButton)
+        navigationBar.addSubview(openScanDocumentsButton)
+        navigationBar.addSubview(flashButton)
+        navigationBar.addSubview(settingsButton)
+        navigationBar.addSubview(historyButton)
         self.addSubview(chooseLanguageView)
-        self.addSubview(modePicker)
+        navigationBar.addSubview(modePicker)
+        
+        
         
         
         cameraView.snp.makeConstraints { make in
-            make.width.equalTo(UIScreen.main.bounds.width)
+            make.width.equalTo(self.snp.width)
             make.height.equalTo((UIScreen.main.bounds.width/3)*4)
             make.top.equalTo(self.snp.top)
             
         }
+        
+        navigationBar.snp.makeConstraints { make in
+            make.width.equalTo(self.snp.width)
+            make.bottom.equalTo(self.snp.bottom)
+            make.leading.equalTo(self.snp.leading)
+            make.trailing.equalTo(self.snp.trailing)
+            make.height.equalTo(UIScreen.main.bounds.height - cameraView.frame.height)
+        }
+        
         captureImageButton.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(70)
             make.bottom.equalTo(self.snp.bottom).offset(-20)
@@ -173,8 +192,6 @@ class CameraMainView: UIView {
             make.centerY.equalTo(captureImageButton.snp.centerY)
             make.right.equalTo(self.snp.right).offset(-25)
         }
-        
-
         
         chooseLanguageView.snp.makeConstraints { make in
             make.height.equalTo(40)

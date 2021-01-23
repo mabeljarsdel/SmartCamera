@@ -16,7 +16,7 @@ class CameraViewController: UIViewController {
     
     var takePicture: Bool = false
     var cameraMainView = CameraMainView()
-    var currentMode: CameraModes = .normal
+    var currentMode: CameraModes = .translation
     
     
     var lastFrame: CMSampleBuffer?
@@ -24,7 +24,17 @@ class CameraViewController: UIViewController {
     //MARK:- Lifecycle
     override func loadView() {
         super.loadView()
-        self.view = cameraMainView
+        cameraMainView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(cameraMainView)
+        
+        cameraMainView.snp.makeConstraints { make in
+            make.top.equalTo(self.view.snp.top)
+            make.bottom.equalTo(self.view.snp.bottom)
+            make.left.equalTo(self.view.snp.left)
+            make.right.equalTo(self.view.snp.right)
+        }
+        
         cameraMainView.modePicker.dataSource = self
         cameraMainView.modePicker.delegate = self
         cameraMainView.modePicker.selectRow(2, inComponent: 0, animated: false)

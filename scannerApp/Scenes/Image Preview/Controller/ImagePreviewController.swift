@@ -11,6 +11,8 @@ import MLKitVision
 import UIKit
 import Firebase
 
+
+
 class ImagePreviewController: UIViewController {
     let imagePreviewView = ImagePreviewView()
     var imagePreviewModel: ImagePreviewModel?
@@ -19,18 +21,18 @@ class ImagePreviewController: UIViewController {
     override func loadView() {
         super.loadView()
         self.view = imagePreviewView
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.imagePreviewModel = ImagePreviewModel(delegate: self, image: self.imagePreviewView.imageView, mode: self.currentMode!)
         
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if self.currentMode == .normal {
+        if self.currentMode == .translation {
             self.imagePreviewModel?.saveToHistory()
         }
     }

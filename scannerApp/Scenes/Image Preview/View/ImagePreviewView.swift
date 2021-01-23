@@ -46,11 +46,50 @@ class ImagePreviewView: UIView {
         return ai
     }()
     
+    var currentMode: CameraModes!
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.setupConstaint()
+        if currentMode != .translation {
+            self.setupConstraintSheet()
+        } else {
+            self.setupConstaint()
+        }
+    }
+    
+    func setupConstraintSheet() {
+        self.addSubview(imageView)
+        self.addSubview(textView)
+        self.addSubview(activityIndicator)
         
+        imageView.snp.makeConstraints { make in
+            make.left.equalTo(self.snp.left).offset(10)
+            make.top.equalTo(self.snp.top).offset(10)
+            let rect = self.resizeRectangleForImageSheet()
+            
+            make.width.equalTo(rect.width)
+            make.height.equalTo(rect.height)
+
+        }
+        
+        textView.snp.makeConstraints { make in
+            make.left.equalTo(imageView.snp.right).offset(10)
+            make.top.equalTo(self.snp.top).offset(10)
+            make.right.equalTo(self.snp.right).offset(-10)
+
+            make.height.equalTo(imageView.snp.height)
+            make.width.equalTo(self.frame.width*2/3)
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.equalTo(textView.snp.centerX)
+            make.centerY.equalTo(textView.snp.centerY)
+        }
+        
+        
+        textView.font = textView.font?.withSize(14)
+        
+        self.backgroundColor = .systemBackground
     }
     
     
@@ -98,6 +137,27 @@ class ImagePreviewView: UIView {
         }
         
         self.scrollView.backgroundColor = .systemBackground
+    }
+    
+    func resizeRectangleForImageSheet() -> CGSize {
+        let defaultSize = CGSize(width: self.frame.width/3, height: 300)
+        
+        let ratio = self.imageView.image!.size.width/self.imageView.image!.size.height
+        
+        if ratio > 1 {
+            let newHeight = defaultSize.width / ratio
+            return CGSize(width: defaultSize.width, height: newHeight)
+        } else {
+            if (defaultSize.width / ratio) > defaultSize.height {
+                let newWidth = defaultSize.height * ratio
+                
+                return CGSize(width: newWidth, height: defaultSize.height)
+            } else {
+                let newHeight = defaultSize.width / ratio
+                
+                return CGSize(width: defaultSize.width, height: newHeight)
+            }
+        }
     }
     
     func resizeRectangleForImage() -> CGSize {

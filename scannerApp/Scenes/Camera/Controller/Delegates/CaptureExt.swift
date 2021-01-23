@@ -9,9 +9,10 @@ import Foundation
 import UIKit
 import AVFoundation
 import MLKit
+import UIDrawer
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    
+
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
 
@@ -32,13 +33,29 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.takePicture = false
         
         DispatchQueue.main.sync {
-            let imagePreview = ImagePreviewController()
-            
-            imagePreview.imagePreviewView.imageView.image = uiImage
-            imagePreview.currentMode = self.currentMode
-            
-            imagePreview.modalPresentationStyle = .formSheet
-            self.present(imagePreview, animated: true)
+            if self.currentMode == .translation {
+                let imagePreview = ImagePreviewController()
+                
+                imagePreview.imagePreviewView.imageView.image = uiImage
+                imagePreview.currentMode = self.currentMode
+                imagePreview.imagePreviewView.currentMode = self.currentMode
+
+                
+                imagePreview.modalPresentationStyle = .formSheet
+                self.present(imagePreview, animated: true)
+            } else {
+                let imagePreview = ImagePreviewController()
+                
+                
+                imagePreview.imagePreviewView.imageView.image = uiImage
+                imagePreview.imagePreviewView.currentMode = self.currentMode
+
+                imagePreview.currentMode = self.currentMode
+                
+                imagePreview.modalPresentationStyle = .custom
+                imagePreview.transitioningDelegate = self
+                self.present(imagePreview, animated: true)
+            }
             
         }
         
@@ -66,4 +83,16 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 //            annotationView.removeFromSuperview()
 //        }
 //    }
+}
+
+extension CameraViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        let presentationController = DrawerPresentationController(presentedViewController: presented, presenting: presenting)
+
+        presentationController.cornerRadius = 20
+        presentationController.roundedCorners = [.topLeft, .topRight]
+        presentationController.topGap = 240
+        presentationController.bounce = true
+        return presentationController
+     }
 }

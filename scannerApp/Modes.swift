@@ -12,7 +12,6 @@ import Foundation
 enum CameraModes: CustomStringConvertible, CaseIterable {
     case objectDetection
     case landmarkDetection
-    case normal
     case translation
     case imageLabeling
     
@@ -20,7 +19,6 @@ enum CameraModes: CustomStringConvertible, CaseIterable {
         switch self {
         case .objectDetection: return "Object detection"
         case .landmarkDetection: return "Landmark detection"
-        case .normal: return "Normal"
         case .translation: return "Translation"
         case .imageLabeling: return "Image labeling"
         }
