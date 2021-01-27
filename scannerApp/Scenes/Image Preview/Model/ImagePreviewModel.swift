@@ -125,9 +125,9 @@ class ImagePreviewModel {
     private func translate(image: UIImageView) {
         let processor = ScaledElementProcessor()
         let translateController = TranslatorController.translatorInstance
-        #warning("dont forget change it")
-        if true {
-//        if !Reachability.instance.connectionStatus {
+        #warning("Cloud text recognition")
+//        if true {
+        if !Reachability.instance.connectionStatus {
             processor.processOnDeviceTextRecognise(in: image, callback: { text, error in
                 
                 guard let textResult = text else {

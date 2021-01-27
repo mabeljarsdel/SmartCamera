@@ -21,7 +21,7 @@ class ImageLabelingUtil {
         
         labeler.process(image, completion: { labels, error in
             if error != nil {
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "Image lebeling error")
                 callback(nil, error)
             } else {
                 if labels?.count == 0 {

@@ -24,7 +24,7 @@ class LandmarkDetectionUtil {
         
         cloudDetector.detect(in: image, completion: { landmark, error in
             if error != nil {
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "Landmark detection error")
                 callback(nil, error)
             } else {
                 if landmark?.count == 0 {

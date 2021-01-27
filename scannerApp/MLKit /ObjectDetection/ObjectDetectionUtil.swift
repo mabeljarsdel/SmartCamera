@@ -26,7 +26,7 @@ class ObjectDetectionUtil {
 
         objectDetector.process(image, completion: { detectedObjects, error in
             if error != nil {
-                print(error)
+                print(error ?? "Object detection error")
                 callback(nil, error)
             } else {
                 if detectedObjects?.count == 0 {
