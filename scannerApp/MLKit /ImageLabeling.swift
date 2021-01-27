@@ -10,7 +10,7 @@ import MLKit
 class ImageLabelingUtil {
     
     func processLandmarkDetection(in imageView: UIImageView,
-                                  callback: @escaping (_ text: [ImageLabel]?, Error?) -> Void) {
+                                  callback: @escaping (_ label: [ImageLabel]?, Error?) -> Void) {
         let image = MLKit.VisionImage(image: imageView.image!)
         image.orientation = imageView.image!.imageOrientation
         
@@ -24,6 +24,9 @@ class ImageLabelingUtil {
                 print(error?.localizedDescription)
                 callback(nil, error)
             } else {
+                if labels?.count == 0 {
+                    callback(nil, ObjectDetectionError.objectNotDetected)
+                }
                 callback(labels, nil)
             }
         })

@@ -14,17 +14,16 @@ import UIDrawer
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
+        connection.videoOrientation = .portrait
+        lastFrame = sampleBuffer
 
         if !takePicture {
-
             return
         }
         
-        connection.videoOrientation = .portrait
-        lastFrame = sampleBuffer
         
-        guard let uiImage = self.updatePreviewOverlayView() else { return }
+        
+        guard let uiImage = self.getCapturedImage() else { return }
         
         let visionImage = VisionImage(image: uiImage)
         visionImage.orientation = uiImage.imageOrientation
@@ -63,7 +62,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     }
 
-    private func updatePreviewOverlayView() -> UIImage? {
+    private func getCapturedImage() -> UIImage? {
         guard let lastFrame = lastFrame,
               let imageBuffer = CMSampleBufferGetImageBuffer(lastFrame)
         else {
@@ -77,12 +76,6 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         let rotatedImage = UIImage(cgImage: cgImage)
         return rotatedImage
     }
-    
-//    private func removeDetectionAnnotations() {
-//        for annotationView in annotationOverlayView.subviews {
-//            annotationView.removeFromSuperview()
-//        }
-//    }
 }
 
 extension CameraViewController: UIViewControllerTransitioningDelegate {

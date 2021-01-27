@@ -27,6 +27,9 @@ class LandmarkDetectionUtil {
                 print(error?.localizedDescription)
                 callback(nil, error)
             } else {
+                if landmark?.count == 0 {
+                    callback(nil, LandmarkDetectionError.landmarkNotDetected)
+                }
                 callback(landmark, nil)
             }
         })

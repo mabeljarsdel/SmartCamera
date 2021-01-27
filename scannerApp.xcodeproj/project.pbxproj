@@ -31,7 +31,6 @@
 		81735A39259C3EC7006E5491 /* ChooseLanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81735A38259C3EC7006E5491 /* ChooseLanguageModel.swift */; };
 		817DBA7C258EF2CE00529FE1 /* LanguageRecognitionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */; };
 		817DBA9D258EFDBB00529FE1 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */; };
-		81AF26F725BCB46000644853 /* SheetImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF26F625BCB46000644853 /* SheetImagePreview.swift */; };
 		81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE122577DF3A00458926 /* CameraViewController.swift */; };
 		81B5FE1C25781AC000458926 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1B25781AC000458926 /* CameraView.swift */; };
 		81B5FE20257821D600458926 /* ImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B5FE1F257821D600458926 /* ImagePreviewController.swift */; };
@@ -85,7 +84,6 @@
 		81735A38259C3EC7006E5491 /* ChooseLanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageModel.swift; sourceTree = "<group>"; };
 		817DBA7B258EF2CE00529FE1 /* LanguageRecognitionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageRecognitionUtils.swift; sourceTree = "<group>"; };
 		817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
-		81AF26F625BCB46000644853 /* SheetImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetImagePreview.swift; sourceTree = "<group>"; };
 		81B5FE122577DF3A00458926 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		81B5FE1B25781AC000458926 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		81B5FE1F257821D600458926 /* ImagePreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewController.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 				81CC1BB325A1FF8E007421C4 /* View */,
 				81CC1BAF25A1FF70007421C4 /* Controller */,
 				81CC1BB925A212E2007421C4 /* TranslateProtocol.swift */,
-				81AF26F625BCB46000644853 /* SheetImagePreview.swift */,
 			);
 			path = "Image Preview";
 			sourceTree = "<group>";
@@ -598,7 +595,6 @@
 				814FBEB62583F4F000E2EDDD /* ScanDocumentsExtension.swift in Sources */,
 				81CC1BBA25A212E2007421C4 /* TranslateProtocol.swift in Sources */,
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,
-				81AF26F725BCB46000644853 /* SheetImagePreview.swift in Sources */,
 				81FF82ED2573122800C953F5 /* SceneDelegate.swift in Sources */,
 				817DBA7C258EF2CE00529FE1 /* LanguageRecognitionUtils.swift in Sources */,
 				81408DB225BB4F4200CF57F7 /* LandmarkDetection.swift in Sources */,

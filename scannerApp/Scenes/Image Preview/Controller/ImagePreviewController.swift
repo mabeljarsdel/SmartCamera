@@ -17,6 +17,8 @@ class ImagePreviewController: UIViewController {
     let imagePreviewView = ImagePreviewView()
     var imagePreviewModel: ImagePreviewModel?
     var currentMode: CameraModes?
+    
+    var endWithError: Bool = false
     //MARK: View life cycle
     override func loadView() {
         super.loadView()
@@ -33,7 +35,9 @@ class ImagePreviewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if self.currentMode == .translation {
-            self.imagePreviewModel?.saveToHistory()
+            if !self.endWithError {
+                self.imagePreviewModel?.saveToHistory()
+            }
         }
     }
     
@@ -44,7 +48,7 @@ class ImagePreviewController: UIViewController {
             print("Ok tapped")
             self.dismiss(animated: true)
         })
-        
+        self.endWithError = true
         alert.addAction(ok)
         self.present(alert, animated: true)
     }

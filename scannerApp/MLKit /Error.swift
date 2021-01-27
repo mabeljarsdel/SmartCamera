@@ -18,11 +18,39 @@ extension TranslateError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .languageRecognitionError:
-            return NSLocalizedString("Language doesnt recognised", comment: "Language recognition error")
+            return NSLocalizedString("Language not recognized", comment: "Language not recognized")
         case .textRecognitionError:
-            return NSLocalizedString("Text doesnt recognised", comment: "Text recognition error")
+            return NSLocalizedString("Text not recognized", comment: "Text not recognized")
         case .translateError:
-            return NSLocalizedString("Text doesnt translated", comment: "Translate error")
+            return NSLocalizedString("Text not translated", comment: "Text not translated")
+        }
+    }
+}
+
+
+enum ObjectDetectionError: Error {
+    case objectNotDetected
+}
+
+extension ObjectDetectionError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .objectNotDetected:
+            return NSLocalizedString("Object not detected", comment: "Object not detected")
+        }
+    }
+}
+
+enum LandmarkDetectionError: Error {
+    case landmarkNotDetected
+
+}
+
+extension LandmarkDetectionError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .landmarkNotDetected:
+            return NSLocalizedString("Landmark not detected", comment: "Landmark not detected")
         }
     }
 }

@@ -25,7 +25,6 @@ class CameraViewController: UIViewController {
     override func loadView() {
         super.loadView()
         cameraMainView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.view.addSubview(cameraMainView)
         
         cameraMainView.snp.makeConstraints { make in
