@@ -42,12 +42,11 @@ class CameraViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
         setupViewAction()
         setupObservers()
         checkPermissions()
         setupOutput()
+        
         let reachability = Reachability.instance
         print(reachability.connectionStatus)
     }
