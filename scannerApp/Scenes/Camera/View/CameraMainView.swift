@@ -51,15 +51,15 @@ class CameraMainView: UIView {
         return button
     }()
     
-    
-    let flashButton: UIButton = {
-        let button = UIButton()
-        let image = UIImage(systemName: "bolt.circle.fill")
-        button.setImage(image, for: .normal)
-        button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//
+//    let flashButton: UIButton = {
+//        let button = UIButton()
+//        let image = UIImage(systemName: "bolt.circle.fill")
+//        button.setImage(image, for: .normal)
+//        button.tintColor = .white
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
     let settingsButton: UIButton = {
         let button = UIButton()
@@ -103,7 +103,6 @@ class CameraMainView: UIView {
         let view = UIPickerView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.transform = CGAffineTransform(rotationAngle: -90 * (.pi / 180))
-//        view.selection
         return view
     }()
     
@@ -114,8 +113,7 @@ class CameraMainView: UIView {
         return view
     }()
     
-    
-    
+
     var modes: [CameraModes] = CameraModes.allCases
 
     
@@ -131,13 +129,11 @@ class CameraMainView: UIView {
         navigationBar.addSubview(captureImageButton)
         navigationBar.addSubview(openGalleryButton)
         navigationBar.addSubview(openScanDocumentsButton)
-        navigationBar.addSubview(flashButton)
+//        navigationBar.addSubview(flashButton)
         navigationBar.addSubview(settingsButton)
         navigationBar.addSubview(historyButton)
         self.addSubview(chooseLanguageView)
         navigationBar.addSubview(modePicker)
-        
-        
         
         
         cameraView.snp.makeConstraints { make in
@@ -146,6 +142,8 @@ class CameraMainView: UIView {
             make.top.equalTo(self.snp.top)
             
         }
+        
+        
         
         navigationBar.snp.makeConstraints { make in
             make.width.equalTo(self.snp.width)
@@ -162,33 +160,33 @@ class CameraMainView: UIView {
         }
         
         
-        flashButton.snp.makeConstraints { make in
-            make.width.height.equalTo(60)
-            make.bottom.equalTo(captureImageButton.snp.top).offset(10)
-            make.left.equalTo(self.snp.left).offset(25)
-        }
+//        flashButton.snp.makeConstraints { make in
+//            make.width.height.equalTo(60)
+//            make.bottom.equalTo(captureImageButton.snp.top).offset(10)
+//            make.left.equalTo(self.snp.left).offset(25)
+//        }
         
         settingsButton.snp.makeConstraints { make in
-            make.width.height.equalTo(flashButton.snp.width)
-            make.bottom.equalTo(flashButton.snp.bottom)
+            make.width.height.equalTo(60)
+            make.bottom.equalTo(captureImageButton.snp.top).offset(10)
             make.right.equalTo(self.snp.right).offset(-25)
         }
         
         historyButton.snp.makeConstraints { make in
-            make.width.height.equalTo(flashButton.snp.width)
-            make.bottom.equalTo(flashButton.snp.bottom)
+            make.width.height.equalTo(settingsButton.snp.width)
+            make.bottom.equalTo(settingsButton.snp.bottom)
             make.centerX.equalTo(self.snp.centerX)
         }
         
         
         openGalleryButton.snp.makeConstraints { (make) -> Void in
-            make.width.height.equalTo(flashButton.snp.width)
+            make.width.height.equalTo(settingsButton.snp.width)
             make.centerY.equalTo(captureImageButton.snp.centerY)
             make.left.equalTo(self.snp.left).offset(25)
         }
         
         openScanDocumentsButton.snp.makeConstraints { (make) -> Void in
-            make.width.height.equalTo(flashButton.snp.width)
+            make.width.height.equalTo(settingsButton.snp.width)
             make.centerY.equalTo(captureImageButton.snp.centerY)
             make.right.equalTo(self.snp.right).offset(-25)
         }

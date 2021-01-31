@@ -10,18 +10,20 @@ import UIKit
 import AVFoundation
 import MLKit
 import UIDrawer
+import QCropper
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+
         connection.videoOrientation = .portrait
         lastFrame = sampleBuffer
-
+        //            self.updatePreviewOverlayView()
+        
+        
         if !takePicture {
             return
         }
-        
-        
         
         guard let uiImage = self.getCapturedImage() else { return }
         
@@ -56,6 +58,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 self.present(imagePreview, animated: true)
             }
             
+
+            
         }
         
         self.takePicture = false
@@ -75,6 +79,24 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         let rotatedImage = UIImage(cgImage: cgImage)
         return rotatedImage
+    }
+    
+    private func updatePreviewOverlayView() {
+        guard let lastFrame = lastFrame,
+              let imageBuffer = CMSampleBufferGetImageBuffer(lastFrame)
+        else {
+            return
+        }
+        let ciImage = CIImage(cvPixelBuffer: imageBuffer)
+        let context = CIContext(options: nil)
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
+            return
+        }
+        let rotatedImage = UIImage(cgImage: cgImage)
+        
+        self.previewOverlayView.image = rotatedImage
+        
+
     }
 }
 

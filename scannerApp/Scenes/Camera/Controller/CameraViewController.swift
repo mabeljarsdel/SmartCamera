@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import SnapKit
 import VisionKit
-
+import QCropper
 
 
 class CameraViewController: UIViewController {
@@ -20,6 +20,33 @@ class CameraViewController: UIViewController {
     
     
     var lastFrame: CMSampleBuffer?
+    
+    
+    var previewOverlayView: UIImageView = {
+
+      let previewOverlayView = UIImageView()
+      previewOverlayView.contentMode = UIView.ContentMode.scaleAspectFill
+      previewOverlayView.translatesAutoresizingMaskIntoConstraints = false
+      return previewOverlayView
+    }()
+
+    lazy var cropBox: ResizableView = {
+        
+        let x = cameraMainView.cameraView.center.x
+        let y = cameraMainView.cameraView.center.y
+        let sizeWidth = cameraMainView.cameraView.frame.width/2
+        let sizeHeight = cameraMainView.cameraView.frame.height/2
+        let resizableView = ResizableView(frame: CGRect(x: x-(sizeWidth/2), y: y-(sizeHeight/2),
+                                                        width: sizeWidth, height: sizeHeight))
+        
+        resizableView.defaultSizeWidth = sizeWidth
+        resizableView.defaultSizeHeight = sizeHeight
+        resizableView.defaultCenter = CGPoint(x: x, y: y)
+        resizableView.translatesAutoresizingMaskIntoConstraints = false
+        resizableView.isUserInteractionEnabled = true
+        return resizableView
+    }()
+
 
     //MARK:- Lifecycle
     override func loadView() {
@@ -33,6 +60,8 @@ class CameraViewController: UIViewController {
             make.left.equalTo(self.view.snp.left)
             make.right.equalTo(self.view.snp.right)
         }
+        
+        
         
         cameraMainView.modePicker.dataSource = self
         cameraMainView.modePicker.delegate = self
@@ -49,8 +78,29 @@ class CameraViewController: UIViewController {
         
         let reachability = Reachability.instance
         print(reachability.connectionStatus)
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.setUpPreviewOverlayView()
+
     }
 
+    private func setUpPreviewOverlayView() {
+        self.cameraMainView.cameraView.addSubview(previewOverlayView)
+        
+        previewOverlayView.snp.makeConstraints { make in
+            make.size.equalTo(cameraMainView.cameraView.snp.size)
+            make.center.equalTo(cameraMainView.cameraView.snp.center)
+        }
+        
+        self.cameraMainView.cameraView.addSubview(cropBox)
+        
+      
+
+    }
 
     
     func setupObservers() {
@@ -59,7 +109,7 @@ class CameraViewController: UIViewController {
     
     func setupViewAction() {
         
-        cameraMainView.flashButton.addTarget(self, action: #selector(toggleFlash(_:)), for: .touchUpInside)
+//        cameraMainView.flashButton.addTarget(self, action: #selector(toggleFlash(_:)), for: .touchUpInside)
         cameraMainView.settingsButton.addTarget(self, action: #selector(openSettings(_:)), for: .touchUpInside)
         cameraMainView.historyButton.addTarget(self, action: #selector(openHistory(_:)), for: .touchUpInside)
         cameraMainView.captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
@@ -242,5 +292,3 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     }
 }
-
-

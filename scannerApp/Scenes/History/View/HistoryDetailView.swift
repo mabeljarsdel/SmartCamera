@@ -57,6 +57,8 @@ class HistoryDetailView: UIView {
         super.layoutSubviews()
         self.setupConstaint()
         self.backgroundColor = .systemBackground
+        self.textView.font = self.textView.font?.withSize(20)
+        self.translatedTextView.font = self.textView.font
     }
     
     

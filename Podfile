@@ -19,7 +19,7 @@ target 'Translate Camera' do
   pod 'GoogleMLKit/LinkFirebase'
   pod 'GoogleMLKit/ImageLabeling'
   pod 'UIDrawer', :git => 'https://github.com/Que20/UIDrawer.git', :tag => '1.0'
-
+  pod 'QCropper'
 end
 
 post_install do |installer|

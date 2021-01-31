@@ -214,6 +214,7 @@ PODS:
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.10)
   - Protobuf (3.13.0)
+  - QCropper (0.1.4)
   - SnapKit (5.0.1)
   - UIDrawer (1.0)
 
@@ -227,6 +228,7 @@ DEPENDENCIES:
   - GoogleMLKit/ObjectDetection
   - GoogleMLKit/TextRecognition
   - GoogleMLKit/Translate
+  - QCropper
   - SnapKit (~> 5.0.0)
   - UIDrawer (from `https://github.com/Que20/UIDrawer.git`, tag `1.0`)
 
@@ -267,6 +269,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - QCropper
     - SnapKit
 
 EXTERNAL SOURCES:
@@ -315,9 +318,10 @@ SPEC CHECKSUMS:
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
+  QCropper: 55bce5393c872d5f9c4bfa9ff277e0d98d9f282f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   UIDrawer: 1bfbc152fee69f6809a41508000cf1b9bd4b1738
 
-PODFILE CHECKSUM: e116abc7326f92a1380353004baae4da041474b2
+PODFILE CHECKSUM: 40f9f700621a495eada9effeb6ee4abeb301b6d3
 
 COCOAPODS: 1.9.3
