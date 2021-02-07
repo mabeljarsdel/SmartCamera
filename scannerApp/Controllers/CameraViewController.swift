@@ -103,7 +103,7 @@ class CameraViewController: UIViewController {
         
         let chooseLanguageModel = ChooseLanguageModel.instance
         
-        if chooseLanguageModel.getLanguage(languageType: .input).displayName == Constant.autodetectionIdentifier {
+        if chooseLanguageModel.getLanguage(languageType: .input).displayName == Constants.autodetectionIdentifier {
             return
         }
         

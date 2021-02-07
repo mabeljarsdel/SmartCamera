@@ -93,7 +93,7 @@ class TranslatorController {
     
     private func checkIsAutodetection() -> Bool {
         let chooseLanguageModel = ChooseLanguageModel.instance
-        if chooseLanguageModel.getLanguage(languageType: .input).displayName == Constant.autodetectionIdentifier {
+        if chooseLanguageModel.getLanguage(languageType: .input).displayName == Constants.autodetectionIdentifier {
             return true
         }
         return false

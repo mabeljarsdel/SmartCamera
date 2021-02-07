@@ -48,8 +48,8 @@ class DetailChooseLanguageViewController: UIViewController {
     //MARK: Lifecycle-
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.menuType == .input && self.allLanguages[0] != LanguageModel(translateLanguage: TranslateLanguage(rawValue: Constant.autodetectionIdentifier)) {
-            self.allLanguages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: Constant.autodetectionIdentifier)), at: 0)
+        if self.menuType == .input && self.allLanguages[0] != LanguageModel(translateLanguage: TranslateLanguage(rawValue: Constants.autodetectionIdentifier)) {
+            self.allLanguages.insert(LanguageModel(translateLanguage: TranslateLanguage(rawValue: Constants.autodetectionIdentifier)), at: 0)
         }
         
         self.view.backgroundColor = .white
@@ -174,7 +174,7 @@ extension DetailChooseLanguageViewController: UITableViewDataSource, UITableView
             cell.accessoryType = .checkmark
             cell.accessoryView = nil
             
-        } else if language.displayName == Constant.autodetectionIdentifier {
+        } else if language.displayName == Constants.autodetectionIdentifier {
             cell.accessoryView = nil
             return cell
         } else {

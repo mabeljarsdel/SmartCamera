@@ -202,8 +202,8 @@
 		8149FAD62578364F004945A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				81FF833A25731AEF00C953F5 /* MLKit  */,
 				817DBA9B258EFDAD00529FE1 /* CoreData */,
+				81FF833A25731AEF00C953F5 /* MLKit  */,
 				8147891B258FCFF100383673 /* Constants.swift */,
 				8168C4AF25965D2D008BCE6E /* Reachability.swift */,
 				812FE33025B4AAB600EE8A87 /* UIUtilities.swift */,
@@ -240,17 +240,9 @@
 		817DBA9B258EFDAD00529FE1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				81CC1BBC25A21331007421C4 /* CoreData */,
 				8168C4EB2598169A008BCE6E /* HistoryCell.xcdatamodeld */,
 				8168C4EF25981883008BCE6E /* CoreDataController.swift */,
 				817DBA9C258EFDBB00529FE1 /* UserDefaultsController.swift */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		81CC1BBC25A21331007421C4 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
 			);
 			path = CoreData;
 			sourceTree = "<group>";

@@ -29,7 +29,6 @@ class ImagePreviewModel {
     func process(image: UIImageView) {
         switch self.currentMode {
         case .objectDetection:
-            print("obj det")
             let objectDetectionUtils = ObjectDetectionUtil()
             objectDetectionUtils.processObjectDetection(in: image, callback: { detectedObjects, error in
                 if error != nil {
@@ -50,7 +49,6 @@ class ImagePreviewModel {
                 }
             })
         case .landmarkDetection:
-            print("land")
             let landmarkDetector = LandmarkDetectionUtil()
             
             landmarkDetector.processLandmarkDetection(in: image, callback: {  landmarksOpt, error in
@@ -70,50 +68,27 @@ class ImagePreviewModel {
             })
 
         case .translation:
-            print("trranslation")
             self.translate(image: image)
 
         case .imageLabeling:
-            print("image lableing")
-            
-            let imageLabelingUtil = ImageLabelingUtil()
-            imageLabelingUtil.processLandmarkDetection(in: image, callback: { labels, error in
-                if error != nil {
-                    self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
-                } else {
-                    guard let labels = labels else { return }
-                    for label in labels {
-                        self.translatedText += "\(label.text) \(Int(label.confidence*100))%\n"
-                    }
-                    
-                    self.delegate.imagePreviewModelTranslateSuccessful(self)
-                }
-            })
+            self.processImageLabeling(image: image)
+        
         case .imgLblWithObjDet:
-            print("img labeling with object dtetction")
+
             let objectDetectionUtils = ObjectDetectionUtil()
             
             objectDetectionUtils.processObjectDetection(in: image, callback: { detectedObjects, error in
                 if error != nil {
-                    self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
+//                    self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
+                    self.processImageLabeling(image: image)
                 } else {
                     guard let objects = detectedObjects else { return }
 
                     for object in objects {
                         
-                        let imageLabelingUtil = ImageLabelingUtil()
-                        imageLabelingUtil.processLandmarkDetection(in: image, callback: { labels, error in
-                            if error != nil {
-                                self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
-                            } else {
-                                guard let labels = labels else { return }
-                                for label in labels {
-                                    self.translatedText += "\(label.text) \(Int(label.confidence*100))%\n"
-                                }
-                                self.delegate.addRectangle(rectangle: object.frame)
-                                self.delegate.imagePreviewModelTranslateSuccessful(self)
-                            }
-                        })
+                        self.processImageLabeling(image: image)
+                        self.delegate.addRectangle(rectangle: object.frame)
+
                     }
                     self.delegate.imagePreviewModelTranslateSuccessful(self)
                     
@@ -123,6 +98,21 @@ class ImagePreviewModel {
     }
 
     
+    func processImageLabeling(image: UIImageView) {
+        
+        let imageLabelingUtil = ImageLabelingUtil()
+        imageLabelingUtil.processLandmarkDetection(in: image, callback: { labels, error in
+            if error != nil {
+                self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
+            } else {
+                guard let labels = labels else { return }
+                for label in labels {
+                    self.translatedText += "\(label.text) \(Int(label.confidence*100))%\n"
+                }
+                self.delegate.imagePreviewModelTranslateSuccessful(self)
+            }
+        })
+    }
     
     
     
@@ -155,9 +145,9 @@ class ImagePreviewModel {
     private func translate(image: UIImageView) {
         let processor = ScaledElementProcessor()
         let translateController = TranslatorController.translatorInstance
-        #warning("Cloud text recognition")
-        if true {
-//        if !Reachability.instance.connectionStatus {
+//        #warning("Cloud text recognition")
+//        if true {
+        if !Reachability.instance.connectionStatus {
             processor.processOnDeviceTextRecognise(in: image, callback: { text, error in
                 
                 guard let textResult = text else {
@@ -183,6 +173,7 @@ class ImagePreviewModel {
                 self.text = textResult.text
             })
         } else {
+            
             processor.processCloudRecognition(in: image, callback: { text, error in
                 
                 guard let textResult = text else {

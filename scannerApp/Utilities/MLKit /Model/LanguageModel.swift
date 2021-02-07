@@ -21,7 +21,7 @@ class LanguageModel: Equatable {
     init(translateLanguage: TranslateLanguage) {
         self.translateLanguage = translateLanguage
         self.languageCode = translateLanguage.rawValue
-        self.displayName = Locale.current.localizedString(forLanguageCode: translateLanguage.rawValue) ?? Constant.autodetectionIdentifier
+        self.displayName = Locale.current.localizedString(forLanguageCode: translateLanguage.rawValue) ?? Constants.autodetectionIdentifier
         self.isDownloaded = LanguageModelsManager.instance.isLanguageDownloaded(translateLanguage)
     }
     

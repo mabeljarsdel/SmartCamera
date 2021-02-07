@@ -17,7 +17,7 @@ class ObjectDetectionUtil {
 
         let options = ObjectDetectorOptions()
             
-        options.detectorMode = .stream
+        options.detectorMode = .singleImage
         options.shouldEnableMultipleObjects = true
         options.shouldEnableClassification = true
 
