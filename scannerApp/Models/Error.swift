@@ -18,11 +18,11 @@ extension TranslateError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .languageRecognitionError:
-            return NSLocalizedString("Language not recognized", comment: "Language not recognized")
+            return "LanguageNotRecognizedError".localized(withComment: "")
         case .textRecognitionError:
-            return NSLocalizedString("Text not recognized", comment: "Text not recognized")
+            return "TextNotRecognizedError".localized(withComment: "")
         case .translateError:
-            return NSLocalizedString("Text not translated", comment: "Text not translated")
+            return "TextNotTranslatedError".localized(withComment: "")
         }
     }
 }
@@ -36,7 +36,7 @@ extension ObjectDetectionError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .objectNotDetected:
-            return NSLocalizedString("Object not detected", comment: "Object not detected")
+            return "ObjectNotDetectedError".localized(withComment: "")
         }
     }
 }
@@ -50,7 +50,7 @@ extension LandmarkDetectionError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .landmarkNotDetected:
-            return NSLocalizedString("Landmark not detected", comment: "Landmark not detected")
+            return "LandmarkNotDetectedError".localized(withComment: "")
         }
     }
 }

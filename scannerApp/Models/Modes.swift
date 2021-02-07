@@ -18,10 +18,10 @@ enum CameraModes: CustomStringConvertible, CaseIterable {
     
     var description: String {
         switch self {
-        case .objectDetection: return "Object detection"
-        case .landmarkDetection: return "Landmark detection"
-        case .translation: return "Translation"
-        case .imageLabeling: return "Image labeling"
+        case .objectDetection: return "ObjectDetection".localized(withComment: "")
+        case .landmarkDetection: return "LandmarkDetection".localized(withComment: "")
+        case .translation: return "Translation".localized(withComment: "")
+        case .imageLabeling: return "ImageLabeling".localized(withComment: "")
         case .imgLblWithObjDet: return "Img lbl + obj det"
         }
     }

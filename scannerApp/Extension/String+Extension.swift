@@ -13,3 +13,9 @@ extension String {
         Locale.current.localizedString(forLanguageCode: self) ?? "Wrong language code"
     }
 }
+
+extension String {
+    func localized(withComment:String) -> String {
+        return NSLocalizedString(self, tableName: nil, value: "", comment: withComment)
+    }
+}

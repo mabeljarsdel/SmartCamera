@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  scannerApp
+
+  Created by Maksym on 07.02.2021.
+  
+*/
+
+"ImageLabeling" = "Image Labeling";
+"ObjectDetection" = "Object detection";
+"Landmarkdetection" = "Landmark detection";
+"Translation" = "Translation";
+"Autodetection" = "Autodetection";
+"TranslateFromHeader" = "Translate From";
+"TranslateToHeader" = "Translate To";
+"HistoryHeader" = "History";
+"Search" = "Search";
+
+"LanguageNotRecognizedError" = "Language not recognized";
+"TextNotRecognizedError" = "Text not recognised";
+"TextNotTranslatedError" = "Text not translated";
+"ObjectNotDetectedError" = "Object not detected";
+"LandmarkNotDetectedError" = "Landmark not detected";

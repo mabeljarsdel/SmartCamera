@@ -41,7 +41,7 @@ class DetailChooseLanguageViewController: UIViewController {
     let searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
         search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Search"
+        search.searchBar.placeholder = "Search".localized(withComment: "")
         return search
     }()
 
@@ -83,7 +83,9 @@ class DetailChooseLanguageViewController: UIViewController {
     }
     
     func setupNavigationBar() {
-        self.title = self.menuType == .input ? "Translate from" : "Translate to"
+        self.title = self.menuType == .input
+            ? "TranslateFromHeader".localized(withComment: "")
+            : "TranslateToHeader".localized(withComment: "")
 
         self.searchController.hidesNavigationBarDuringPresentation = true
         self.searchController.searchResultsUpdater = self

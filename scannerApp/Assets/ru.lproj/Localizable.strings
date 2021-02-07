@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  scannerApp
+
+  Created by Maksym on 07.02.2021.
+  
+*/
+
+"ImageLabeling" = "4";
+"ObjectDetection" = "3";
+"LandmarkDetection" = "2";
+"Translation" = "1";
+"TranslateFromHeader" = "5";
+"TranslateToHeader" = "6";
+"AutodetectionLanguage" = "7";
+"Search" = "10"
+"HistoryHeader" = "11"

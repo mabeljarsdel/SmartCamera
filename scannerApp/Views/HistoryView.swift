@@ -14,7 +14,7 @@ class HistoryView: UIView {
     var searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
         search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Search"
+        search.searchBar.placeholder = "Search".localized(withComment: "")
         return search
     }()
     

@@ -38,7 +38,7 @@ class HistoryViewController: UIViewController {
         self.historyView.searchController.searchResultsUpdater = self
         self.historyView.collectionView.dataSource = self
         self.historyView.collectionView.delegate = self
-        self.title = "History"
+        self.title = "HistoryHeader".localized(withComment: "")
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = self.historyView.searchController
         self.navigationItem.largeTitleDisplayMode = .always
