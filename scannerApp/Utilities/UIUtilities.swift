@@ -10,12 +10,9 @@ import UIKit
 import AVFoundation
 
 
-/// Defines UI-related utilitiy methods for vision detection.
-public class UIUtilities {
-    
-    // MARK: - Public
-    
-    public static func addCircle(
+class UIUtilities {
+
+    static func addCircle(
         atPoint point: CGPoint,
         to view: UIView,
         color: UIColor,
@@ -28,12 +25,12 @@ public class UIUtilities {
         guard circleRect.isValid() else { return }
         let circleView = UIView(frame: circleRect)
         circleView.layer.cornerRadius = radius / divisor
-        circleView.alpha = Constants.circleViewAlpha
+        circleView.alpha = UIConstants.circleViewAlpha
         circleView.backgroundColor = color
         view.addSubview(circleView)
     }
     
-    public static func addLineSegment(
+    static func addLineSegment(
         fromPoint: CGPoint, toPoint: CGPoint, inView: UIView, color: UIColor, width: CGFloat
     ) {
         let path = UIBezierPath()
@@ -50,17 +47,17 @@ public class UIUtilities {
         inView.addSubview(lineView)
     }
     
-    public static func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor) {
+    static func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor) {
         guard rectangle.isValid() else { return }
         let rectangleView = UIView(frame: rectangle)
         //    rectangleView.layer.cornerRadius = x.rectangleViewCornerRadius
-        rectangleView.alpha = Constants.rectangleViewAlpha
+        rectangleView.alpha = UIConstants.rectangleViewAlpha
         rectangleView.backgroundColor = color
         
         view.addSubview(rectangleView)
     }
     
-    public static func addShape(withPoints points: [NSValue]?, to view: UIView, color: UIColor) {
+    static func addShape(withPoints points: [NSValue]?, to view: UIView, color: UIColor) {
         guard let points = points else { return }
         let path = UIBezierPath()
         for (index, value) in points.enumerated() {
@@ -79,14 +76,14 @@ public class UIUtilities {
         shapeLayer.fillColor = color.cgColor
         let rect = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
         let shapeView = UIView(frame: rect)
-        shapeView.alpha = Constants.shapeViewAlpha
+        shapeView.alpha = UIConstants.shapeViewAlpha
         shapeView.layer.addSublayer(shapeLayer)
         view.addSubview(shapeView)
     }
     
     
     
-    public static func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage {
+    static func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage {
         let imageViewScale = max(inputImage.size.width / viewWidth,
                                  inputImage.size.height / viewHeight)
 
@@ -104,12 +101,33 @@ public class UIUtilities {
         return croppedImage
     }
     
-    
+    static func transformMatrix(imageView: UIImageView) -> CGAffineTransform {
+        guard let image = imageView.image else { return CGAffineTransform() }
+        let imageViewWidth = imageView.frame.size.width
+        let imageViewHeight = imageView.frame.size.height
+        let imageWidth = image.size.width
+        let imageHeight = image.size.height
+        
+        let imageViewAspectRatio = imageViewWidth / imageViewHeight
+        let imageAspectRatio = imageWidth / imageHeight
+        let scale =
+            (imageViewAspectRatio > imageAspectRatio)
+            ? imageViewHeight / imageHeight : imageViewWidth / imageWidth
+        
+        let scaledImageWidth = imageWidth * scale
+        let scaledImageHeight = imageHeight * scale
+        let xValue = (imageViewWidth - scaledImageWidth) / CGFloat(2.0)
+        let yValue = (imageViewHeight - scaledImageHeight) / CGFloat(2.0)
+        
+        var transform = CGAffineTransform.identity.translatedBy(x: xValue, y: yValue)
+        transform = transform.scaledBy(x: scale, y: scale)
+        return transform
+    }
 }
 
 // MARK: - Constants
 
-private enum Constants {
+private enum UIConstants {
     static let circleViewAlpha: CGFloat = 0.7
     static let rectangleViewAlpha: CGFloat = 0.4
     static let shapeViewAlpha: CGFloat = 0.3

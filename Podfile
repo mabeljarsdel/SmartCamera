@@ -15,9 +15,15 @@ target 'Translate Camera' do
 	pod 'GoogleMLKit/LanguageID'
 	pod 'Firebase/MLVision'
   pod 'Firebase/MLNLTranslate'
+
   pod 'GoogleMLKit/ObjectDetection'
+  pod 'GoogleMLKit/ObjectDetectionCustom'
+
   pod 'GoogleMLKit/LinkFirebase'
+  
   pod 'GoogleMLKit/ImageLabeling'
+  pod 'GoogleMLKit/ImageLabelingCustom'
+
   pod 'UIDrawer', :git => 'https://github.com/Que20/UIDrawer.git', :tag => '1.0'
   pod 'QCropper'
 end
