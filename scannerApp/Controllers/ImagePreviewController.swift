@@ -16,9 +16,11 @@ import Firebase
 class ImagePreviewController: UIViewController {
     let imagePreviewView = ImagePreviewView()
     var imagePreviewModel: ImagePreviewModel?
-    var currentMode: CameraModes?
+    var currentMode: CameraModes
     
     var endWithError: Bool = true
+    
+    
     
     //MARK: View life cycle
     override func loadView() {
@@ -29,7 +31,7 @@ class ImagePreviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.imagePreviewModel = ImagePreviewModel(delegate: self, image: self.imagePreviewView.imageView, mode: self.currentMode!)
+        self.imagePreviewModel = ImagePreviewModel(delegate: self, image: self.imagePreviewView.imageView, mode: self.currentMode)
         
     }
     
@@ -42,11 +44,21 @@ class ImagePreviewController: UIViewController {
         }
     }
     
+    init(currentMode: CameraModes, image: UIImage) {
+        self.currentMode = currentMode
+        self.imagePreviewView.imageView = UIImageView(image: image)
+        self.imagePreviewView.currentMode = currentMode
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-            print("Ok tapped")
+        let ok = UIAlertAction(title: "OkAction".localized(withComment: ""), style: .default, handler: { (action) -> Void in
             self.dismiss(animated: true)
         })
         self.endWithError = true
@@ -66,7 +78,7 @@ extension ImagePreviewController: TranslateProtocol {
     
     func imagePreviewModelTranslateWithError(_ imagePreviewModel: ImagePreviewModel, error: Error) {
         self.imagePreviewView.activityIndicator.isHidden = true
-        self.showAlert(title: "Something goes wrong", message: error.localizedDescription)
+        self.showAlert(title: "ErrorHeader".localized(withComment: ""), message: error.localizedDescription)
         print("translate with error")
     }
     

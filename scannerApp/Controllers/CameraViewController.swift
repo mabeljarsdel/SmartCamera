@@ -64,9 +64,14 @@ class CameraViewController: UIViewController {
         super.viewDidAppear(animated)
         self.cameraWithOptionView.cameraView.addSubview(self.cameraWithOptionView.cropBox)
         
-
     }
 
+    
+    func displaySubscribeBanner() {
+        let subscriptionViewController = SubscriptionViewController()
+        subscriptionViewController.modalPresentationStyle = .formSheet
+        self.present(subscriptionViewController, animated: true)
+    }
     
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged(notification:)), name: Notification.Name("LanugageChanged"), object: nil)
@@ -97,7 +102,7 @@ class CameraViewController: UIViewController {
         }
     }
     
-
+    
     
     //MARK:- Actions
     @objc func swapLanguageButton(_ sender: UIButton?) {
@@ -266,9 +271,7 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
         self.dismiss(animated: true)
         
         if let pickedImage = info[.originalImage] as? UIImage {
-            let imagePreview = ImagePreviewController()
-            imagePreview.imagePreviewView.imageView = UIImageView(image: pickedImage)
-            imagePreview.currentMode = self.currentMode
+            let imagePreview = ImagePreviewController(currentMode: self.currentMode, image: pickedImage)
             imagePreview.modalPresentationStyle = .formSheet
             self.present(imagePreview, animated: true)
         }
@@ -302,12 +305,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
             self.takePicture = false
 
-            let imagePreview = ImagePreviewController()
+            let imagePreview = ImagePreviewController(currentMode: self.currentMode, image: uiImage)
             
-            
-            imagePreview.imagePreviewView.imageView.image = uiImage
-            imagePreview.currentMode = self.currentMode
-            imagePreview.imagePreviewView.currentMode = self.currentMode
             
             if self.currentMode == .translation {
                 
@@ -361,9 +360,7 @@ extension CameraViewController: VNDocumentCameraViewControllerDelegate {
         
         dismiss(animated: true, completion: nil)
         
-        let imagePreview = ImagePreviewController()
-        imagePreview.imagePreviewView.imageView = UIImageView(image: image)
-        imagePreview.currentMode = .translation
+        let imagePreview = ImagePreviewController(currentMode: .translation, image: image)
         imagePreview.modalPresentationStyle = .formSheet
         self.present(imagePreview, animated: true)
         

@@ -16,8 +16,12 @@
 "HistoryHeader" = "History";
 "Search" = "Search";
 
+
+"ErrorHeader" = "Something goes wrong";
+"OkAction" = "OK";
 "LanguageNotRecognizedError" = "Language not recognized";
 "TextNotRecognizedError" = "Text not recognised";
 "TextNotTranslatedError" = "Text not translated";
 "ObjectNotDetectedError" = "Object not detected";
 "LandmarkNotDetectedError" = "Landmark not detected";
+
