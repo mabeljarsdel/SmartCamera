@@ -10,5 +10,5 @@ import Foundation
 
 
 class Constants {
-    static let autodetectionIdentifier = "Autodetection"
+    static let autodetectionIdentifier = "Autodetection".localized(withComment: "")
 }

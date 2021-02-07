@@ -12,6 +12,8 @@
 		8122054925D058FE0059A460 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8122054825D058C90059A460 /* LaunchScreen.storyboard */; };
 		8122054A25D058FE0059A460 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8122054725D058C90059A460 /* Main.storyboard */; };
 		8122058525D06E010059A460 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8122058725D06E010059A460 /* Localizable.strings */; };
+		812205BD25D079B20059A460 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812205BC25D079B20059A460 /* SubscriptionView.swift */; };
+		812205C025D07E7F0059A460 /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812205BF25D07E7F0059A460 /* SubscriptionViewController.swift */; };
 		812FE28325B39E5800EE8A87 /* ObjectDetectionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812FE28225B39E5800EE8A87 /* ObjectDetectionUtil.swift */; };
 		812FE33125B4AAB600EE8A87 /* UIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812FE33025B4AAB600EE8A87 /* UIUtilities.swift */; };
 		813A30C325C6053400CBF79E /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813A30C225C6053400CBF79E /* CropBox.swift */; };
@@ -63,6 +65,8 @@
 		8122054725D058C90059A460 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8122054825D058C90059A460 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8122058925D06E110059A460 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		812205BC25D079B20059A460 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		812205BF25D07E7F0059A460 /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
 		812FE28225B39E5800EE8A87 /* ObjectDetectionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetectionUtil.swift; sourceTree = "<group>"; };
 		812FE33025B4AAB600EE8A87 /* UIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtilities.swift; sourceTree = "<group>"; };
 		813A30C225C6053400CBF79E /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 				8168C4F225986303008BCE6E /* HistoryDetailController.swift */,
 				8168C4DA259725E4008BCE6E /* HistoryViewController.swift */,
 				81B5FE122577DF3A00458926 /* CameraViewController.swift */,
+				812205BF25D07E7F0059A460 /* SubscriptionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 				81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */,
 				81CC1BA425A1F5B1007421C4 /* CameraWithOptionView.swift */,
 				81B5FE1B25781AC000458926 /* CameraView.swift */,
+				812205BC25D079B20059A460 /* SubscriptionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -288,9 +294,9 @@
 		81FF82E92573122800C953F5 /* scannerApp */ = {
 			isa = PBXGroup;
 			children = (
-				81FF831C2573146200C953F5 /* Assets */,
 				81FF82EA2573122800C953F5 /* AppDelegate.swift */,
 				81FF82EC2573122800C953F5 /* SceneDelegate.swift */,
+				81FF831C2573146200C953F5 /* Assets */,
 				812204A725D050670059A460 /* Resources */,
 				8122049C25D04C200059A460 /* Protocols */,
 				812204A025D04C590059A460 /* Models */,
@@ -498,6 +504,8 @@
 				813A30C325C6053400CBF79E /* CropBox.swift in Sources */,
 				81408DB825BB6DFF00CF57F7 /* ImageLabeling.swift in Sources */,
 				8168C4B025965D2D008BCE6E /* Reachability.swift in Sources */,
+				812205BD25D079B20059A460 /* SubscriptionView.swift in Sources */,
+				812205C025D07E7F0059A460 /* SubscriptionViewController.swift in Sources */,
 				81B888132586627C00EA3EE3 /* LanguageModelsManager.swift in Sources */,
 				81CC1BBA25A212E2007421C4 /* TranslateProtocol.swift in Sources */,
 				81B5FE132577DF3A00458926 /* CameraViewController.swift in Sources */,

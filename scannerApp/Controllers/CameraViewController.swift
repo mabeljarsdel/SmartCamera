@@ -63,6 +63,7 @@ class CameraViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.cameraWithOptionView.cameraView.addSubview(self.cameraWithOptionView.cropBox)
+        
 
     }
 

@@ -18,7 +18,8 @@ class ImagePreviewController: UIViewController {
     var imagePreviewModel: ImagePreviewModel?
     var currentMode: CameraModes?
     
-    var endWithError: Bool = false
+    var endWithError: Bool = true
+    
     //MARK: View life cycle
     override func loadView() {
         super.loadView()
@@ -60,7 +61,7 @@ extension ImagePreviewController: TranslateProtocol {
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel) {
         self.imagePreviewView.activityIndicator.isHidden = true
         self.imagePreviewView.textView.text = imagePreviewModel.translatedText
-
+        self.endWithError = false
     }
     
     func imagePreviewModelTranslateWithError(_ imagePreviewModel: ImagePreviewModel, error: Error) {
