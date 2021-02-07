@@ -21,14 +21,6 @@ class CameraViewController: UIViewController {
     
     var lastFrame: CMSampleBuffer?
     
-    
-    var previewOverlayView: UIImageView = {
-
-      let previewOverlayView = UIImageView()
-      previewOverlayView.contentMode = UIView.ContentMode.scaleAspectFill
-      previewOverlayView.translatesAutoresizingMaskIntoConstraints = false
-      return previewOverlayView
-    }()
 
     lazy var cropBox: ResizableView = {
         
@@ -84,21 +76,7 @@ class CameraViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.setUpPreviewOverlayView()
-
-    }
-
-    private func setUpPreviewOverlayView() {
-        self.cameraMainView.cameraView.addSubview(previewOverlayView)
-        
-        previewOverlayView.snp.makeConstraints { make in
-            make.size.equalTo(cameraMainView.cameraView.snp.size)
-            make.center.equalTo(cameraMainView.cameraView.snp.center)
-        }
-        
         self.cameraMainView.cameraView.addSubview(cropBox)
-        
-      
 
     }
 
@@ -287,7 +265,6 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        self.cameraMainView.modePicker.selectRow(row, inComponent: 0, animated: true)
         self.currentMode = self.cameraMainView.modes[row]
 
     }

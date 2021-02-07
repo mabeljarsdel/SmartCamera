@@ -126,8 +126,8 @@ class ImagePreviewModel {
         let processor = ScaledElementProcessor()
         let translateController = TranslatorController.translatorInstance
         #warning("Cloud text recognition")
-//        if true {
-        if !Reachability.instance.connectionStatus {
+        if true {
+//        if !Reachability.instance.connectionStatus {
             processor.processOnDeviceTextRecognise(in: image, callback: { text, error in
                 
                 guard let textResult = text else {

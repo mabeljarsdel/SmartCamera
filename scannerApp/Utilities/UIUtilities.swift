@@ -84,6 +84,27 @@ public class UIUtilities {
         view.addSubview(shapeView)
     }
     
+    
+    
+    public static func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage {
+        let imageViewScale = max(inputImage.size.width / viewWidth,
+                                 inputImage.size.height / viewHeight)
+
+        let cropZone = CGRect(x:cropRect.origin.x * imageViewScale,
+                              y:cropRect.origin.y * imageViewScale,
+                              width:cropRect.size.width * imageViewScale,
+                              height:cropRect.size.height * imageViewScale)
+
+        guard let cutImageRef: CGImage = inputImage.cgImage?.cropping(to:cropZone)
+        else {
+            return inputImage
+        }
+
+        let croppedImage: UIImage = UIImage(cgImage: cutImageRef)
+        return croppedImage
+    }
+    
+    
 }
 
 // MARK: - Constants

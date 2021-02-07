@@ -7,6 +7,8 @@
 
 import Foundation
 import MLKit
+
+
 class ImageLabelingUtil {
     
     func processLandmarkDetection(in imageView: UIImageView,

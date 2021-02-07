@@ -222,7 +222,6 @@
 			children = (
 				81CC1BAD25A1FF33007421C4 /* Controller */,
 				81C74D0A2579A7F200287A2C /* View */,
-				813A30C225C6053400CBF79E /* CropBox.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -241,6 +240,7 @@
 		81C74D0A2579A7F200287A2C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				813A30C225C6053400CBF79E /* CropBox.swift */,
 				81C74D0B2579A81F00287A2C /* SegmentChooseLanguageView.swift */,
 				81CC1BA425A1F5B1007421C4 /* CameraMainView.swift */,
 				81B5FE1B25781AC000458926 /* CameraView.swift */,

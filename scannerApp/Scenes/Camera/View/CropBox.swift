@@ -16,7 +16,7 @@ class ResizableView: UIView {
     }
 
     
-    static var edgeSize: CGFloat = 44.0
+    static var edgeSize: CGFloat = 50.0
     private typealias `Self` = ResizableView
 
     var currentEdge: Edge = .none
@@ -64,10 +64,6 @@ class ResizableView: UIView {
         super.init(coder: aDecoder)
     }
 
-//    public override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//    }
 
     func setupCorners() {
         let offset: CGFloat = -1
@@ -100,10 +96,9 @@ class ResizableView: UIView {
         
         gridLinesView.frame = bounds
         gridLinesView.setNeedsDisplay()
-//        self.layer.borderWidth = 2
-//        self.layer.borderColor = UIColor.white.cgColor
-//
     }
+    
+    //MARK: - Touch events
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             
@@ -175,6 +170,9 @@ class ResizableView: UIView {
                 newX = self.center.x + currentPoint.x - touchStart.x
                 newY = self.center.y + currentPoint.y - touchStart.y
             }
+            
+            
+            //MARK: Bounds
             
             if newWidth < 100 {
                 newWidth = 100
