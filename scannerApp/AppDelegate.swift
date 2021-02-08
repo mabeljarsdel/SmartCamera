@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import CoreData
 
-@main
+@main 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var persistentContainer: NSPersistentContainer = {

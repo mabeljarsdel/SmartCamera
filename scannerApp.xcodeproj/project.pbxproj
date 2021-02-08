@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		812204DF25D0528A0059A460 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 812204DE25D0528A0059A460 /* Base.lproj */; };
 		812204E325D052CE0059A460 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 812204E225D052CE0059A460 /* Assets.xcassets */; };
 		8122054925D058FE0059A460 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8122054825D058C90059A460 /* LaunchScreen.storyboard */; };
 		8122054A25D058FE0059A460 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8122054725D058C90059A460 /* Main.storyboard */; };
@@ -60,7 +59,6 @@
 /* Begin PBXFileReference section */
 		2420E960C54F1B99251E23CB /* Pods-Translate Camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate Camera.release.xcconfig"; path = "Target Support Files/Pods-Translate Camera/Pods-Translate Camera.release.xcconfig"; sourceTree = "<group>"; };
 		5B35037C7C0D0BC1AB5E3226 /* Pods_Translate_Camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Translate_Camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		812204DE25D0528A0059A460 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		812204E225D052CE0059A460 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8122054725D058C90059A460 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8122054825D058C90059A460 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -314,7 +312,6 @@
 				8122054825D058C90059A460 /* LaunchScreen.storyboard */,
 				8122054725D058C90059A460 /* Main.storyboard */,
 				812204E225D052CE0059A460 /* Assets.xcassets */,
-				812204DE25D0528A0059A460 /* Base.lproj */,
 				8122058725D06E010059A460 /* Localizable.strings */,
 			);
 			path = Assets;
@@ -400,7 +397,6 @@
 				8122054A25D058FE0059A460 /* Main.storyboard in Resources */,
 				8168C4E325977978008BCE6E /* GoogleService-Info.plist in Resources */,
 				812204E325D052CE0059A460 /* Assets.xcassets in Resources */,
-				812204DF25D0528A0059A460 /* Base.lproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
