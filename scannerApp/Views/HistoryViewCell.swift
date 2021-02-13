@@ -8,21 +8,24 @@
 import Foundation
 import UIKit
 
-class HistoryViewCell: UICollectionViewCell {
+class HistoryViewCell: UITableViewCell {
     
     let sourceLanguageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.lineBreakMode = .byClipping
+
         return label
     }()
     
-    let textLabel: UILabel = {
+    let sourceTextLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = false
-        label.lineBreakMode = .byTruncatingTail
+        label.lineBreakMode = .byClipping
         label.numberOfLines = 2
+        
         return label
     }()
     
@@ -37,7 +40,7 @@ class HistoryViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = false
-        label.lineBreakMode = .byTruncatingTail
+        label.lineBreakMode = .byClipping
         label.numberOfLines = 2
         return label
     }()
@@ -50,19 +53,31 @@ class HistoryViewCell: UICollectionViewCell {
         return label
     }()
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.initialize()
+    }
     
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-        contentView.layer.cornerRadius = 10
+    override func awakeFromNib() {
+        super.awakeFromNib()
+ 
+    }
+    
+    func initialize() {
+//        contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
         contentView.layer.backgroundColor = UIColor.secondarySystemBackground.cgColor
         
         contentView.addSubview(sourceLanguageLabel)
-        contentView.addSubview(textLabel)
+        contentView.addSubview(sourceTextLabel)
         contentView.addSubview(targetLanguageLabel)
         contentView.addSubview(translatedTextLabel)
         contentView.addSubview(dateLabel)
         
+        
+//        let margins = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+//        contentView.frame = contentView.frame.inset(by: margins)
 
         
         sourceLanguageLabel.snp.makeConstraints { make in
@@ -70,7 +85,7 @@ class HistoryViewCell: UICollectionViewCell {
             make.centerX.equalTo(contentView.snp.centerX)
         }
 
-        textLabel.snp.makeConstraints { make in
+        sourceTextLabel.snp.makeConstraints { make in
             make.top.equalTo(sourceLanguageLabel.snp.bottom)
             make.width.equalTo(frame.width-20)
             make.leading.equalTo(contentView.snp.leading)
@@ -81,19 +96,19 @@ class HistoryViewCell: UICollectionViewCell {
         
         
         targetLanguageLabel.snp.makeConstraints { make in
-            make.top.equalTo(textLabel.snp.bottom)
+            make.top.equalTo(sourceTextLabel.snp.bottom)
             make.centerX.equalTo(contentView.snp.centerX)
         }
         
         translatedTextLabel.snp.makeConstraints { make in
             make.top.equalTo(targetLanguageLabel.snp.bottom)
-            make.width.equalTo(textLabel.snp.width)
-            make.leading.equalTo(textLabel.snp.leading)
-            make.trailing.equalTo(textLabel.snp.trailing)
+            make.width.equalTo(sourceTextLabel.snp.width)
+            make.leading.equalTo(sourceTextLabel.snp.leading)
+            make.trailing.equalTo(sourceTextLabel.snp.trailing)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.leading.equalTo(textLabel.snp.leading)
+            make.leading.equalTo(sourceTextLabel.snp.leading)
             make.trailing.equalTo(sourceLanguageLabel.snp.trailing)
             make.top.equalTo(sourceLanguageLabel.snp.top)
         }

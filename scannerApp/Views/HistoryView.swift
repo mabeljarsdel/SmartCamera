@@ -18,15 +18,18 @@ class HistoryView: UIView {
         return search
     }()
     
-    var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width-40, height: 140)
+    var tableView: UITableView = {
+        let layout = UITableView()
+//        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+//        layout.itemSize = CGSize(width: UIScreen.main.bounds.width-40, height: 140)
         
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), collectionViewLayout: layout)
-        collectionView.register(HistoryViewCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.backgroundColor = .systemBackground
-        return collectionView
+//        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), collectionViewLayout: layout)
+        layout.rowHeight = 140
+        
+        
+        layout.register(HistoryViewCell.self, forCellReuseIdentifier: "Cell")
+        layout.backgroundColor = .systemBackground
+        return layout
     }()
     
     override func layoutSubviews() {
@@ -40,9 +43,9 @@ class HistoryView: UIView {
         
 
         
-        self.addSubview(collectionView)
+        self.addSubview(tableView)
 
-        collectionView.snp.makeConstraints { make in
+        tableView.snp.makeConstraints { make in
             make.left.equalTo(self.snp.left)
             make.right.equalTo(self.snp.right)
             make.bottom.equalTo(self.snp.bottom)
@@ -52,7 +55,7 @@ class HistoryView: UIView {
     
     func setupCollectionView() {
 
-        addSubview(collectionView)
+        addSubview(tableView)
         
     }
 }

@@ -44,6 +44,22 @@ class CoreDataController {
         }
         return historyCell
     }
+    
+    func deleteFromHistory(historyModel: HistoryModel) {
+        guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        managedContext.delete(historyModel)
+        
+        do {
+            try managedContext.save()
+        } catch {
+            print("delete failed")
+        }
+    }
 }
 
 

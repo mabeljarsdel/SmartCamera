@@ -36,8 +36,8 @@ class HistoryViewController: UIViewController {
     func setupView() {
         self.historyView.searchController.delegate = self
         self.historyView.searchController.searchResultsUpdater = self
-        self.historyView.collectionView.dataSource = self
-        self.historyView.collectionView.delegate = self
+        self.historyView.tableView.dataSource = self
+        self.historyView.tableView.delegate = self
         self.title = "HistoryHeader".localized(withComment: "")
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = self.historyView.searchController
@@ -59,36 +59,42 @@ extension HistoryViewController: UISearchControllerDelegate, UISearchResultsUpda
         } else {
             filteredHistory = historyCells
         }
-        self.historyView.collectionView.reloadData()
+        self.historyView.tableView.reloadData()
     }
 }
 
-extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
+
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.historyView.searchController.isActive {
             return filteredHistory.count
         }
         return historyCells.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = self.historyView.collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! HistoryViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let myCell = self.historyView.tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! HistoryViewCell
         let model: HistoryModel
         if self.historyView.searchController.isActive {
             model = self.filteredHistory[indexPath.row]
         } else {
             model = self.historyCells[indexPath.row]
         }
+        myCell.selectionStyle = .none
         myCell.sourceLanguageLabel.text = model.fromLanguage?.languageName
         myCell.targetLanguageLabel.text = model.toLanguage?.languageName
-        myCell.textLabel.text = model.text
+        myCell.sourceTextLabel.text = model.text
         myCell.translatedTextLabel.text = model.translatedText
-        myCell.dateLabel.text = transformDateToString(date: model.time!)
+        guard let time = model.time else { return myCell}
+        myCell.dateLabel.text = transformDateToString(date: time)
+//        myCell.dateLabel.text = transformDateToString(date: model.time!)
         return myCell
-
+        
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.navigationController?.pushViewController(HistoryDetailViewController(cell: self.historyCells[indexPath.row]), animated: true)
     }
     
@@ -105,9 +111,31 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
         return dateFormatter.string(from: date)
     }
     
-    
-    
-    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if self.historyView.searchController.isActive {
+                historyCells = historyCells.filter { historyCell in
+                    if historyCell != filteredHistory[indexPath.row] {
+                        return true
+                    }
+                    return false
+                }
+                let coreDataController = CoreDataController()
+                coreDataController.deleteFromHistory(historyModel: self.filteredHistory[indexPath.row])
+
+                filteredHistory.remove(at: indexPath.row)
+  
+                tableView.deleteRows(at: [indexPath], with: .fade)
+
+            } else {
+                let coreDataController = CoreDataController()
+                coreDataController.deleteFromHistory(historyModel: self.historyCells[indexPath.row])
+
+                historyCells.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        }
+    }
 }
 
 
