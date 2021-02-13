@@ -7,8 +7,7 @@
 
 import Foundation
 import UIKit
-
-//var modes = ["Object detection", "Landmark detection", "Normal", "Translation", "Image labeling"]
+import AVFoundation
 
 
 class CameraWithOptionView: UIView {
@@ -226,5 +225,6 @@ class CameraWithOptionView: UIView {
             make.width.equalTo(45)
         }
     }
+
 }
 

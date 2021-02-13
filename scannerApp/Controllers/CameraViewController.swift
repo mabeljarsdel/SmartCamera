@@ -128,26 +128,28 @@ class CameraViewController: UIViewController {
     }
     
     
-    @objc func toggleFlash(_ sender: UIButton?) {
-        do {
-            try self.cameraWithOptionView.cameraView.device.lockForConfiguration()
-            self.cameraWithOptionView.cameraView.device.torchMode = self.cameraWithOptionView.cameraView.device.torchMode == .on ? .off : .on
-            if self.cameraWithOptionView.cameraView.device.torchMode == .on {
-                try self.cameraWithOptionView.cameraView.device.setTorchModeOn(level: 1)
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
+//    @objc func toggleFlash(_ sender: UIButton?) {
+//        do {
+//            try self.cameraWithOptionView.cameraView.device.lockForConfiguration()
+//            self.cameraWithOptionView.cameraView.device.torchMode = self.cameraWithOptionView.cameraView.device.torchMode == .on ? .off : .on
+//            if self.cameraWithOptionView.cameraView.device.torchMode == .on {
+//                try self.cameraWithOptionView.cameraView.device.setTorchModeOn(level: 1)
+//            }
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+//    }
     
     //MARK: Navigation action
     @objc func openGallery(_ sender: UIButton?) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
             imagePicker.allowsEditing = true
+            imagePicker.presentationController?.delegate = self
             self.present(imagePicker, animated: true, completion: nil)
+            self.cameraWithOptionView.cameraView.session.stopRunning()
         }
     }
     
@@ -265,10 +267,12 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 }
 
 //MARK: UIIMagePicker Delegate
-extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAdaptivePresentationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.cameraWithOptionView.cameraView.session.startRunning()
         
         self.dismiss(animated: true)
+        
         
         if let pickedImage = info[.originalImage] as? UIImage {
             let imagePreview = ImagePreviewController(currentMode: self.currentMode, image: pickedImage)
@@ -276,6 +280,25 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
             self.present(imagePreview, animated: true)
         }
     }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+        self.cameraWithOptionView.cameraView.session.startRunning()
+    }
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        print("The user began to swipe down to dismiss.")
+        self.dismiss(animated: true, completion: nil)
+        self.cameraWithOptionView.cameraView.session.startRunning()
+
+    }
+
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.dismiss(animated: true, completion: nil)
+        self.cameraWithOptionView.cameraView.session.startRunning()
+
+        // This is probably where you want to put your code that you want to call.
+    }
+    
 }
 
 //MARK:AVCaptureVideoDataOutputSampleBuffer Delegate

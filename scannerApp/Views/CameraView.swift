@@ -25,6 +25,7 @@ class CameraView: UIView {
         preview?.frame = bounds
     }
     
+    
     func setupAndStartCaptureSession(){
         
         DispatchQueue.global(qos: .userInitiated).async {
@@ -58,6 +59,7 @@ class CameraView: UIView {
         
         layer.addSublayer(preview)
     }
+
     
     func setupInputs() {
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {

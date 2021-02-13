@@ -19,3 +19,4 @@ protocol TranslateProtocol: AnyObject {
     func addRectangle(block: VisionTextBlock)
     func addRectangle(rectangle: CGRect)
 }
+ 
