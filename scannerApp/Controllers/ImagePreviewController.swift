@@ -13,14 +13,14 @@ import Firebase
 
 
 
-class ImagePreviewController: UIViewController {
+class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIAdaptivePresentationControllerDelegate {
     let imagePreviewView = ImagePreviewView()
     var imagePreviewModel: ImagePreviewModel?
     var currentMode: CameraModes
     
     var endWithError: Bool = true
-    
-    
+    var defaultCenter: CGPoint!
+
     
     //MARK: View life cycle
     override func loadView() {
@@ -31,8 +31,9 @@ class ImagePreviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.imagePreviewModel = ImagePreviewModel(delegate: self, image: self.imagePreviewView.imageView, mode: self.currentMode)
-        
+        self.imagePreviewModel = ImagePreviewModel(delegate: self)
+        self.imagePreviewModel?.process(image: self.imagePreviewView.imageView.image!, mode: self.currentMode)
+        self.setUpScaleGesture()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -65,14 +66,49 @@ class ImagePreviewController: UIViewController {
         alert.addAction(ok)
         self.present(alert, animated: true)
     }
+    
+    
+    func setUpScaleGesture() {
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(scaleImage(_:)))
+        let dragImg = UIPanGestureRecognizer(target: self, action: #selector(dragImg(_:)))
+        pinchGesture.delegate = self
+        dragImg.delegate = self
+        self.defaultCenter = self.imagePreviewView.imageView.center
+        self.imagePreviewView.imageView.isUserInteractionEnabled = true
+        self.imagePreviewView.imageView.addGestureRecognizer(pinchGesture)
+        self.imagePreviewView.imageView.addGestureRecognizer(dragImg)
+    }
+    
+    
+    @objc func dragImg(_ sender:UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self.view)
+        self.imagePreviewView.imageView.center = CGPoint(x: self.imagePreviewView.imageView.center.x + translation.x, y: self.imagePreviewView.imageView.center.y + translation.y)
+        sender.setTranslation(CGPoint.zero, in: self.view)
+        
+        if sender.state == .ended {
+            self.imagePreviewView.imageView.center = defaultCenter
+            sender.setTranslation(CGPoint.zero, in: self.view)
+        }
+    }
+    
+    @objc func scaleImage(_ sender: UIPinchGestureRecognizer) {
+        self.imagePreviewView.imageView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+        
+        if sender.state == .ended {
+            self.imagePreviewView.imageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
+    }
 }
 
-extension ImagePreviewController: TranslateProtocol {
+
+
+//MARK:-Perform MLKit action protocol
+extension ImagePreviewController: MLKitAction {
 
     
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel) {
-        self.imagePreviewView.activityIndicator.isHidden = true
-        self.imagePreviewView.textView.text = imagePreviewModel.translatedText
+//        self.imagePreviewView.activityIndicator.isHidden = true
+//        self.imagePreviewView.textView.text = imagePreviewModel.translatedText
         self.endWithError = false
     }
     
@@ -82,17 +118,15 @@ extension ImagePreviewController: TranslateProtocol {
         print("translate with error")
     }
     
-    func addRectangle(block: TextBlock) {
-        for line in block.lines {
-            let transformedRect = line.frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
-            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
-        }
+    func addRectangle(textLine: TextLine, color: UIColor, text: String) {
+        let transformedRect = textLine.frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
+        UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: UIUtilities.getColorFromImage(image: self.imagePreviewView.imageView, rect: transformedRect), text: text)
     }
     
-    func addRectangle(block: VisionTextBlock) {
+    func addRectangle(block: VisionTextBlock, color: UIColor) {
         for line in block.lines {
             let transformedRect = line.frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
-            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
+            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: color, text: line.text)
             
         }
     }
@@ -100,6 +134,12 @@ extension ImagePreviewController: TranslateProtocol {
     func addRectangle(rectangle: CGRect) {
         let transformedRect = rectangle.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
         UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
+    }
+
+
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 

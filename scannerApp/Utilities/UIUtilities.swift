@@ -47,14 +47,26 @@ class UIUtilities {
         inView.addSubview(lineView)
     }
     
-    static func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor) {
+    static func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor, text: String = "") {
         guard rectangle.isValid() else { return }
         let rectangleView = UIView(frame: rectangle)
         //    rectangleView.layer.cornerRadius = x.rectangleViewCornerRadius
-        rectangleView.alpha = UIConstants.rectangleViewAlpha
+//        rectangleView.alpha = UIConstants.rectangleViewAlpha
         rectangleView.backgroundColor = color
-        
-        view.addSubview(rectangleView)
+        let label = UILabel(frame: rectangle)
+        if color.isLight {
+            label.textColor = .black
+        } else {
+            label.textColor = .white
+        }
+        label.backgroundColor = color
+        label.text = text
+        label.adjustsFontSizeToFitWidth = true
+        label.baselineAdjustment = .alignCenters
+        label.textAlignment = .justified
+//        view.addSubview(rectangleView)
+        view.addSubview(label)
+
     }
     
     static func addShape(withPoints points: [NSValue]?, to view: UIView, color: UIColor) {
@@ -123,6 +135,46 @@ class UIUtilities {
         transform = transform.scaledBy(x: scale, y: scale)
         return transform
     }
+    
+    
+    static func findColors(_ image: UIImage) -> [UIColor] {
+        let pixelsWide = Int(image.size.width)
+        let pixelsHigh = Int(image.size.height)
+
+        guard let pixelData = image.cgImage?.dataProvider?.data else { return [] }
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        var imageColors: [UIColor] = []
+        for x in 0..<pixelsWide {
+            for y in 0..<pixelsHigh {
+                let point = CGPoint(x: x, y: y)
+                let pixelInfo: Int = ((pixelsWide * Int(point.y)) + Int(point.x)) * 4
+                let color = UIColor(red: CGFloat(data[pixelInfo]) / 255.0,
+                                    green: CGFloat(data[pixelInfo + 1]) / 255.0, 
+                                    blue: CGFloat(data[pixelInfo + 2]) / 255.0,
+                                    alpha: CGFloat(data[pixelInfo + 3]) / 255.0)
+                imageColors.append(color)
+            }
+        }
+        return imageColors
+    }
+    
+    
+    static func getColorFromImage(image: UIImageView, rect: CGRect) -> UIColor {
+        let cropedImage = cropImage(image.image!, toRect: CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width+20, height: rect.height), viewWidth: image.frame.width, viewHeight: image.frame.height)
+        let colors = findColors(cropImage(image.image!, toRect: rect, viewWidth: image.frame.width, viewHeight: image.frame.height))
+        let mappedItems = colors.map { ($0, 1) }
+        let counts = Dictionary(mappedItems, uniquingKeysWith: +)
+        let sortedByValueDictionary = counts.sorted { $0.1 > $1.1 }
+        
+        print("Dict: \(sortedByValueDictionary)")
+        print("counts of item: \(sortedByValueDictionary.first!.key)")
+        let color = cropImage(image.image!, toRect: rect, viewWidth: image.frame.width, viewHeight: image.frame.height).averageColor ?? .blue
+//        let color = sortedByValueDictionary.first!.key
+        return color
+
+    }
+    
 }
 
 // MARK: - Constants
@@ -134,13 +186,4 @@ private enum UIConstants {
     static let rectangleViewCornerRadius: CGFloat = 10.0
 }
 
-// MARK: - Extension
 
-extension CGRect {
-    /// Returns a `Bool` indicating whether the rectangle's values are valid`.
-    func isValid() -> Bool {
-        return
-            !(origin.x.isNaN || origin.y.isNaN || width.isNaN || height.isNaN || width < 0 || height < 0
-                || origin.x < 0 || origin.y < 0)
-    }
-}

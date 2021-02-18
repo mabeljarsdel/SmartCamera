@@ -106,7 +106,7 @@ class ImagePreviewView: UIView {
         }
         
         self.scrollView.addSubview(imageView)
-        self.scrollView.addSubview(textView)
+//        self.scrollView.addSubview(textView)
         
         imageView.snp.makeConstraints { make in
             
@@ -120,21 +120,21 @@ class ImagePreviewView: UIView {
         }
         
         
-        textView.snp.makeConstraints { make in
-            make.width.equalTo(self.snp.width).offset(-30)
-            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(20)
-            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
-            make.centerX.equalTo(scrollView.snp.centerX)
-        }
+//        textView.snp.makeConstraints { make in
+//            make.width.equalTo(self.snp.width).offset(-30)
+//            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(20)
+//            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
+//            make.centerX.equalTo(scrollView.snp.centerX)
+//        }
         
-        self.scrollView.addSubview(activityIndicator)
+//        self.scrollView.addSubview(activityIndicator)
 
-        activityIndicator.snp.makeConstraints { make in
-            make.width.equalTo(self.snp.width).offset(-30)
-            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(50)
-            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
-            make.centerX.equalTo(scrollView.snp.centerX)
-        }
+//        activityIndicator.snp.makeConstraints { make in
+//            make.width.equalTo(self.snp.width).offset(-30)
+//            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(50)
+//            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
+//            make.centerX.equalTo(scrollView.snp.centerX)
+//        }
         
         self.scrollView.backgroundColor = .systemBackground
     }
@@ -161,7 +161,7 @@ class ImagePreviewView: UIView {
     }
     
     func resizeRectangleForImage() -> CGSize {
-        let defaultSize = CGSize(width: UIScreen.main.bounds.width-30, height: UIScreen.main.bounds.height*0.6)
+        let defaultSize = CGSize(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.height)
         
         let ratio = self.imageView.image!.size.width/self.imageView.image!.size.height
         
@@ -180,4 +180,5 @@ class ImagePreviewView: UIView {
             }
         }
     }
+    
 }

@@ -7,21 +7,21 @@
 
 import Foundation
 import MLKit
-
+import UIKit
 
 class ImageLabelingUtil {
     
-    func processLandmarkDetection(in imageView: UIImageView,
+    func processImageLabelingDetection(in image: UIImage,
                                   callback: @escaping (_ label: [ImageLabel]?, Error?) -> Void) {
-        let image = MLKit.VisionImage(image: imageView.image!)
-        image.orientation = imageView.image!.imageOrientation
+        let visionImage = VisionImage(image: image)
+        visionImage.orientation = image.imageOrientation
         
         let options = ImageLabelerOptions()
         
         
         let labeler = ImageLabeler.imageLabeler(options: options)
         
-        labeler.process(image, completion: { labels, error in
+        labeler.process(visionImage, completion: { labels, error in
             if error != nil {
                 print(error?.localizedDescription ?? "Image lebeling error")
                 callback(nil, error)
@@ -32,6 +32,5 @@ class ImageLabelingUtil {
                 callback(labels, nil)
             }
         })
-        
     }
 }

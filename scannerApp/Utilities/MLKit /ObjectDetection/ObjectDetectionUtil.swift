@@ -10,7 +10,7 @@ import MLKit
 
 class ObjectDetectionUtil {
     
-        func processObjectDetection(in imageView: UIImageView,
+        func processObjectDetection(in image: UIImage,
                                       callback: @escaping (_ text: [Object]?, Error?) -> Void) {
             
 
@@ -24,10 +24,10 @@ class ObjectDetectionUtil {
         let objectDetector = ObjectDetector.objectDetector(options: options)
         
         
-        let image = VisionImage(image: imageView.image!)
-        image.orientation = imageView.image!.imageOrientation
+        let visionImage = VisionImage(image: image)
+        visionImage.orientation = image.imageOrientation
 
-        objectDetector.process(image, completion: { detectedObjects, error in
+        objectDetector.process(visionImage, completion: { detectedObjects, error in
             if error != nil {
                 print(error ?? "Object detection error")
                 callback(nil, error)

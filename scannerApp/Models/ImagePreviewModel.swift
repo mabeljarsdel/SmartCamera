@@ -7,69 +7,32 @@
 
 import Foundation
 import UIKit
+import MLKit
 
 class ImagePreviewModel {
-    var text: String = ""
-    var translatedText: String = ""
-    var sourceLanguage: String = ""
-    var targetLanguage: String = ""
-    var time = Date()
+    private var text: String = ""
+    private var translatedText: String = ""
+    private var sourceLanguage: String = ""
+    private var targetLanguage: String = ""
+    private var time = Date()
     
-    var delegate: TranslateProtocol
-    var currentMode: CameraModes
+    private var delegate: MLKitAction
     
-    init(delegate: TranslateProtocol, image: UIImageView, mode: CameraModes) {
+    init(delegate: MLKitAction) {
         self.delegate = delegate
-        self.currentMode = mode
-        self.process(image: image)
     }
     
     
-
-    func process(image: UIImageView) {
-        switch self.currentMode {
+    func process(image: UIImage, mode: CameraModes) {
+        
+        
+        switch mode {
         case .objectDetection:
-            let objectDetectionUtils = ObjectDetectionUtil()
-            objectDetectionUtils.processObjectDetection(in: image, callback: { detectedObjects, error in
-                if error != nil {
-                    self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
-                } else {
-                    guard let objects = detectedObjects else { return }
-
-                    for object in objects {
-                        self.translatedText += "\(String(describing: object.trackingID))"
-                        for label in object.labels {
-                            self.translatedText += " \(label.text)"
-                        }
-                        self.translatedText += "|\n"
-                        self.delegate.addRectangle(rectangle: object.frame)
-                    }
-                    self.delegate.imagePreviewModelTranslateSuccessful(self)
-                    
-                }
-            })
+            self.processObjectDetection(image: image)
         case .landmarkDetection:
-            let landmarkDetector = LandmarkDetectionUtil()
-            
-            landmarkDetector.processLandmarkDetection(in: image, callback: {  landmarksOpt, error in
-                if error != nil {
-                    self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
-                } else {
-                    guard let landmarks = landmarksOpt else { return }
-                    for landmark in landmarks {
-                        self.translatedText += "\(landmark.landmark!)\n"
-                        self.delegate.addRectangle(rectangle: landmark.frame)
-                    }
-                    self.delegate.imagePreviewModelTranslateSuccessful(self)
-                    
-                    print(self.translatedText)
-                    
-                }
-            })
-
+            self.processLandmarkDetection(image: image)
         case .translation:
             self.translate(image: image)
-
         case .imageLabeling:
             self.processImageLabeling(image: image)
         
@@ -96,26 +59,8 @@ class ImagePreviewModel {
             })
         }
     }
-
     
-    func processImageLabeling(image: UIImageView) {
-        
-        let imageLabelingUtil = ImageLabelingUtil()
-        imageLabelingUtil.processLandmarkDetection(in: image, callback: { labels, error in
-            if error != nil {
-                self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
-            } else {
-                guard let labels = labels else { return }
-                for label in labels {
-                    self.translatedText += "\(label.text) \(Int(label.confidence*100))%\n"
-                }
-                self.delegate.imagePreviewModelTranslateSuccessful(self)
-            }
-        })
-    }
-    
-    
-    
+    //MARK: - Save to history
     func saveToHistory() {
         let coreDataController = CoreDataController()
         let translateController = TranslatorController.translatorInstance
@@ -140,65 +85,147 @@ class ImagePreviewModel {
         
         coreDataController.saveToHistory(historyModelStruct: historyModel)
     }
+
+
+    //MARK: Object detection
+    private func processObjectDetection(image: UIImage) {
+        let objectDetectionUtils = ObjectDetectionUtil()
+        objectDetectionUtils.processObjectDetection(in: image, callback: { detectedObjects, error in
+            if error != nil {
+                self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
+            } else {
+                guard let objects = detectedObjects else { return }
+
+                for object in objects {
+                    self.translatedText += "\(String(describing: object.trackingID))"
+                    for label in object.labels {
+                        self.translatedText += " \(label.text)"
+                    }
+                    self.translatedText += "|\n"
+                    self.delegate.addRectangle(rectangle: object.frame)
+                }
+                self.delegate.imagePreviewModelTranslateSuccessful(self)
+                
+            }
+        })
+    }
+    
+    //MARK: Landmark detection
+    private func processLandmarkDetection(image: UIImage) {
+        let landmarkDetector = LandmarkDetectionUtil()
+        
+        landmarkDetector.processLandmarkDetection(in: image, callback: {  landmarksOpt, error in
+            if error != nil {
+                self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
+            } else {
+                guard let landmarks = landmarksOpt else { return }
+                for landmark in landmarks {
+                    self.translatedText += "\(landmark.landmark!)\n"
+                    self.delegate.addRectangle(rectangle: landmark.frame)
+                }
+                self.delegate.imagePreviewModelTranslateSuccessful(self)
+                
+                print(self.translatedText)
+                
+            }
+        })
+    }
+    
+    //MARK: Process image labeling
+    private func processImageLabeling(image: UIImage) {
+        let imageLabelingUtil = ImageLabelingUtil()
+        
+        imageLabelingUtil.processImageLabelingDetection(in: image, callback: { labels, error in
+            if error != nil {
+                self.delegate.imagePreviewModelTranslateWithError(self, error: error!)
+            } else {
+                guard let labels = labels else { return }
+                for label in labels {
+                    self.translatedText += "\(label.text) \(Int(label.confidence*100))%\n"
+                }
+                self.delegate.imagePreviewModelTranslateSuccessful(self)
+            }
+        })
+    }
     
     
-    private func translate(image: UIImageView) {
+
+    
+    //MARK: - Translate
+    private func translate(image: UIImage) {
+//        #warning("Cloud text recognition")
+        if true {
+//        if !Reachability.instance.connectionStatus {
+            self.onDeviceTranslation(image: image)
+        } else {
+            self.cloudTranslation(image: image)
+
+        }
+    }
+    
+    private func onDeviceTranslation(image: UIImage) {
         let processor = ScaledElementProcessor()
         let translateController = TranslatorController.translatorInstance
-//        #warning("Cloud text recognition")
-//        if true {
-        if !Reachability.instance.connectionStatus {
-            processor.processOnDeviceTextRecognise(in: image, callback: { text, error in
-                
-                guard let textResult = text else {
-                    self.delegate.imagePreviewModelTranslateWithError(self, error: TranslateError.textRecognitionError)
-                    return
-                }
-                
-                
-                for block in textResult.blocks {
-                    
-                    translateController.translate(in: block.text, callback: { translatedText, error in
-                        if let error = error {
-                            self.delegate.imagePreviewModelTranslateWithError(self, error: error)
-                            return
-                        }
-                        self.translatedText += (translatedText ?? "") + "\n"
-                        self.delegate.imagePreviewModelTranslateSuccessful(self)
 
-                    })
-                    
-                    self.delegate.addRectangle(block: block)
-                }
-                self.text = textResult.text
-            })
-        } else {
+        processor.processOnDeviceTextRecognise(in: image, callback: { text, error in
             
-            processor.processCloudRecognition(in: image, callback: { text, error in
-                
-                guard let textResult = text else {
-                    self.delegate.imagePreviewModelTranslateWithError(self, error: TranslateError.textRecognitionError)
-                    return
-                }
-                
-                
-                for block in textResult.blocks {
-                    
-                    translateController.translate(in: block.text, callback: { translatedText, error in
+            guard let textResult = text else {
+                self.delegate.imagePreviewModelTranslateWithError(self, error: TranslateError.textRecognitionError)
+                return
+            }
+            
+            
+            for block in textResult.blocks {
+                for line in block.lines {
+                    translateController.translate(in: line.text, callback: { translatedText, error in
                         if let error = error {
                             self.delegate.imagePreviewModelTranslateWithError(self, error: error)
                             return
                         }
-                        self.translatedText += (translatedText ?? "") + "\n"
-                        
+//                            self.translatedText += (translatedText ?? "") + "\n"
+                        self.delegate.addRectangle(textLine: line, color: (image.getPixelColor(pos: line.frame.origin)) , text: translatedText!)
+
                         self.delegate.imagePreviewModelTranslateSuccessful(self)
+                        
                     })
                     
-                    self.delegate.addRectangle(block: block)
+
+
+
                 }
-                self.text = textResult.text
-            })
-        }
+            }
+            self.text = textResult.text
+        })
+    }
+    
+    private func cloudTranslation(image: UIImage) {
+        let processor = ScaledElementProcessor()
+        let translateController = TranslatorController.translatorInstance
+
+        processor.processCloudRecognition(in: image, callback: { text, error in
+            
+            guard let textResult = text else {
+                self.delegate.imagePreviewModelTranslateWithError(self, error: TranslateError.textRecognitionError)
+                return
+            }
+            
+            
+            for block in textResult.blocks {
+                
+                translateController.translate(in: block.text, callback: { translatedText, error in
+                    if let error = error {
+                        self.delegate.imagePreviewModelTranslateWithError(self, error: error)
+                        return
+                    }
+                    self.translatedText += (translatedText ?? "") + "\n"
+                    
+                    self.delegate.imagePreviewModelTranslateSuccessful(self)
+                })
+                
+                self.delegate.addRectangle(block: block, color: .blue)
+            }
+            self.text = textResult.text
+        })
     }
 }
 

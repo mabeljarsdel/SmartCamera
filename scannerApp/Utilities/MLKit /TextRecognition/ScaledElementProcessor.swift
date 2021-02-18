@@ -13,25 +13,19 @@ import Firebase
 
 class ScaledElementProcessor {
 
-    var textRecognizer: TextRecognizer
 
 
-    init() {
-        self.textRecognizer = TextRecognizer.textRecognizer()
 
-    }
-    
-    func processOnDeviceTextRecognise(in imageView: UIImageView,
+    func processOnDeviceTextRecognise(in image: UIImage,
                                       callback: @escaping (_ text: Text?, Error?) -> Void) {
 
-        print("Process in device text recognise")
-        
-        guard let image = imageView.image else { return }
-        
+        let textRecognizer = TextRecognizer.textRecognizer()
+
 
         let visionImage = MLKitVision.VisionImage(image: image)
         
         visionImage.orientation = image.imageOrientation
+        
         
         textRecognizer.process(visionImage) { result, error in
             guard error == nil,
@@ -47,15 +41,13 @@ class ScaledElementProcessor {
     
     
     
-    func processCloudRecognition(in imageView: UIImageView,
+    func processCloudRecognition(in image: UIImage,
                  callback: @escaping (_ text: VisionText?, Error?) -> Void) {
         
-        print("Process cloud text recognise")
         
         let vision = Vision.vision()
         let textRecognizer = vision.cloudTextRecognizer()
 
-        guard let image = imageView.image else { return }
 
         
         let visionImage = FirebaseMLVision.VisionImage(image: image)

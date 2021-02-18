@@ -50,8 +50,8 @@ class ChooseLanguageSegmentView: UIView {
     func setConstraint() {
         addSubview(self.buttonOfLanguageFromTranslate)
         buttonOfLanguageFromTranslate.snp.makeConstraints { make in
-            make.width.equalTo(((bounds.width)/2)-30)
-            make.height.equalTo(bounds.height)
+            make.width.equalTo(((bounds.width)/2)-60)
+            make.height.equalTo(bounds.height-30)
             make.left.equalTo(snp.left).offset(10)
             make.centerY.equalTo(snp.centerY)
         }
@@ -59,10 +59,10 @@ class ChooseLanguageSegmentView: UIView {
         
         addSubview(self.buttonOfTranslateIntoLanguage)
         buttonOfTranslateIntoLanguage.snp.makeConstraints { make in
-            make.width.equalTo(((bounds.width)/2)-30)
-            make.height.equalTo(bounds.height)
+            make.width.equalTo(buttonOfLanguageFromTranslate.snp.width)
+            make.height.equalTo(buttonOfLanguageFromTranslate.snp.height)
             make.right.equalTo(snp.right).offset(-10)
-            make.centerY.equalTo(snp.centerY)
+            make.centerY.equalTo(buttonOfLanguageFromTranslate.snp.centerY)
         }
         
         addSubview(self.swapButton)

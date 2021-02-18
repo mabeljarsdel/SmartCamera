@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 class LandmarkDetectionUtil {
-    func processLandmarkDetection(in imageView: UIImageView,
+    func processLandmarkDetection(in image: UIImage,
                                       callback: @escaping (_ text: [VisionCloudLandmark]?, Error?) -> Void) {
         let options = VisionCloudDetectorOptions()
         options.modelType = .latest
@@ -20,9 +20,9 @@ class LandmarkDetectionUtil {
 
         let cloudDetector = vision.cloudLandmarkDetector(options: options)
 
-        let image = VisionImage(image: imageView.image!)
+        let visionImage = VisionImage(image: image)
         
-        cloudDetector.detect(in: image, completion: { landmark, error in
+        cloudDetector.detect(in: visionImage, completion: { landmark, error in
             if error != nil {
                 print(error?.localizedDescription ?? "Landmark detection error")
                 callback(nil, error)
