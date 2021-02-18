@@ -183,7 +183,7 @@ class ImagePreviewModel {
                             return
                         }
 //                            self.translatedText += (translatedText ?? "") + "\n"
-                        self.delegate.addRectangle(textLine: line, color: (image.getPixelColor(pos: line.frame.origin)) , text: translatedText!)
+                        self.delegate.addRectangle(textLine: line, text: translatedText!)
 
                         self.delegate.imagePreviewModelTranslateSuccessful(self)
                         
@@ -222,7 +222,7 @@ class ImagePreviewModel {
                     self.delegate.imagePreviewModelTranslateSuccessful(self)
                 })
                 
-                self.delegate.addRectangle(block: block, color: .blue)
+                self.delegate.addRectangle(block: block)
             }
             self.text = textResult.text
         })

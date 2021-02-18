@@ -233,6 +233,7 @@ PODS:
   - QCropper (0.1.4)
   - SnapKit (5.0.1)
   - UIDrawer (1.0)
+  - UIImageColors (2.1.0)
 
 DEPENDENCIES:
   - Firebase
@@ -249,6 +250,7 @@ DEPENDENCIES:
   - QCropper
   - SnapKit (~> 5.0.0)
   - UIDrawer (from `https://github.com/Que20/UIDrawer.git`, tag `1.0`)
+  - UIImageColors
 
 SPEC REPOS:
   trunk:
@@ -291,6 +293,7 @@ SPEC REPOS:
     - Protobuf
     - QCropper
     - SnapKit
+    - UIImageColors
 
 EXTERNAL SOURCES:
   UIDrawer:
@@ -343,7 +346,8 @@ SPEC CHECKSUMS:
   QCropper: 55bce5393c872d5f9c4bfa9ff277e0d98d9f282f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   UIDrawer: 1bfbc152fee69f6809a41508000cf1b9bd4b1738
+  UIImageColors: d2ef3b0877d203cbb06489eeb78ea8b7788caabe
 
-PODFILE CHECKSUM: 82ee07dad6def241c4ba7469553ea9cb9d757ce8
+PODFILE CHECKSUM: 5cc2f57635a950ae413662da13ff940238ca098f
 
 COCOAPODS: 1.9.3

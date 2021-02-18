@@ -23,6 +23,8 @@ target 'Translate Camera' do
   
   pod 'GoogleMLKit/ImageLabeling'
   pod 'GoogleMLKit/ImageLabelingCustom'
+  
+  pod 'UIImageColors'
 
   pod 'UIDrawer', :git => 'https://github.com/Que20/UIDrawer.git', :tag => '1.0'
   pod 'QCropper'

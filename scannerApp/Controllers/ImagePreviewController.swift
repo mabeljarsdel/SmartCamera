@@ -79,7 +79,7 @@ class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIA
         self.imagePreviewView.imageView.addGestureRecognizer(dragImg)
     }
     
-    
+    //MARK: Gesture Action 
     @objc func dragImg(_ sender:UIPanGestureRecognizer) {
         let translation = sender.translation(in: self.view)
         self.imagePreviewView.imageView.center = CGPoint(x: self.imagePreviewView.imageView.center.x + translation.x, y: self.imagePreviewView.imageView.center.y + translation.y)
@@ -98,6 +98,11 @@ class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIA
             self.imagePreviewView.imageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }
     }
+    
+//
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
 }
 
 
@@ -107,8 +112,6 @@ extension ImagePreviewController: MLKitAction {
 
     
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel) {
-//        self.imagePreviewView.activityIndicator.isHidden = true
-//        self.imagePreviewView.textView.text = imagePreviewModel.translatedText
         self.endWithError = false
     }
     
@@ -118,15 +121,17 @@ extension ImagePreviewController: MLKitAction {
         print("translate with error")
     }
     
-    func addRectangle(textLine: TextLine, color: UIColor, text: String) {
+    func addRectangle(textLine: TextLine, text: String) {
         let transformedRect = textLine.frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
-        UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: UIUtilities.getColorFromImage(image: self.imagePreviewView.imageView, rect: transformedRect), text: text)
+        let textColor = UIUtilities.getColorOfFontFromImage(image: self.imagePreviewView.imageView, rect: transformedRect)
+        let backgroundColor = UIUtilities.getColorFromImage(image: self.imagePreviewView.imageView, rect: transformedRect)
+        UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: backgroundColor, text: text, secColor: textColor)
     }
     
-    func addRectangle(block: VisionTextBlock, color: UIColor) {
+    func addRectangle(block: VisionTextBlock) {
         for line in block.lines {
             let transformedRect = line.frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
-            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: color, text: line.text)
+            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue, text: line.text)
             
         }
     }
@@ -134,12 +139,6 @@ extension ImagePreviewController: MLKitAction {
     func addRectangle(rectangle: CGRect) {
         let transformedRect = rectangle.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
         UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue)
-    }
-
-
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }
 

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import UIImageColors
 
 
 class UIUtilities {
@@ -47,11 +48,9 @@ class UIUtilities {
         inView.addSubview(lineView)
     }
     
-    static func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor, text: String = "") {
+    static func addRectangle(_ rectangle: CGRect, to view: UIView, color: UIColor, text: String = "", secColor: UIColor = .green) {
         guard rectangle.isValid() else { return }
         let rectangleView = UIView(frame: rectangle)
-        //    rectangleView.layer.cornerRadius = x.rectangleViewCornerRadius
-//        rectangleView.alpha = UIConstants.rectangleViewAlpha
         rectangleView.backgroundColor = color
         let label = UILabel(frame: rectangle)
         if color.isLight {
@@ -61,6 +60,7 @@ class UIUtilities {
         }
         label.backgroundColor = color
         label.text = text
+        label.textColor = secColor
         label.adjustsFontSizeToFitWidth = true
         label.baselineAdjustment = .alignCenters
         label.textAlignment = .justified
@@ -162,16 +162,31 @@ class UIUtilities {
     
     static func getColorFromImage(image: UIImageView, rect: CGRect) -> UIColor {
         let cropedImage = cropImage(image.image!, toRect: CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width+20, height: rect.height), viewWidth: image.frame.width, viewHeight: image.frame.height)
-        let colors = findColors(cropImage(image.image!, toRect: rect, viewWidth: image.frame.width, viewHeight: image.frame.height))
-        let mappedItems = colors.map { ($0, 1) }
-        let counts = Dictionary(mappedItems, uniquingKeysWith: +)
-        let sortedByValueDictionary = counts.sorted { $0.1 > $1.1 }
-        
-        print("Dict: \(sortedByValueDictionary)")
-        print("counts of item: \(sortedByValueDictionary.first!.key)")
-        let color = cropImage(image.image!, toRect: rect, viewWidth: image.frame.width, viewHeight: image.frame.height).averageColor ?? .blue
-//        let color = sortedByValueDictionary.first!.key
-        return color
+//        let colors = findColors(cropImage(image.image!, toRect: rect, viewWidth: image.frame.width, viewHeight: image.frame.height))
+//        let mappedItems = colors.map { ($0, 1) }
+//        let counts = Dictionary(mappedItems, uniquingKeysWith: +)
+//        let sortedByValueDictionary = counts.sorted { $0.1 > $1.1 }
+//
+//        print("Dict: \(sortedByValueDictionary)")
+//        print("counts of item: \(sortedByValueDictionary.first!.key)")
+        let color = cropedImage.getColors()?.background
+        //        let color = sortedByValueDictionary.first!.key
+        return color!
+
+    }
+    
+    static func getColorOfFontFromImage(image: UIImageView, rect: CGRect) -> UIColor {
+        let cropedImage = cropImage(image.image!, toRect: CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width+20, height: rect.height), viewWidth: image.frame.width, viewHeight: image.frame.height)
+//        let colors = findColors(cropImage(image.image!, toRect: rect, viewWidth: image.frame.width, viewHeight: image.frame.height))
+//        let mappedItems = colors.map { ($0, 1) }
+//        let counts = Dictionary(mappedItems, uniquingKeysWith: +)
+//        let sortedByValueDictionary = counts.sorted { $0.1 > $1.1 }
+//
+//        print("Dict: \(sortedByValueDictionary)")
+//        print("counts of item: \(sortedByValueDictionary.first!.key)")
+        let color = cropedImage.getColors()?.secondary
+        //        let color = sortedByValueDictionary.first!.key
+        return color!
 
     }
     

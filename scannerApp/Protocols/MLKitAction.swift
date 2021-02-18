@@ -15,8 +15,8 @@ import Firebase
 protocol MLKitAction: AnyObject {
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel)
     func imagePreviewModelTranslateWithError(_ imagePreviewModel: ImagePreviewModel, error: Error)
-    func addRectangle(textLine: TextLine, color: UIColor, text: String)
-    func addRectangle(block: VisionTextBlock, color: UIColor)
+    func addRectangle(textLine: TextLine, text: String)
+    func addRectangle(block: VisionTextBlock)
     func addRectangle(rectangle: CGRect)
 }
  
