@@ -23,9 +23,8 @@ class ImagePreviewModel {
     }
     
     
+    
     func process(image: UIImage, mode: CameraModes) {
-        
-        
         switch mode {
         case .objectDetection:
             self.processObjectDetection(image: image)
@@ -154,12 +153,11 @@ class ImagePreviewModel {
     //MARK: - Translate
     private func translate(image: UIImage) {
 //        #warning("Cloud text recognition")
-        if true {
-//        if !Reachability.instance.connectionStatus {
+//        if true {
+        if !Reachability.instance.connectionStatus {
             self.onDeviceTranslation(image: image)
         } else {
             self.cloudTranslation(image: image)
-
         }
     }
     
@@ -177,21 +175,16 @@ class ImagePreviewModel {
             
             for block in textResult.blocks {
                 for line in block.lines {
-                    translateController.translate(in: line.text, callback: { translatedText, error in
+                    translateController.translate(in: line.text, callback: { translatedLine, error in
                         if let error = error {
                             self.delegate.imagePreviewModelTranslateWithError(self, error: error)
                             return
                         }
-//                            self.translatedText += (translatedText ?? "") + "\n"
-                        self.delegate.addRectangle(textLine: line, text: translatedText!)
-
+                        guard let translatedLine = translatedLine else { return }
+                        self.translatedText += translatedLine + "\n"
+                        self.delegate.addRectangle(frame: line.frame, text: translatedLine)
                         self.delegate.imagePreviewModelTranslateSuccessful(self)
-                        
                     })
-                    
-
-
-
                 }
             }
             self.text = textResult.text
@@ -208,21 +201,20 @@ class ImagePreviewModel {
                 self.delegate.imagePreviewModelTranslateWithError(self, error: TranslateError.textRecognitionError)
                 return
             }
-            
-            
+
             for block in textResult.blocks {
-                
-                translateController.translate(in: block.text, callback: { translatedText, error in
-                    if let error = error {
-                        self.delegate.imagePreviewModelTranslateWithError(self, error: error)
-                        return
-                    }
-                    self.translatedText += (translatedText ?? "") + "\n"
-                    
-                    self.delegate.imagePreviewModelTranslateSuccessful(self)
-                })
-                
-                self.delegate.addRectangle(block: block)
+                for line in block.lines {
+                    translateController.translate(in: line.text, callback: { translatedLine, error in
+                        if let error = error {
+                            self.delegate.imagePreviewModelTranslateWithError(self, error: error)
+                            return
+                        }
+                        guard let translatedLine = translatedLine else { return }
+                        self.translatedText += translatedLine + "\n"
+                        self.delegate.addRectangle(frame: line.frame, text: translatedLine)
+                        self.delegate.imagePreviewModelTranslateSuccessful(self)
+                    })
+                }
             }
             self.text = textResult.text
         })

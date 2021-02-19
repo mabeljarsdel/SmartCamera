@@ -99,10 +99,10 @@ class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIA
         }
     }
     
-//
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }
 
 
@@ -121,20 +121,18 @@ extension ImagePreviewController: MLKitAction {
         print("translate with error")
     }
     
-    func addRectangle(textLine: TextLine, text: String) {
-        let transformedRect = textLine.frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
-        let textColor = UIUtilities.getColorOfFontFromImage(image: self.imagePreviewView.imageView, rect: transformedRect)
-        let backgroundColor = UIUtilities.getColorFromImage(image: self.imagePreviewView.imageView, rect: transformedRect)
-        UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: backgroundColor, text: text, secColor: textColor)
+    func addRectangle(frame: CGRect, text: String) {
+        let cropedImage = UIUtilities.cropImage(imagePreviewView.imageView.image!,
+                                                toRect: frame,
+                                                viewWidth: self.imagePreviewView.imageView.frame.width,
+                                                viewHeight: self.imagePreviewView.imageView.frame.height)
+
+        let transformedRect = frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
+        let textColor = cropedImage.getColors()!.primary
+        let backgroundColor = cropedImage.getColors()!.background
+        UIUtilities.addLabel(transformedRect, to: self.imagePreviewView.imageView, text: text, backgroundColor: backgroundColor!, fontColor: textColor!)
     }
-    
-    func addRectangle(block: VisionTextBlock) {
-        for line in block.lines {
-            let transformedRect = line.frame.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
-            UIUtilities.addRectangle(transformedRect, to: self.imagePreviewView.imageView, color: .blue, text: line.text)
-            
-        }
-    }
+
     
     func addRectangle(rectangle: CGRect) {
         let transformedRect = rectangle.applying(UIUtilities.transformMatrix(imageView: self.imagePreviewView.imageView))
