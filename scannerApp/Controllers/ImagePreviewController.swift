@@ -13,7 +13,7 @@ import Firebase
 
 
 
-class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIAdaptivePresentationControllerDelegate {
+class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate {
     let imagePreviewView = ImagePreviewView()
     var imagePreviewModel: ImagePreviewModel?
     var currentMode: CameraModes
@@ -56,17 +56,7 @@ class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIA
         fatalError("init(coder:) has not been implemented")
     }
     
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let ok = UIAlertAction(title: "OkAction".localized(withComment: ""), style: .default, handler: { (action) -> Void in
-            self.dismiss(animated: true)
-        })
-        self.endWithError = true
-        alert.addAction(ok)
-        self.present(alert, animated: true)
-    }
-    
+
     
     func setUpScaleGesture() {
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(scaleImage(_:)))
@@ -76,8 +66,21 @@ class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIA
         self.defaultCenter = self.imagePreviewView.imageView.center
         self.imagePreviewView.imageView.isUserInteractionEnabled = true
         self.imagePreviewView.imageView.addGestureRecognizer(pinchGesture)
-        self.imagePreviewView.imageView.addGestureRecognizer(dragImg)
+//        self.imagePreviewView.imageView.addGestureRecognizer(dragImg)
     }
+    
+    //MARK: Show Alert
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OkAction".localized(withComment: ""), style: .default, handler: { (action) -> Void in
+            self.dismiss(animated: true)
+        })
+
+        alert.addAction(ok)
+
+        self.present(alert, animated: true)
+    }
+    
     
     //MARK: Gesture Action 
     @objc func dragImg(_ sender:UIPanGestureRecognizer) {
@@ -87,21 +90,17 @@ class ImagePreviewController: UIViewController, UIGestureRecognizerDelegate, UIA
         
         if sender.state == .ended {
             self.imagePreviewView.imageView.center = defaultCenter
-            sender.setTranslation(CGPoint.zero, in: self.view)
+//            sender.setTranslation(CGPoint.zero, in: self.view)
         }
     }
     
     @objc func scaleImage(_ sender: UIPinchGestureRecognizer) {
+        
         self.imagePreviewView.imageView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
         
         if sender.state == .ended {
             self.imagePreviewView.imageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }
-    }
-    
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }
 
@@ -113,6 +112,9 @@ extension ImagePreviewController: MLKitAction {
     
     func imagePreviewModelTranslateSuccessful(_ imagePreviewModel: ImagePreviewModel) {
         self.endWithError = false
+        self.imagePreviewView.activityIndicator.isHidden = true
+        self.imagePreviewView.textView.text = imagePreviewModel.getTranslatedText()
+//        self.endWithError = false
     }
     
     func imagePreviewModelTranslateWithError(_ imagePreviewModel: ImagePreviewModel, error: Error) {

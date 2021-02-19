@@ -188,6 +188,19 @@ class CameraViewController: UIViewController {
         detailView.modalPresentationStyle = .formSheet
         self.present(UINavigationController(rootViewController: detailView), animated: true)
     }
+    
+    
+    func showImagePreview(image: UIImage) {
+        let imagePreview = ImagePreviewController(currentMode: self.currentMode, image: image)
+        
+        if self.currentMode == .translation {
+            imagePreview.modalPresentationStyle = .formSheet
+        } else {
+            imagePreview.modalPresentationStyle = .custom
+            imagePreview.transitioningDelegate = self
+        }
+        self.present(imagePreview, animated: false)
+    }
 }
 
 
@@ -262,43 +275,31 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.currentMode = self.cameraWithOptionView.modes[row]
-        
     }
 }
 
-//MARK: UIIMagePicker Delegate
+//MARK: IMagePicker Delegate
 extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAdaptivePresentationControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.cameraWithOptionView.cameraView.session.startRunning()
-        
         self.dismiss(animated: true)
         
-        
         if let pickedImage = info[.originalImage] as? UIImage {
-            let imagePreview = ImagePreviewController(currentMode: self.currentMode, image: pickedImage)
-            imagePreview.modalPresentationStyle = .formSheet
-            self.present(imagePreview, animated: true)
+            self.showImagePreview(image: pickedImage)
         }
     }
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
         self.cameraWithOptionView.cameraView.session.startRunning()
     }
-    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-        print("The user began to swipe down to dismiss.")
-        self.dismiss(animated: true, completion: nil)
-        self.cameraWithOptionView.cameraView.session.startRunning()
-
-    }
-
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        self.dismiss(animated: true, completion: nil)
-        self.cameraWithOptionView.cameraView.session.startRunning()
-
-        // This is probably where you want to put your code that you want to call.
-    }
     
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        self.dismiss(animated: true, completion: nil)
+        self.cameraWithOptionView.cameraView.session.startRunning()
+    }
 }
 
 //MARK:AVCaptureVideoDataOutputSampleBuffer Delegate
@@ -307,6 +308,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         connection.videoOrientation = .portrait
         lastFrame = sampleBuffer
+        
         
         if !takePicture {
             return
@@ -317,31 +319,14 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         DispatchQueue.main.sync {
             
-            uiImage = UIUtilities.cropImage(uiImage,
-                                            toRect: self.cameraWithOptionView.cropBox.frame,
+            uiImage = UIUtilities.cropImage(
+                                uiImage,
+                                toRect: self.cameraWithOptionView.cropBox.frame,
                                 viewWidth: self.cameraWithOptionView.cameraView.frame.width,
                                 viewHeight: self.cameraWithOptionView.cameraView.frame.height)
 
-            let visionImage = VisionImage(image: uiImage)
-            visionImage.orientation = uiImage.imageOrientation
-
-
+            self.showImagePreview(image: uiImage)
             self.takePicture = false
-
-            let imagePreview = ImagePreviewController(currentMode: self.currentMode, image: uiImage)
-            
-            
-            if self.currentMode == .translation {
-                
-                imagePreview.modalPresentationStyle = .formSheet
-            } else {
-                
-                imagePreview.modalPresentationStyle = .custom
-                imagePreview.transitioningDelegate = self
-            }
-            
-            self.present(imagePreview, animated: true)
-            
         }
     }
 
@@ -361,6 +346,23 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
 }
 
+
+//MARK:- VNDocumentCameraViewControllerDelegate
+extension CameraViewController: VNDocumentCameraViewControllerDelegate {
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+        let image = scan.imageOfPage(at: 0)
+        
+        dismiss(animated: true, completion: nil)
+        
+        showImagePreview(image: image)
+        
+    }
+    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+//MARK:- Small sheet view delegate
 extension CameraViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let presentationController = DrawerPresentationController(presentedViewController: presented, presenting: presenting)
@@ -371,24 +373,4 @@ extension CameraViewController: UIViewControllerTransitioningDelegate {
         presentationController.bounce = true
         return presentationController
      }
-}
-
-//MARK:- VNDocumentCameraViewControllerDelegate
-extension CameraViewController: VNDocumentCameraViewControllerDelegate {
-    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        let image = scan.imageOfPage(at: 0)
-        
-        self.takePicture = false
-        
-        
-        dismiss(animated: true, completion: nil)
-        
-        let imagePreview = ImagePreviewController(currentMode: .translation, image: image)
-        imagePreview.modalPresentationStyle = .formSheet
-        self.present(imagePreview, animated: true)
-        
-    }
-    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-        dismiss(animated: true, completion: nil)
-    }
 }

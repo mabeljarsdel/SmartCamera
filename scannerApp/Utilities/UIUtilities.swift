@@ -22,6 +22,7 @@ class UIUtilities {
         label.adjustsFontSizeToFitWidth = true
         label.baselineAdjustment = .alignCenters
         label.textAlignment = .justified
+        
         view.addSubview(label)
     }
     

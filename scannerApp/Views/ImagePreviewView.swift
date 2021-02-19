@@ -115,7 +115,8 @@ class ImagePreviewView: UIView {
             make.width.equalTo(size.width)
             make.height.equalTo(size.height)
             
-            make.top.equalTo(scrollView.snp.top).offset(20)
+            make.top.equalTo(scrollView.snp.top)
+//                .offset(20)
             make.centerX.equalTo(scrollView.snp.centerX)
         }
         
@@ -127,19 +128,19 @@ class ImagePreviewView: UIView {
 //            make.centerX.equalTo(scrollView.snp.centerX)
 //        }
         
-//        self.scrollView.addSubview(activityIndicator)
+        imageView.addSubview(activityIndicator)
 
-//        activityIndicator.snp.makeConstraints { make in
-//            make.width.equalTo(self.snp.width).offset(-30)
-//            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(50)
-//            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
-//            make.centerX.equalTo(scrollView.snp.centerX)
-//        }
+        activityIndicator.snp.makeConstraints { make in
+            make.width.equalTo(self.snp.width).offset(-30)
+            make.topMargin.equalTo(imageView.snp.bottomMargin).offset(50)
+            make.bottomMargin.equalTo(scrollView.snp.bottomMargin)
+            make.centerX.equalTo(scrollView.snp.centerX)
+        }
         
         self.scrollView.backgroundColor = .systemBackground
     }
     
-    func resizeRectangleForImageSheet() -> CGSize {
+    private func resizeRectangleForImageSheet() -> CGSize {
         let defaultSize = CGSize(width: self.frame.width/3, height: 300)
         
         let ratio = self.imageView.image!.size.width/self.imageView.image!.size.height
@@ -160,8 +161,8 @@ class ImagePreviewView: UIView {
         }
     }
     
-    func resizeRectangleForImage() -> CGSize {
-        let defaultSize = CGSize(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.height)
+    private func resizeRectangleForImage() -> CGSize {
+        let defaultSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         let ratio = self.imageView.image!.size.width/self.imageView.image!.size.height
         

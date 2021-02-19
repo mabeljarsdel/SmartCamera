@@ -22,6 +22,9 @@ class ImagePreviewModel {
         self.delegate = delegate
     }
     
+    func getTranslatedText() -> String {
+        return self.translatedText
+    }
     
     
     func process(image: UIImage, mode: CameraModes) {
@@ -153,8 +156,8 @@ class ImagePreviewModel {
     //MARK: - Translate
     private func translate(image: UIImage) {
 //        #warning("Cloud text recognition")
-//        if true {
-        if !Reachability.instance.connectionStatus {
+        if true {
+//        if !Reachability.instance.connectionStatus {
             self.onDeviceTranslation(image: image)
         } else {
             self.cloudTranslation(image: image)
